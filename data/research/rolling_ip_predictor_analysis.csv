@@ -1,0 +1,7 @@
+metric,r_vs_ip_same_start,n_obs,r_vs_ip_next_yr,n_cross_year,interpretation,rank
+rolling_ip_this_start_last5,0.3301,1023,0.6598,174,prior-IP autocorrelation (manager trust signal),1
+rolling_k_per_ip_last5,0.0633,1023,0.0287,174,stuff -> manager confidence,2
+rolling_strike_pct_last5,0.0446,1023,0.1537,174,overall strike-throwing efficiency,3
+rolling_bb_per_ip_last5,-0.0442,1023,-0.0173,174,command -> efficiency,4
+rolling_pitches_per_ip_last5,-0.0604,1023,-0.1689,174,efficiency (lower = deeper outings),5
+rolling_er_per_ip_last5,-0.0877,1023,-0.1754,174,results -> manager trust,6
