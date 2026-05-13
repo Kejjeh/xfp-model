@@ -6,9 +6,11 @@
 <style>
 * { box-sizing: border-box; }
 body { font-family: -apple-system, system-ui, sans-serif; background: #0d1117;
-       color: #c9d1d9; max-width: 1280px; margin: 0 auto; padding: 1em; }
-header { border-bottom: 2px solid #30363d; padding-bottom: .5em; margin-bottom: 1em;
-         display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+       color: #c9d1d9; max-width: 1280px; margin: 0 auto; padding: 0 1em 4em 1em;
+       line-height: 1.5; }
+header { border-bottom: 2px solid #30363d; padding: .8em 0; margin-bottom: 1em;
+         display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
+         position: sticky; top: 0; background: #0d1117; z-index: 100; }
 h1 { color: #58a6ff; margin: 0; }
 h2 { color: #79c0ff; margin-top: 1.5em; }
 h2 .totals { float: right; font-size: 0.65em; font-weight: 400; color: #8b949e; }
@@ -57,6 +59,67 @@ tr:hover td { background: #161b22; }
          border-top: 1px solid #21262d; padding-top: 1em; }
 .notes { background: #161b22; padding: .8em 1em; border-left: 3px solid #58a6ff;
           margin: 1em 0; font-size: .85em; }
+
+/* ── Action items ── */
+.action-items { background: #161b22; border: 1px solid #30363d;
+                  border-radius: 8px; padding: 1em 1.5em; margin: 1em 0; }
+.action-items h3 { margin: 0 0 .5em 0; color: #d2a8ff; font-size: 1.1em; }
+.action-items ul { margin: 0; padding: 0; list-style: none; }
+.action-items li { padding: .4em .8em; margin: .3em 0; border-radius: 5px;
+                     border-left: 3px solid #6e7681; }
+.urgency-high { background: #4d1c1c; border-left-color: #f85149; }
+.urgency-med  { background: #3d2b1f; border-left-color: #d29922; }
+.urgency-low  { background: #1a2e1c; border-left-color: #3fb950; }
+
+/* ── Gauge ── */
+.gauge-wrap { display: flex; justify-content: center; margin: .5em 0; }
+.gauge { width: 160px; height: 160px; border-radius: 50%; display: flex;
+          align-items: center; justify-content: center; }
+.gauge-inner { width: 132px; height: 132px; background: #0d1117;
+                 border-radius: 50%; display: flex; flex-direction: column;
+                 align-items: center; justify-content: center; }
+.gauge-pct { font-size: 2.2em; font-weight: bold; color: #c9d1d9; }
+.gauge-label { font-size: .85em; color: #8b949e; }
+
+/* ── Collapsibles ── */
+details { margin-top: 1em; }
+details > summary { cursor: pointer; color: #79c0ff; font-size: 1.2em;
+                      font-weight: 600; padding: .5em 0;
+                      border-bottom: 1px solid #21262d; user-select: none; }
+details > summary:hover { color: #a5d6ff; }
+details[open] > summary { border-bottom: 1px solid #30363d; }
+details > summary::marker { color: #6e7681; }
+
+/* ── Heatmap cells ── */
+.heat-0 { background: #1a2e1c; }     /* dim green */
+.heat-1 { background: #2e4f2c; }
+.heat-2 { background: #3fb950; color: #0d1117; font-weight: bold; }
+.heat-3 { background: #66d979; color: #0d1117; font-weight: bold; }
+.heat-neg { background: #4d1c1c; color: #ffa198; }
+
+/* ── Section anchors ── */
+section { scroll-margin-top: 80px; }
+
+/* ── Sortable hint ── */
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { background: #21262d; color: #c9d1d9; }
+th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
+
+/* ── TOC nav strip ── */
+.toc { display: flex; gap: .5em; flex-wrap: wrap; padding: .5em 0; margin: 1em 0;
+        border-top: 1px solid #21262d; border-bottom: 1px solid #21262d;
+        font-size: .85em; overflow-x: auto; }
+.toc a { color: #58a6ff; text-decoration: none; padding: .3em .6em;
+          border-radius: 4px; white-space: nowrap; }
+.toc a:hover { background: #161b22; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .score-grid { grid-template-columns: 1fr; }
+  .vs { display: none; }
+  table { font-size: .8em; }
+  h2 .totals { display: block; float: none; margin-top: .3em; font-size: .8em; }
+}
 </style>
 </head><body>
 <header>
@@ -84,19 +147,38 @@ tr:hover td { background: #161b22; }
     </div>
   </div>
 
-  <div class="win-bar">
-    <div class="win-bar-label">
-      <span class="pct lean-pos">68.6%</span>
-      <span class="muted">win probability</span>
-    </div>
-    <div class="win-bar-track">
-      <div class="win-bar-fill" style="width: 68.6%"></div>
+  <div class="gauge-wrap">
+  <div class="gauge" style="background: conic-gradient(#5fa650 0% 68.5889129232648%, #21262d 68.5889129232648% 100%);">
+    <div class="gauge-inner">
+      <div class="gauge-pct">69%</div>
+      <div class="gauge-label">win probability</div>
     </div>
   </div>
+</div>
   <div class="gap-row">
     Current gap: <b class="pos">+49.0</b>
     &nbsp;·&nbsp; Projected final gap: <b class="pos">+19.9</b>
   </div>
+</div>
+
+<div class="action-items"><h3>⚡ Action Items</h3><ul>
+<li class="urgency-high">🏥 Max Fried (DAY_TO_DAY) is in active slot P — consider IL/bench</li>
+<li class="urgency-high">🏥 Wyatt Langford (TEN_DAY_DL) is in active slot OF — consider IL/bench</li>
+<li class="urgency-med">📉 Only 2 probable starts this week — add a streamer to hit the 10-start cap</li>
+</ul></div>
+
+<div class="toc">
+  <a href="#optimizer">🎯 Optimizer</a>
+  <a href="#fire">🔥 Days of Fire</a>
+  <a href="#drops">🔄 Drops/Pickups</a>
+  <a href="#streamers">💎 Streamers</a>
+  <a href="#myteam">My Roster</a>
+  <a href="#opp">Opponent</a>
+  <a href="#closers">🔒 Closers</a>
+  <a href="#power">🏆 Power Rankings</a>
+  <a href="#playoff">🎲 Playoff Sim</a>
+  <a href="#position">📍 By Position</a>
+  <a href="#accuracy">📈 Accuracy</a>
 </div>
 
 <div class="notes">
@@ -122,8 +204,13 @@ tr:hover td { background: #161b22; }
 <tr><td>Hunter Greene</td><td>SP</td><td class="neg">SIXTY_DAY_DL</td><td>IL</td></tr>
 </tbody></table>
 
+<section id="optimizer"><details open>
+<summary>🎯 Lineup Optimizer</summary>
 <h2>🎯 Lineup Optimizer</h2><p class="muted">No obvious upgrades — current lineup looks well-set.</p>
+</details></section>
 
+<section id="fire"><details open>
+<summary>🔥 Days of Fire — per-day forecast</summary>
 <h2>🔥 Days of Fire <small class="muted">(per-day projected FP, top Ligers)</small></h2>
 <table style="font-size:.85em"><thead><tr><th>Player</th>
 <th>05-14</th>
@@ -132,62 +219,68 @@ tr:hover td { background: #161b22; }
 <th>05-17</th>
 <th>Total</th></tr></thead><tbody>
 <tr><td>Jordan Walker</td>
-<td class="zero">2.3</td>
+<td class="heat-1">2.3</td>
 <td class="muted">—</td>
-<td class="zero">1.9</td>
-<td class="zero">1.9</td>
+<td class="heat-1">1.9</td>
+<td class="heat-1">1.9</td>
 <td><b>10.2</b></td></tr>
 <tr><td>Brendan Donovan</td>
-<td class="zero">2.1</td>
+<td class="heat-1">2.1</td>
 <td class="muted">—</td>
-<td class="zero">1.7</td>
-<td class="zero">1.7</td>
+<td class="heat-1">1.7</td>
+<td class="heat-1">1.7</td>
 <td><b>9.8</b></td></tr>
 <tr><td>Michael Harris II</td>
-<td class="zero">2.8</td>
-<td class="zero">2.2</td>
-<td class="zero">2.2</td>
-<td class="zero">2.2</td>
+<td class="heat-2">2.8</td>
+<td class="heat-1">2.2</td>
+<td class="heat-1">2.2</td>
+<td class="heat-1">2.2</td>
 <td><b>9.4</b></td></tr>
 <tr><td>Corbin Carroll</td>
-<td class="zero">2.6</td>
+<td class="heat-2">2.6</td>
 <td class="muted">—</td>
-<td class="zero">2.1</td>
-<td class="zero">2.1</td>
+<td class="heat-1">2.1</td>
+<td class="heat-1">2.1</td>
 <td><b>9.0</b></td></tr>
 <tr><td>Luis Arraez</td>
-<td class="zero">1.5</td>
-<td class="zero">1.7</td>
-<td class="zero">1.8</td>
-<td class="zero">1.8</td>
+<td class="heat-0">1.5</td>
+<td class="heat-1">1.7</td>
+<td class="heat-1">1.8</td>
+<td class="heat-1">1.8</td>
 <td><b>8.5</b></td></tr>
 <tr><td>Elly De La Cruz</td>
-<td class="zero">2.3</td>
-<td class="zero">1.9</td>
-<td class="zero">1.7</td>
-<td class="zero">2.2</td>
+<td class="heat-1">2.3</td>
+<td class="heat-1">1.9</td>
+<td class="heat-1">1.7</td>
+<td class="heat-1">2.2</td>
 <td><b>8.0</b></td></tr>
 <tr><td>Aaron Judge</td>
 <td class="muted">—</td>
-<td class="zero">2.9</td>
-<td class="zero">2.4</td>
-<td class="zero">2.4</td>
+<td class="heat-2">2.9</td>
+<td class="heat-1">2.4</td>
+<td class="heat-1">2.4</td>
 <td><b>7.6</b></td></tr>
 <tr><td>Salvador Perez</td>
-<td class="zero">2.0</td>
+<td class="heat-1">2.0</td>
 <td class="muted">—</td>
-<td class="zero">1.6</td>
-<td class="zero">1.6</td>
+<td class="heat-1">1.6</td>
+<td class="heat-1">1.6</td>
 <td><b>7.2</b></td></tr>
 </tbody></table>
+</details></section>
 
+<section id="drops"><details open>
+<summary>🔄 Drop / Pickup Suggestions</summary>
 <h2>🔄 Drop / Pickup Suggestions <small class="muted">(positions match, gain ≥ 20 RoS)</small></h2>
 <table><thead><tr><th>Drop</th><th>RoS</th><th>→ Add</th><th>%Own</th><th>RoS</th><th>Gain</th></tr></thead><tbody>
 <tr><td class="neg">Wyatt Langford</td><td>100</td><td class="pos">Ivan Herrera</td><td>54%</td><td>238</td><td><b class="pos">+139</b></td></tr>
 <tr><td class="neg">Brendan Donovan</td><td>106</td><td class="pos">Max Muncy</td><td>61%</td><td>222</td><td><b class="pos">+116</b></td></tr>
 <tr><td class="neg">Salvador Perez</td><td>174</td><td class="pos">Colson Montgomery</td><td>26%</td><td>216</td><td><b class="pos">+42</b></td></tr>
 </tbody></table>
+</details></section>
 
+<section id="streamers"><details open>
+<summary>💎 Streamer Targets</summary>
 <h2>💎 Top Streamer Targets <small class="muted">(FAs by per-start FP projection)</small></h2>
 <table><thead><tr><th>Pitcher</th><th>Team</th><th>%Own</th><th>per_GS</th></tr></thead><tbody>
 <tr><td>Emmet Sheehan</td><td>LAD</td><td>55%</td><td><b>13.47</b></td></tr>
@@ -201,7 +294,10 @@ tr:hover td { background: #161b22; }
 <tr><td>Matthew Boyd</td><td>ChC</td><td>44%</td><td><b>11.25</b></td></tr>
 <tr><td>Ryne Nelson</td><td>Ari</td><td>9%</td><td><b>11.10</b></td></tr>
 </tbody></table>
+</details></section>
 
+<section id="myteam"><details open>
+<summary>My Roster — full breakdown</summary>
 <h2>New York Ligers <span class="totals">WTD <b class="wtd">112.5</b> · rest <b class="proj">171.8</b> · total <b class="total">284.3</b></span></h2>
 <table><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
 <tr><td>Kyle Bradish</td><td>SP</td><td class="pos">+22.8</td><td class="muted">—</td><td>+0.0</td><td><b>+22.8</b></td><td></td></tr>
@@ -288,6 +384,10 @@ tr:hover td { background: #161b22; }
 <tr><td>Will Warren</td><td>SP</td><td class="zero">+0.0</td><td class="muted">—</td><td>+0.0</td><td><b>+0.0</b></td><td></td></tr>
 <tr><td>Max Fried</td><td>SP</td><td class="neg">-0.1</td><td class="muted">—</td><td>+0.0</td><td><b>-0.1</b></td><td></td></tr>
 </tbody></table>
+</details></section>
+
+<section id="opp"><details>
+<summary>Opponent — full breakdown</summary>
 <h2>U Just Lost To Edwin Diaz <span class="totals">WTD <b class="wtd">63.5</b> · rest <b class="proj">200.9</b> · total <b class="total">264.4</b></span></h2>
 <table><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
 <tr><td>Mason Miller</td><td>RP</td><td class="zero">+0.0</td><td class="muted">~2.2 app</td><td>+12.4</td><td><b>+12.4</b></td><td></td></tr>
@@ -385,7 +485,10 @@ tr:hover td { background: #161b22; }
 <tr><td>Shane Bieber</td><td>SP</td><td class="zero">+0.0</td><td class="muted">—</td><td>+0.0</td><td><b>+0.0</b></td><td></td></tr>
 <tr><td>Taj Bradley</td><td>SP</td><td class="zero">+0.0</td><td class="muted">—</td><td>+0.0</td><td><b>+0.0</b></td><td></td></tr>
 </tbody></table>
+</details></section>
 
+<section id="closers"><details>
+<summary>🔒 Closer-of-Record Tracker</summary>
 <h2>🔒 Closer-of-Record Tracker</h2>
 <p class="notes">From save_handcuffs analysis. Cross-reference with closer_persistence (~83%).</p>
 <table><thead><tr><th>Team</th><th>Closer</th><th>SV (current)</th></tr></thead><tbody>
@@ -405,7 +508,10 @@ tr:hover td { background: #161b22; }
 <tr><td>LAA</td><td>nan</td><td>1</td></tr>
 <tr><td>LAD</td><td>nan</td><td>3</td></tr>
 </tbody></table>
+</details></section>
 
+<section id="position"><details>
+<summary>📍 Position Competition</summary>
 <h2>📍 Position-Specific Competition <small class="muted">(top 3 RoS by primary position)</small></h2>
 <table><thead><tr><th>Pos</th><th>Top 3 (RoS · owner)</th></tr></thead><tbody>
 <tr><td><b>C</b></td><td>Drake Baldwin <b>288</b> · Frendy&#x27;s Fantastic Team · Shea Langeliers <b>255</b> · U Just Lost To Edwin Diaz · Iván Herrera <b>238</b> · 🆓FA</td></tr>
@@ -415,7 +521,10 @@ tr:hover td { background: #161b22; }
 <tr><td><b>SS</b></td><td>Bobby Witt Jr. <b>291</b> · 2015 Draft First Round · Gunnar Henderson <b>241</b> · Boone&#x27;s Bad Bullpen · Elly De La Cruz <b>238</b> · ⭐New York Ligers</td></tr>
 <tr><td><b>OF</b></td><td>Yordan Alvarez <b>329</b> · Late Night Bettsing · Aaron Judge <b>318</b> · ⭐New York Ligers · Kyle Schwarber <b>273</b> · 2015 Draft First Round</td></tr>
 </tbody></table>
+</details></section>
 
+<section id="power"><details>
+<summary>🏆 League Power Rankings</summary>
 <h2>🏆 League Power Rankings <small class="muted">(by total RoS projection)</small></h2>
 <table><thead><tr><th>#</th><th>Team</th><th>Total RoS</th><th>Δ vs Avg</th></tr></thead><tbody>
 <tr><td>1</td><td>Frendy&#x27;s Fantastic Team</td><td>6448</td><td class="pos">+389</td></tr>
@@ -427,19 +536,68 @@ tr:hover td { background: #161b22; }
 <tr><td>7</td><td>Boone&#x27;s Bad Bullpen</td><td>5813</td><td class="neg">-246</td></tr>
 <tr><td>8</td><td>Treasure Island Mashers</td><td>5538</td><td class="neg">-521</td></tr>
 </tbody></table>
+</details></section>
 
+<section id="playoff"><details>
+<summary>🎲 Playoff Simulation</summary>
 <h2>🎲 Playoff Simulation <small class="muted">(Monte Carlo, 10k sims · uses latest weekly win prob)</small></h2><p class="notes">Latest weekly win prob: <b>68.6%</b> · 13 periods remain<br>Projected additional wins: <b>P25 8</b> · <b>median 9</b> · <b>P75 10</b><br>Rough playoff probability (top 4): <b class="pos">80.2%</b> (assumes ~8 more wins needed)</p>
+</details></section>
 
+<section id="accuracy"><details>
+<summary>📈 Prediction Accuracy History</summary>
 <h2>📈 Prediction Accuracy History</h2>
 <table><thead><tr><th>Period</th><th>Date</th><th>My WTD</th><th>My Projected</th><th>Opp WTD</th><th>Opp Projected</th><th>Win Prob</th></tr></thead><tbody>
 <tr><td>7</td><td>05/13</td><td>112.5</td><td><b>284.3</b></td><td>63.5</td><td><b>264.4</b></td><td>68.6%</td></tr>
 <tr><td>7</td><td>05/13</td><td>112.5</td><td><b>284.3</b></td><td>63.5</td><td><b>264.4</b></td><td>68.6%</td></tr>
 <tr><td>7</td><td>05/13</td><td>112.5</td><td><b>284.3</b></td><td>63.5</td><td><b>264.4</b></td><td>68.6%</td></tr>
 <tr><td>7</td><td>05/13</td><td>112.5</td><td><b>284.3</b></td><td>63.5</td><td><b>264.4</b></td><td>68.6%</td></tr>
+<tr><td>7</td><td>05/13</td><td>112.5</td><td><b>284.3</b></td><td>63.5</td><td><b>264.4</b></td><td>68.6%</td></tr>
 </tbody></table>
+</details></section>
 
-<p class="meta">Generated 2026-05-13 17:04:52 ·
+<p class="meta">Generated 2026-05-13 17:12:13 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
+
+<script>
+// Click-to-sort tables (mark every <th> with class="sortable" via JS)
+document.querySelectorAll('table').forEach(table => {
+  const headers = table.querySelectorAll('thead th');
+  headers.forEach((th, idx) => {
+    th.classList.add('sortable');
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr')).filter(r => !r.classList.contains('breakdown'));
+      const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      th.dataset.sortDir = dir;
+      rows.sort((a, b) => {
+        const av = a.children[idx]?.innerText.trim() || '';
+        const bv = b.children[idx]?.innerText.trim() || '';
+        const an = parseFloat(av.replace(/[^\d.+-]/g, ''));
+        const bn = parseFloat(bv.replace(/[^\d.+-]/g, ''));
+        if (!isNaN(an) && !isNaN(bn)) {
+          return dir === 'asc' ? an - bn : bn - an;
+        }
+        return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+      });
+      // Re-insert in new order (keeping breakdown rows attached)
+      tbody.innerHTML = '';
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+
+// Expand/collapse all controls
+const expandBtn = document.createElement('button');
+expandBtn.textContent = 'Expand all';
+expandBtn.style.cssText = 'margin: 1em .5em; padding: .4em 1em; background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 5px; cursor: pointer;';
+expandBtn.onclick = () => document.querySelectorAll('details').forEach(d => d.open = true);
+const collapseBtn = document.createElement('button');
+collapseBtn.textContent = 'Collapse all';
+collapseBtn.style.cssText = expandBtn.style.cssText;
+collapseBtn.onclick = () => document.querySelectorAll('details').forEach(d => d.open = false);
+document.querySelector('.toc').appendChild(expandBtn);
+document.querySelector('.toc').appendChild(collapseBtn);
+</script>
 </body></html>
