@@ -1013,7 +1013,7 @@ function HittersTab({ hitters, colors, editorialHeat, favorites, toggleFavorite,
   const [hRoster, setHRoster] = React.useState('all'); // 'all' | 'mine' | 'other'
   const [hCohort, setHCohort] = React.useState('all'); // 'all' | 'blended' | '2025_only' | '2026_only'
 
-  const POS_OPTIONS = ['C', '1B', '2B', '3B', 'SS', 'OF', 'DH'];
+  const POS_OPTIONS = ['C', '1B', '2B', '3B', 'SS', 'OF', 'DH', '1B/3B', '2B/SS'];
 
   const hasMine = hitters.some(h => h.roster === 'mine');
 
@@ -1022,7 +1022,9 @@ function HittersTab({ hitters, colors, editorialHeat, favorites, toggleFavorite,
     if (hPos !== 'all') {
       const pos = h.pos || '';
       const fpos = (h.fpos || '').split(/[,\s|]+/).map(s => s.trim());
-      if (pos !== hPos && !fpos.includes(hPos)) return false;
+      const targets = hPos.includes('/') ? hPos.split('/') : [hPos];
+      const match = targets.some(t => pos === t || fpos.includes(t));
+      if (!match) return false;
     }
     if (hRoster !== 'all' && h.roster !== hRoster) return false;
     if (hCohort !== 'all' && h.cohort !== hCohort) return false;
