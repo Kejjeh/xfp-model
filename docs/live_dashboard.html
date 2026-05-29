@@ -1,54 +1,156 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="en"><head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="refresh" content="60">
 <title>Ligers Live — 2026-05-28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: -apple-system, system-ui, sans-serif; background: #0d1117; color: #c9d1d9; max-width: 1200px; margin: 0 auto; padding: 1em; }
-h1 { color: #58a6ff; border-bottom: 2px solid #30363d; padding-bottom: .3em; }
-h2 { color: #79c0ff; }
-.total { float: right; font-size: 0.9em; color: #d2a8ff; }
-.scoreboard { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 1em; margin: 1em 0; font-size: 1.2em; text-align: center; }
-.scoreboard .me { color: #3fb950; font-weight: bold; }
-.scoreboard .opp { color: #f85149; font-weight: bold; }
-.scoreboard .gap { font-size: 1.5em; margin-top: .5em; }
-table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
-th { background: #161b22; padding: .5em; text-align: left; border-bottom: 2px solid #30363d; }
-td { padding: .4em .5em; border-bottom: 1px solid #21262d; font-size: .95em; }
-tr:hover { background: #161b22; }
-.pos { color: #3fb950; font-weight: bold; }
-.neg { color: #f85149; font-weight: bold; }
-.zero { color: #8b949e; }
-.line { color: #8b949e; font-family: monospace; font-size: .9em; }
-.hl { color: #d2a8ff; font-weight: bold; }
-.empty { color: #6e7681; font-style: italic; }
-.meta { color: #6e7681; font-size: .85em; margin-top: 1em; }
+:root {
+  --bg: #1a1815;
+  --panel: #211e1a;
+  --stripe: #1d1b17;
+  --border: #34302a;
+  --text: #f5f1ea;
+  --dim: #a89e8a;
+  --faint: #3a352e;
+  --accent: #d97757;
+  --pos: #7fb069;
+  --neg: #c1666b;
+  --warn: #d4a945;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+       background: var(--bg); color: var(--text);
+       font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1480px; margin: 0 auto; padding: 0 1.2em 4em 1.2em; }
+
+header { border-bottom: 1px solid var(--border); padding: .9em 0;
+         position: sticky; top: 0; background: var(--bg); z-index: 100;
+         margin-bottom: 1em; }
+.header-row { display: flex; justify-content: space-between; align-items: baseline;
+              flex-wrap: wrap; gap: 1.2em; }
+h1 { color: var(--accent); margin: 0; font-size: 2em; font-weight: 700;
+     letter-spacing: .01em; line-height: 1.15;
+     font-family: 'Source Serif 4', Georgia, serif; }
+h1 .date-tag { color: var(--dim); font-size: .55em; font-weight: 400;
+               margin-left: .8em; letter-spacing: .12em;
+               font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; }
+h2 { color: var(--text); margin-top: 2em; font-size: 1.4em; font-weight: 600;
+     border-bottom: 1px solid var(--border); padding-bottom: .35em;
+     letter-spacing: .01em; line-height: 1.2;
+     font-family: 'Source Serif 4', Georgia, serif; }
+.total { float: right; font-size: .65em; font-weight: 400; color: var(--accent);
+         font-family: 'IBM Plex Mono', monospace; }
+
+nav.topnav { display: flex; align-items: center; gap: 0;
+             font-family: 'IBM Plex Mono', monospace;
+             font-size: .72em; text-transform: uppercase; letter-spacing: .15em;
+             margin-top: .4em; }
+nav.topnav a { color: var(--dim); text-decoration: none; padding: .35em .9em;
+               border: 1px solid var(--border); border-right: 0;
+               cursor: pointer; }
+nav.topnav a:first-child { border-radius: 3px 0 0 3px; }
+nav.topnav a:last-child  { border-radius: 0 3px 3px 0; border-right: 1px solid var(--border); }
+nav.topnav a:hover { color: var(--text); background: var(--panel); }
+nav.topnav a.current { color: var(--accent); background: var(--panel); border-color: var(--accent); }
+
+.scoreboard { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+              padding: 1.2em 1.5em; margin: 1em 0; font-size: 1.2em; text-align: center; }
+.scoreboard .me { color: var(--pos); font-weight: 700;
+                   font-family: 'Source Serif 4', Georgia, serif;
+                   font-variant-numeric: tabular-nums; }
+.scoreboard .opp { color: var(--neg); font-weight: 700;
+                    font-family: 'Source Serif 4', Georgia, serif;
+                    font-variant-numeric: tabular-nums; }
+.scoreboard .sep { color: var(--dim); margin: 0 .5em;
+                    font-family: 'IBM Plex Mono', monospace; }
+.scoreboard .gap { font-size: 1.4em; margin-top: .5em; color: var(--text);
+                    font-family: 'Source Serif 4', Georgia, serif;
+                    font-weight: 600; }
+.scoreboard .gap.up { color: var(--pos); }
+.scoreboard .gap.down { color: var(--neg); }
+
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.5em;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: .87em; }
+th { background: var(--panel); padding: .65em .8em; text-align: left;
+      border-bottom: 1px solid var(--border); border-top: 1px solid var(--border);
+      font-weight: 600; color: var(--dim);
+      text-transform: uppercase; font-size: .72em; letter-spacing: .12em;
+      font-family: 'IBM Plex Mono', monospace; }
+td { padding: .55em .8em; border-bottom: 1px solid var(--faint);
+      font-variant-numeric: tabular-nums; }
+tbody tr:nth-child(even) td { background: var(--stripe); }
+tbody tr:hover td { background: var(--panel); }
+.pos { color: var(--pos); font-weight: 600; }
+.neg { color: var(--neg); font-weight: 600; }
+.zero { color: var(--dim); }
+.line { color: var(--dim); font-family: 'IBM Plex Mono', monospace; font-size: .88em; }
+.hl { color: var(--accent); font-weight: 600; }
+.empty { color: var(--dim); font-style: italic;
+         font-family: 'Source Serif 4', Georgia, serif; }
+.meta { color: var(--dim); font-size: .78em; margin-top: 2em; text-align: center;
+         border-top: 1px solid var(--faint); padding-top: 1em;
+         font-family: 'IBM Plex Mono', monospace; letter-spacing: .08em; }
+
+/* Two-column layout for the my-team / opponent blocks at wide widths */
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em; align-items: start; }
+.team-grid > div { min-width: 0; }
+.team-grid table { margin-bottom: .5em; }
+@media (max-width: 1100px) {
+  .team-grid { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (max-width: 700px) {
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.1em; }
+  .scoreboard { font-size: 1em; padding: .9em 1em; }
+  table { font-size: .82em; }
+  th, td { padding: .45em .55em; }
+}
 </style></head><body>
-<h1>🏟️  Ligers Live — 2026-05-28</h1>
+<div class="wrap">
+<header>
+  <div class="header-row">
+    <div>
+      <h1>Ligers Live <span class="date-tag">2026-05-28</span></h1>
+      <nav class="topnav">
+        <a class="current">Live</a>
+        <a href="matchup.html">Matchup</a>
+        <a href="player_profiles.html">Profiles</a>
+        <a href="index.html">XFP</a>
+      </nav>
+    </div>
+  </div>
+</header>
 <div class="scoreboard">
-  <span class="me">New York Ligers: +8.00</span>  vs
-  <span class="opp">Treasure Island Mashers: +0.00</span>
-  <div class="gap">🟢 UP by 8.00 FP today</div>
+  <span class="me">New York Ligers: +8.00</span><span class="sep">vs</span><span class="opp">Treasure Island Mashers: +0.00</span>
+  <div class="gap up">▲ UP by 8.00 FP today</div>
 </div>
-<h2>New York Ligers — Today&#x27;s Lines <span class="total">+8.00 FP</span></h2>
+<div class="team-grid">
+  <div><h2>New York Ligers — Today&#x27;s Lines <span class="total">+8.00 FP</span></h2>
 <table>
 <thead><tr><th>Player</th><th>R</th><th>FP</th><th>Status</th><th>Line</th><th>Highlights</th></tr></thead><tbody>
 <tr><td>Michael Harris II</td><td>H</td><td class="pos">+8.00</td><td>Final</td><td class="line">AB:5 H:2 HR:1 R:2 RBI:1 BB:0 K:0 SB:0</td><td class="hl">🏆 HR</td></tr>
 <tr><td>Vladimir Guerrero Jr.</td><td>H</td><td class="pos">+1.00</td><td>Final</td><td class="line">AB:3 H:0 HR:0 R:0 RBI:0 BB:1 K:0 SB:0</td><td class="hl"></td></tr>
 <tr><td>Pete Alonso</td><td>H</td><td class="neg">-1.00</td><td>Final</td><td class="line">AB:4 H:1 HR:0 R:0 RBI:0 BB:0 K:2 SB:0</td><td class="hl"></td></tr>
-</tbody></table>
-<h2>Treasure Island Mashers — Today&#x27;s Lines <span class="total">+0.00 FP</span></h2>
+</tbody></table></div>
+  <div><h2>Treasure Island Mashers — Today&#x27;s Lines <span class="total">+0.00 FP</span></h2>
 <table>
 <thead><tr><th>Player</th><th>R</th><th>FP</th><th>Status</th><th>Line</th><th>Highlights</th></tr></thead><tbody>
 <tr><td>Adley Rutschman</td><td>H</td><td class="pos">+1.00</td><td>Final</td><td class="line">AB:4 H:1 HR:0 R:0 RBI:0 BB:0 K:0 SB:0</td><td class="hl"></td></tr>
 <tr><td>Wilyer Abreu</td><td>H</td><td class="pos">+1.00</td><td>Final</td><td class="line">AB:3 H:1 HR:0 R:0 RBI:0 BB:0 K:1 SB:0</td><td class="hl"></td></tr>
 <tr><td>Oneil Cruz</td><td>H</td><td class="zero">+0.00</td><td>Final</td><td class="line">AB:3 H:0 HR:0 R:0 RBI:0 BB:1 K:1 SB:0</td><td class="hl"></td></tr>
 <tr><td>Spencer Torkelson</td><td>H</td><td class="neg">-2.00</td><td>Final</td><td class="line">AB:4 H:0 HR:0 R:0 RBI:0 BB:0 K:2 SB:0</td><td class="hl"></td></tr>
-</tbody></table>
-<p class="meta">Last refresh: 2026-05-28 22:35:58 · auto-refresh every 60s · MLB Stats API live feed</p>
+</tbody></table></div>
+</div>
+<p class="meta">Last refresh: 2026-05-28 22:56:32 · auto-refresh every 60s · MLB Stats API live feed</p>
 
-<h2 style="color:#79c0ff;">⚡ SP Upgrade Alerts
-  <span style="float:right;font-size:0.75em;color:#8b949e;">
+<h2>SP Upgrade Alerts
+  <span style="float:right;font-size:0.6em;font-weight:400;color:var(--dim);font-family:'IBM Plex Mono',monospace;">
     floor=-0.1220 · 2026-05-28
   </span>
 </h2>
@@ -57,44 +159,45 @@ tr:hover { background: #161b22; }
   <th>Player</th><th>Tier</th><th>GS</th><th>fpp</th>
   <th>vs floor</th><th>L4</th><th>Whiff</th><th>xCON</th><th>rp3</th><th>Signals</th>
 </tr></thead>
-<tbody><tr><td>Drew Anderson</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>6</td><td style="color:#3fb950;">+0.0395</td><td style="color:#3fb950;">+0.162</td><td>3/4</td><td>28.2%</td><td>0.324</td><td>#81</td><td style="color:#d2a8ff;">SigA-HIGH SigH-HIGH(gap=+0.162)</td></tr>
-<tr><td>Chase Dollander</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>8</td><td style="color:#f85149;">-0.0452</td><td style="color:#3fb950;">+0.077</td><td>2/4</td><td>27.4%</td><td>0.358</td><td>#25</td><td style="color:#d2a8ff;">SigH-HIGH(gap=+0.077)</td></tr>
-<tr><td>Shane Drohan</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>6</td><td style="color:#f85149;">-0.0460</td><td style="color:#3fb950;">+0.076</td><td>3/4</td><td>24.6%</td><td>0.309</td><td>#44</td><td style="color:#d2a8ff;">SigH-HIGH(gap=+0.076)</td></tr>
-<tr><td>Ben Brown</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>9</td><td style="color:#3fb950;">+0.0152</td><td style="color:#3fb950;">+0.137</td><td>3/4</td><td>25.6%</td><td>0.325</td><td>#163</td><td style="color:#d2a8ff;">SigH-MONITOR(gap=+0.137)</td></tr>
-<tr><td>Landen Roupp</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>11</td><td style="color:#f85149;">-0.0281</td><td style="color:#3fb950;">+0.094</td><td>1/4</td><td>25.4%</td><td>0.334</td><td>#177</td><td style="color:#d2a8ff;">SigH-MONITOR(gap=+0.094)</td></tr></tbody>
+<tbody><tr><td>Drew Anderson</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>6</td><td style="color:var(--pos);">+0.0395</td><td style="color:var(--pos);">+0.162</td><td>3/4</td><td>28.2%</td><td>0.324</td><td>#81</td><td style="color:var(--accent);">SigA-HIGH SigH-HIGH(gap=+0.162)</td></tr>
+<tr><td>Chase Dollander</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>8</td><td style="color:var(--neg);">-0.0452</td><td style="color:var(--pos);">+0.077</td><td>2/4</td><td>27.4%</td><td>0.358</td><td>#25</td><td style="color:var(--accent);">SigH-HIGH(gap=+0.077)</td></tr>
+<tr><td>Shane Drohan</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>6</td><td style="color:var(--neg);">-0.0460</td><td style="color:var(--pos);">+0.076</td><td>3/4</td><td>24.6%</td><td>0.309</td><td>#44</td><td style="color:var(--accent);">SigH-HIGH(gap=+0.076)</td></tr>
+<tr><td>Ben Brown</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>9</td><td style="color:var(--pos);">+0.0152</td><td style="color:var(--pos);">+0.137</td><td>3/4</td><td>25.6%</td><td>0.325</td><td>#163</td><td style="color:var(--accent);">SigH-MONITOR(gap=+0.137)</td></tr>
+<tr><td>Landen Roupp</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>11</td><td style="color:var(--neg);">-0.0281</td><td style="color:var(--pos);">+0.094</td><td>1/4</td><td>25.4%</td><td>0.334</td><td>#177</td><td style="color:var(--accent);">SigH-MONITOR(gap=+0.094)</td></tr></tbody>
 </table>
 
-<h2 style="color:#79c0ff;">⚡ Hitter Upgrade Alerts
-  <span style="float:right;font-size:0.75em;color:#8b949e;">floor xwOBA=0.297</span>
+<h2>Hitter Upgrade Alerts
+  <span style="float:right;font-size:0.6em;font-weight:400;color:var(--dim);font-family:'IBM Plex Mono',monospace;">floor xwOBA=0.297</span>
 </h2>
 <table>
 <thead><tr>
   <th>Player</th><th>Tier</th><th>PA</th><th>xwOBA</th>
   <th>vs floor</th><th>xwOBACON</th><th>rh3</th>
 </tr></thead>
-<tbody><tr><td>Paul Goldschmidt</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>113</td><td style="color:#3fb950;">0.407</td><td style="color:#3fb950;">+0.110</td><td>0.465</td><td>#66</td></tr>
-<tr><td>Max Muncy</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>194</td><td style="color:#3fb950;">0.396</td><td style="color:#3fb950;">+0.098</td><td>0.495</td><td>#37</td></tr>
-<tr><td>Nathaniel Lowe</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>133</td><td style="color:#3fb950;">0.392</td><td style="color:#3fb950;">+0.095</td><td>0.489</td><td>#46</td></tr>
-<tr><td>Carlos Cortes</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>154</td><td style="color:#3fb950;">0.391</td><td style="color:#3fb950;">+0.094</td><td>0.385</td><td>#17</td></tr>
-<tr><td>Spencer Steer</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>211</td><td style="color:#3fb950;">0.373</td><td style="color:#3fb950;">+0.075</td><td>0.436</td><td>#58</td></tr>
-<tr><td>Michael Busch</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>244</td><td style="color:#3fb950;">0.358</td><td style="color:#3fb950;">+0.060</td><td>0.386</td><td>#70</td></tr>
-<tr><td>Gavin Sheets</td><td style="color:#f85149;font-weight:bold;">HIGH</td><td>172</td><td style="color:#3fb950;">0.340</td><td style="color:#3fb950;">+0.042</td><td>0.392</td><td>#74</td></tr>
-<tr><td>Randal Grichuk</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>67</td><td style="color:#3fb950;">0.390</td><td style="color:#3fb950;">+0.093</td><td>0.500</td><td>#82</td></tr>
-<tr><td>Luke Raley</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>153</td><td style="color:#3fb950;">0.382</td><td style="color:#3fb950;">+0.085</td><td>0.562</td><td>#128</td></tr>
-<tr><td>Curtis Mead</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>147</td><td style="color:#3fb950;">0.376</td><td style="color:#3fb950;">+0.079</td><td>0.393</td><td>#112</td></tr>
-<tr><td>Andrew Vaughn</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>61</td><td style="color:#3fb950;">0.368</td><td style="color:#3fb950;">+0.070</td><td>0.363</td><td>#123</td></tr>
-<tr><td>Dominic Smith</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>119</td><td style="color:#3fb950;">0.366</td><td style="color:#3fb950;">+0.068</td><td>0.421</td><td>#110</td></tr>
-<tr><td>Casey Schmitt</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>192</td><td style="color:#3fb950;">0.361</td><td style="color:#3fb950;">+0.064</td><td>0.431</td><td>#76</td></tr>
-<tr><td>Gabriel Moreno</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>121</td><td style="color:#3fb950;">0.357</td><td style="color:#3fb950;">+0.059</td><td>0.418</td><td>#87</td></tr>
-<tr><td>TJ Rumfield</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>218</td><td style="color:#3fb950;">0.348</td><td style="color:#3fb950;">+0.051</td><td>0.366</td><td>#92</td></tr>
-<tr><td>Heriberto Hernandez</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>106</td><td style="color:#3fb950;">0.348</td><td style="color:#3fb950;">+0.051</td><td>0.399</td><td>#142</td></tr>
-<tr><td>Jesus Sanchez</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>175</td><td style="color:#3fb950;">0.345</td><td style="color:#3fb950;">+0.048</td><td>0.416</td><td>#138</td></tr>
-<tr><td>Teoscar Hernandez</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>204</td><td style="color:#3fb950;">0.340</td><td style="color:#3fb950;">+0.042</td><td>0.429</td><td>#146</td></tr>
-<tr><td>Amed Rosario</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>97</td><td style="color:#3fb950;">0.339</td><td style="color:#3fb950;">+0.042</td><td>0.398</td><td>#135</td></tr>
-<tr><td>Julio Rodriguez</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>250</td><td style="color:#3fb950;">0.335</td><td style="color:#d29922;">+0.037</td><td>0.393</td><td>#27</td></tr>
-<tr><td>Jahmai Jones</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>72</td><td style="color:#3fb950;">0.329</td><td style="color:#d29922;">+0.032</td><td>0.463</td><td>#119</td></tr>
-<tr><td>Moises Ballesteros</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>140</td><td style="color:#3fb950;">0.329</td><td style="color:#d29922;">+0.032</td><td>0.366</td><td>#13</td></tr>
-<tr><td>Colson Montgomery</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>229</td><td style="color:#3fb950;">0.328</td><td style="color:#d29922;">+0.031</td><td>0.424</td><td>#84</td></tr>
-<tr><td>Ty France</td><td style="color:#d29922;font-weight:bold;">MONITOR</td><td>99</td><td style="color:#3fb950;">0.325</td><td style="color:#d29922;">+0.027</td><td>0.419</td><td>#103</td></tr></tbody>
+<tbody><tr><td>Paul Goldschmidt</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>113</td><td style="color:var(--pos);">0.407</td><td style="color:var(--pos);">+0.110</td><td>0.465</td><td>#66</td></tr>
+<tr><td>Max Muncy</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>194</td><td style="color:var(--pos);">0.396</td><td style="color:var(--pos);">+0.098</td><td>0.495</td><td>#37</td></tr>
+<tr><td>Nathaniel Lowe</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>133</td><td style="color:var(--pos);">0.392</td><td style="color:var(--pos);">+0.095</td><td>0.489</td><td>#46</td></tr>
+<tr><td>Carlos Cortes</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>154</td><td style="color:var(--pos);">0.391</td><td style="color:var(--pos);">+0.094</td><td>0.385</td><td>#17</td></tr>
+<tr><td>Spencer Steer</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>211</td><td style="color:var(--pos);">0.373</td><td style="color:var(--pos);">+0.075</td><td>0.436</td><td>#58</td></tr>
+<tr><td>Michael Busch</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>244</td><td style="color:var(--pos);">0.358</td><td style="color:var(--pos);">+0.060</td><td>0.386</td><td>#70</td></tr>
+<tr><td>Gavin Sheets</td><td style="color:var(--neg);font-weight:600;">HIGH</td><td>172</td><td style="color:var(--pos);">0.340</td><td style="color:var(--pos);">+0.042</td><td>0.392</td><td>#74</td></tr>
+<tr><td>Randal Grichuk</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>67</td><td style="color:var(--pos);">0.390</td><td style="color:var(--pos);">+0.093</td><td>0.500</td><td>#82</td></tr>
+<tr><td>Luke Raley</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>153</td><td style="color:var(--pos);">0.382</td><td style="color:var(--pos);">+0.085</td><td>0.562</td><td>#128</td></tr>
+<tr><td>Curtis Mead</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>147</td><td style="color:var(--pos);">0.376</td><td style="color:var(--pos);">+0.079</td><td>0.393</td><td>#112</td></tr>
+<tr><td>Andrew Vaughn</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>61</td><td style="color:var(--pos);">0.368</td><td style="color:var(--pos);">+0.070</td><td>0.363</td><td>#123</td></tr>
+<tr><td>Dominic Smith</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>119</td><td style="color:var(--pos);">0.366</td><td style="color:var(--pos);">+0.068</td><td>0.421</td><td>#110</td></tr>
+<tr><td>Casey Schmitt</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>192</td><td style="color:var(--pos);">0.361</td><td style="color:var(--pos);">+0.064</td><td>0.431</td><td>#76</td></tr>
+<tr><td>Gabriel Moreno</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>121</td><td style="color:var(--pos);">0.357</td><td style="color:var(--pos);">+0.059</td><td>0.418</td><td>#87</td></tr>
+<tr><td>TJ Rumfield</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>218</td><td style="color:var(--pos);">0.348</td><td style="color:var(--pos);">+0.051</td><td>0.366</td><td>#92</td></tr>
+<tr><td>Heriberto Hernandez</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>106</td><td style="color:var(--pos);">0.348</td><td style="color:var(--pos);">+0.051</td><td>0.399</td><td>#142</td></tr>
+<tr><td>Jesus Sanchez</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>175</td><td style="color:var(--pos);">0.345</td><td style="color:var(--pos);">+0.048</td><td>0.416</td><td>#138</td></tr>
+<tr><td>Teoscar Hernandez</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>204</td><td style="color:var(--pos);">0.340</td><td style="color:var(--pos);">+0.042</td><td>0.429</td><td>#146</td></tr>
+<tr><td>Amed Rosario</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>97</td><td style="color:var(--pos);">0.339</td><td style="color:var(--pos);">+0.042</td><td>0.398</td><td>#135</td></tr>
+<tr><td>Julio Rodriguez</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>250</td><td style="color:var(--pos);">0.335</td><td style="color:var(--warn);">+0.037</td><td>0.393</td><td>#27</td></tr>
+<tr><td>Jahmai Jones</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>72</td><td style="color:var(--pos);">0.329</td><td style="color:var(--warn);">+0.032</td><td>0.463</td><td>#119</td></tr>
+<tr><td>Moises Ballesteros</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>140</td><td style="color:var(--pos);">0.329</td><td style="color:var(--warn);">+0.032</td><td>0.366</td><td>#13</td></tr>
+<tr><td>Colson Montgomery</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>229</td><td style="color:var(--pos);">0.328</td><td style="color:var(--warn);">+0.031</td><td>0.424</td><td>#84</td></tr>
+<tr><td>Ty France</td><td style="color:var(--warn);font-weight:600;">MONITOR</td><td>99</td><td style="color:var(--pos);">0.325</td><td style="color:var(--warn);">+0.027</td><td>0.419</td><td>#103</td></tr></tbody>
 </table>
+</div>
 </body></html>
