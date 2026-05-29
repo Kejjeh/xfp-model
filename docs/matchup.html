@@ -380,18 +380,21 @@ tr:nth-child(even) td { background: rgba(255,255,255,.015); }
 
 <section id="streamers"><details open>
 <summary>💎 Streamer Targets</summary>
-<h2>💎 Top Streamer Targets <small class="muted">(FAs by per-start FP projection)</small></h2>
-<table><thead><tr><th>Pitcher</th><th>Team</th><th>%Own</th><th>per_GS</th></tr></thead><tbody>
-<tr><td>Emmet Sheehan</td><td>LAD</td><td>57%</td><td><b>13.47</b></td></tr>
-<tr><td>Blake Snell</td><td>LAD</td><td>73%</td><td><b>13.02</b></td></tr>
-<tr><td>Spencer Schwellenbach</td><td>Atl</td><td>12%</td><td><b>12.75</b></td></tr>
-<tr><td>Corbin Burnes</td><td>Ari</td><td>10%</td><td><b>12.06</b></td></tr>
-<tr><td>Eury Perez</td><td>Mia</td><td>69%</td><td><b>11.82</b></td></tr>
-<tr><td>Jack Leiter</td><td>Tex</td><td>18%</td><td><b>11.66</b></td></tr>
-<tr><td>Dean Kremer</td><td>Bal</td><td>2%</td><td><b>11.61</b></td></tr>
-<tr><td>Pablo Lopez</td><td>Min</td><td>3%</td><td><b>11.46</b></td></tr>
-<tr><td>Matthew Boyd</td><td>ChC</td><td>42%</td><td><b>11.25</b></td></tr>
-<tr><td>Ryne Nelson</td><td>Ari</td><td>16%</td><td><b>11.10</b></td></tr>
+<h2>💎 Top Streamer Targets <small class="muted">(next-start expected FP — baseline × park × opponent)</small></h2>
+<p class="notes">Ranking = rp3 baseline × park factor × opponent batting index. Pitcher L/R splits excluded (failed YoY stability validation, B1). Coefficients heuristic; direction validated.</p>
+<table><thead><tr><th>Pitcher</th><th>Team</th><th>%Own</th><th>Next vs</th><th>Date</th><th>Park</th><th>Opp idx</th><th>Baseline</th><th>Exp FP</th></tr></thead><tbody>
+<tr><td>Emmet Sheehan</td><td>LAD</td><td>57%</td><td>vs PHI <small class="muted">(pred)</small></td><td>2026-05-30</td><td>0.924</td><td>1.015</td><td>13.47</td><td><b>13.83</b> <small class="pos">(+3%)</small></td></tr>
+<tr><td>Blake Snell</td><td>LAD</td><td>73%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>13.02</td><td><b>13.02</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Jack Leiter</td><td>TEX</td><td>18%</td><td>vs KC</td><td>2026-05-31</td><td>0.902</td><td>0.927</td><td>11.66</td><td><b>12.85</b> <small class="pos">(+10%)</small></td></tr>
+<tr><td>Spencer Schwellenbach</td><td>ATL</td><td>12%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>12.75</td><td><b>12.75</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Ronel Blanco</td><td>HOU</td><td>0%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>12.11</td><td><b>12.11</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Corbin Burnes</td><td>ARI</td><td>10%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>12.06</td><td><b>12.06</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Eury Perez</td><td>MIA</td><td>69%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>11.82</td><td><b>11.82</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Dean Kremer</td><td>BAL</td><td>2%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>11.61</td><td><b>11.61</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Grayson Rodriguez</td><td>LAA</td><td>6%</td><td>@ DET</td><td>2026-05-28</td><td>0.919</td><td>0.905</td><td>10.33</td><td><b>11.46</b> <small class="pos">(+11%)</small></td></tr>
+<tr><td>Pablo Lopez</td><td>MIN</td><td>3%</td><td>—</td><td></td><td>1.000</td><td>1.000</td><td>11.46</td><td><b>11.46</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Jack Flaherty</td><td>DET</td><td>38%</td><td>vs LAA</td><td>2026-05-28</td><td>0.919</td><td>0.996</td><td>10.85</td><td><b>11.32</b> <small class="pos">(+4%)</small></td></tr>
+<tr><td>Ryne Nelson</td><td>ARI</td><td>16%</td><td>@ SEA</td><td>2026-05-31</td><td>0.955</td><td>1.010</td><td>11.10</td><td><b>11.27</b> <small class="pos">(+2%)</small></td></tr>
 </tbody></table>
 </details></section>
 
@@ -626,30 +629,30 @@ tr:nth-child(even) td { background: rgba(255,255,255,.015); }
 <summary>📈 Prediction Accuracy History</summary>
 <h2>📈 Prediction Accuracy History</h2>
 <table><thead><tr><th>Period</th><th>Date</th><th>My WTD</th><th>My Projected</th><th>Opp WTD</th><th>Opp Projected</th><th>Win Prob</th></tr></thead><tbody>
-<tr><td>8</td><td>05/23</td><td>287.1</td><td><b>420.6</b></td><td>275.5</td><td><b>402.0</b></td><td>72.1%</td></tr>
-<tr><td>8</td><td>05/23</td><td>287.1</td><td><b>440.1</b></td><td>275.5</td><td><b>417.3</b></td><td>78.2%</td></tr>
-<tr><td>8</td><td>05/23</td><td>288.1</td><td><b>441.3</b></td><td>269.8</td><td><b>412.0</b></td><td>84.2%</td></tr>
-<tr><td>8</td><td>05/23</td><td>288.1</td><td><b>441.3</b></td><td>267.7</td><td><b>409.9</b></td><td>85.8%</td></tr>
 <tr><td>8</td><td>05/23</td><td>288.1</td><td><b>422.1</b></td><td>267.7</td><td><b>394.6</b></td><td>80.5%</td></tr>
 <tr><td>8</td><td>05/23</td><td>288.1</td><td><b>422.1</b></td><td>269.8</td><td><b>396.7</b></td><td>78.7%</td></tr>
 <tr><td>8</td><td>05/24</td><td>286.1</td><td><b>352.7</b></td><td>284.7</td><td><b>338.0</b></td><td>74.8%</td></tr>
 <tr><td>8</td><td>05/24</td><td>286.1</td><td><b>362.0</b></td><td>284.7</td><td><b>346.4</b></td><td>77.9%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>348.8</b></td><td>69.1</td><td><b>299.7</b></td><td>85.5%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>379.6</b></td><td>69.1</td><td><b>329.9</b></td><td>87.2%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>332.3</b></td><td>69.1</td><td><b>315.4</b></td><td>64.1%</td></tr>
 <tr><td>9</td><td>05/27</td><td>92.5</td><td><b>359.4</b></td><td>69.1</td><td><b>343.9</b></td><td>63.9%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>332.3</b></td><td>69.1</td><td><b>315.4</b></td><td>64.1%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>370.4</b></td><td>69.1</td><td><b>322.1</b></td><td>86.6%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>379.6</b></td><td>69.1</td><td><b>329.9</b></td><td>87.2%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>348.8</b></td><td>69.1</td><td><b>299.7</b></td><td>85.5%</td></tr>
+<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 </tbody></table>
 </details></section>
 
-<p class="meta">Generated 2026-05-28 22:14:24 ·
+<p class="meta">Generated 2026-05-28 22:36:55 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
