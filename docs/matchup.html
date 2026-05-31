@@ -297,8 +297,8 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
     <div class="score-team">
       <div class="name">New York Ligers</div>
       <div class="wtd">238.6</div>
-      <div class="proj">+ <b>54.6</b> projected rest</div>
-      <div class="total-final">→ 293.2</div>
+      <div class="proj">+ <b>63.2</b> projected rest</div>
+      <div class="total-final">→ 301.8</div>
     </div>
     <div class="vs">vs</div>
     <div class="score-team opp">
@@ -310,22 +310,22 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   </div>
 
   <div class="gauge-wrap">
-  <div class="gauge" style="background: conic-gradient(#7fb069 0% 67.48445014651733%, #34302a 67.48445014651733% 100%);">
+  <div class="gauge" style="background: conic-gradient(#7fb069 0% 78.56359974003719%, #34302a 78.56359974003719% 100%);">
     <div class="gauge-inner">
-      <div class="gauge-pct">67%</div>
+      <div class="gauge-pct">79%</div>
       <div class="gauge-label">win probability</div>
     </div>
   </div>
 </div>
   <div class="gap-row">
     Current gap: <b class="pos">+57.2</b>
-    &nbsp;·&nbsp; Projected final gap: <b class="pos">+10.9</b>
+    &nbsp;·&nbsp; Projected final gap: <b class="pos">+19.5</b>
   </div>
 </div>
 
 <div class="action-items"><h3>⚡ Action Items</h3><ul>
 <li class="urgency-high">🏥 Wyatt Langford (TEN_DAY_DL) is in active slot OF — consider IL/bench</li>
-<li class="urgency-med">📉 Only 2 confirmed starts this week — add a streamer to hit the 10-start cap</li>
+<li class="urgency-med">📉 Only 3 confirmed starts this week — add a streamer to hit the 10-start cap</li>
 </ul></div>
 
 <div class="toc">
@@ -352,9 +352,9 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   (σ/game: hitter 3.5, SP start 5.5, RP 2.5).
 </div>
 
-<p class="notes">📊 Since last snapshot: Ligers projected <b class="pos">+6.3</b>, Opp projected <b class="neg">+6.4</b>, win prob <b class="pos">+2.3 pp</b>.</p>
-<p class="notes">📐 <b>50% confidence intervals</b>: Ligers [<b>283.2</b> – <b>303.3</b>] vs Opp [<b>269.7</b> – <b>295.0</b>]. 80% CI: ±19 / ±24 FP respectively.</p>
-<p class="notes">✓ SP cap: <b>7 already pitched</b> + <b>2 today/upcoming</b> · <b>9/10</b> total starts this week.</p>
+<p class="notes">📊 Since last snapshot: Ligers projected <b class="pos">+6.3</b>, Opp projected <b class="neg">+6.4</b>, win prob <b class="pos">+3.5 pp</b>.</p>
+<p class="notes">📐 <b>50% confidence intervals</b>: Ligers [<b>291.2</b> – <b>312.5</b>] vs Opp [<b>269.7</b> – <b>295.0</b>]. 80% CI: ±20 / ±24 FP respectively.</p>
+<p class="notes"><b>⚠ SP cap at maximum:</b> <b>8 already pitched</b> + <b>3 today/upcoming</b> · 11/10 starts this week. Excess starts past 10 are zeroed in scoring.</p>
 
 <h2>🏥 Injury Status <small class="muted">(current per ESPN)</small></h2>
 <table><thead><tr><th>Player</th><th>Pos</th><th>Status</th><th>Slot</th></tr></thead><tbody>
@@ -363,7 +363,6 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <tr><td>Tyler Glasnow</td><td>SP</td><td class="neg">FIFTEEN_DAY_DL</td><td>IL</td></tr>
 <tr><td>Ryan Helsley</td><td>RP</td><td class="neg">FIFTEEN_DAY_DL</td><td>BE</td></tr>
 <tr><td>Hunter Greene</td><td>SP</td><td class="neg">SIXTY_DAY_DL</td><td>IL</td></tr>
-<tr><td>Logan Henderson</td><td>SP</td><td class="neg">FIFTEEN_DAY_DL</td><td>BE</td></tr>
 </tbody></table>
 
 <section id="optimizer"><details open>
@@ -417,59 +416,61 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <h2>💎 Top Streamer Targets <small class="muted">(next-start expected FP — baseline × park × opponent)</small></h2>
 <p class="notes">Ranking = rp3 baseline × park factor × opponent batting index. Pitcher L/R splits excluded (failed YoY stability validation, B1). Coefficients heuristic; direction validated.</p>
 <table><thead><tr><th>Pitcher</th><th>Team</th><th>%Own</th><th>Next vs</th><th>Date</th><th>Park</th><th>Opp idx</th><th>Baseline</th><th>Exp FP</th></tr></thead><tbody>
-<tr><td>Emmet Sheehan</td><td>LAD</td><td>56%</td><td>vs PHI <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.924</td><td>1.015</td><td>13.47</td><td><b>13.83</b> <small class="pos">(+3%)</small></td></tr>
-<tr><td>Jack Leiter</td><td>TEX</td><td>21%</td><td>vs KC</td><td>2026-05-31</td><td>0.902</td><td>0.927</td><td>11.66</td><td><b>12.85</b> <small class="pos">(+10%)</small></td></tr>
+<tr><td>Emmet Sheehan</td><td>LAD</td><td>57%</td><td>vs PHI <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.924</td><td>1.015</td><td>13.47</td><td><b>13.83</b> <small class="pos">(+3%)</small></td></tr>
+<tr><td>Jack Leiter</td><td>TEX</td><td>24%</td><td>vs KC</td><td>2026-05-31</td><td>0.902</td><td>0.927</td><td>11.66</td><td><b>12.85</b> <small class="pos">(+10%)</small></td></tr>
 <tr><td>Tyler Mahle</td><td>SF</td><td>1%</td><td>@ COL <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.016</td><td>0.887</td><td>10.14</td><td><b>10.85</b> <small class="pos">(+7%)</small></td></tr>
-<tr><td>Landen Roupp</td><td>SF</td><td>48%</td><td>@ COL <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.016</td><td>0.887</td><td>9.87</td><td><b>10.57</b> <small class="pos">(+7%)</small></td></tr>
+<tr><td>Edward Cabrera</td><td>CHC</td><td>35%</td><td>@ STL <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.078</td><td>0.995</td><td>10.98</td><td><b>10.59</b> <small class="neg">(-4%)</small></td></tr>
+<tr><td>Landen Roupp</td><td>SF</td><td>47%</td><td>@ COL <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.016</td><td>0.887</td><td>9.87</td><td><b>10.57</b> <small class="pos">(+7%)</small></td></tr>
 <tr><td>David Peterson</td><td>NYM</td><td>4%</td><td>vs MIA <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.980</td><td>0.903</td><td>9.69</td><td><b>10.45</b> <small class="pos">(+8%)</small></td></tr>
-<tr><td>Janson Junk</td><td>MIA</td><td>5%</td><td>@ NYM</td><td>2026-05-31</td><td>0.980</td><td>1.012</td><td>10.06</td><td><b>10.07</b> <small class="muted">(+0%)</small></td></tr>
+<tr><td>Janson Junk</td><td>MIA</td><td>5%</td><td>@ NYM <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.980</td><td>1.012</td><td>10.06</td><td><b>10.07</b> <small class="muted">(+0%)</small></td></tr>
 <tr><td>Griffin Canning</td><td>SD</td><td>2%</td><td>@ WSH</td><td>2026-05-31</td><td>1.076</td><td>1.074</td><td>10.98</td><td><b>10.02</b> <small class="neg">(-9%)</small></td></tr>
 <tr><td>Aaron Nola</td><td>PHI</td><td>39%</td><td>@ LAD <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.924</td><td>1.104</td><td>10.23</td><td><b>9.84</b> <small class="neg">(-4%)</small></td></tr>
 <tr><td>Aaron Civale</td><td>OAK</td><td>5%</td><td>vs NYY <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.000</td><td>0.994</td><td>9.13</td><td><b>9.17</b> <small class="muted">(+0%)</small></td></tr>
-<tr><td>Keider Montero</td><td>DET</td><td>7%</td><td>vs CWS <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.919</td><td>1.080</td><td>9.22</td><td><b>9.05</b> <small class="neg">(-2%)</small></td></tr>
+<tr><td>Keider Montero</td><td>DET</td><td>9%</td><td>vs CWS <small class="muted">(pred)</small></td><td>2026-05-31</td><td>0.919</td><td>1.080</td><td>9.22</td><td><b>9.05</b> <small class="neg">(-2%)</small></td></tr>
 <tr><td>Cade Cavalli</td><td>WSH</td><td>16%</td><td>vs SD <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.076</td><td>0.952</td><td>9.10</td><td><b>9.05</b> <small class="muted">(-1%)</small></td></tr>
-<tr><td>Randy Vasquez</td><td>SD</td><td>38%</td><td>@ WSH <small class="muted">(pred)</small></td><td>2026-05-31</td><td>1.076</td><td>1.074</td><td>9.71</td><td><b>8.86</b> <small class="neg">(-9%)</small></td></tr>
 </tbody></table>
 </details></section>
 
 <section id="myteam"><details open>
 <summary>My Roster — full breakdown</summary>
-<h2>New York Ligers <span class="totals">WTD <b class="wtd">238.6</b> · rest <b class="proj">54.6</b> · total <b class="total">293.2</b></span></h2>
+<h2>New York Ligers <span class="totals">WTD <b class="wtd">238.6</b> · rest <b class="proj">63.2</b> · total <b class="total">301.8</b></span></h2>
 <table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
-<tr><td data-label="Player">Parker Messick</td><td data-label="Pos">SP</td><td data-label="WTD" class="pos">+11.5</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+11.5</b></td><td></td></tr>
 <tr><td data-label="Player">Kyle Bradish</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.3</td><td data-label="Total"><b>+11.3</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs TOR (opp bat 0.95, ×1.05, <b>11.3 FP</b>)</td></tr>
 <tr><td data-label="Player">Will Warren</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.8</td><td data-label="Total"><b>+10.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs ATH (opp bat 1.01, ×0.99, <b>10.8 FP</b>)</td></tr>
-<tr><td data-label="Player">Jhoan Duran</td><td data-label="Pos">RP</td><td data-label="WTD" class="pos">+8.3</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+2.5</td><td data-label="Total"><b>+10.8</b></td><td></td></tr>
-<tr><td data-label="Player">Framber Valdez</td><td data-label="Pos">SP</td><td data-label="WTD" class="pos">+10.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+10.0</b></td><td></td></tr>
-<tr><td data-label="Player">Vladimir Guerrero Jr.</td><td data-label="Pos">1B</td><td data-label="WTD" class="pos">+7.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.1</td><td data-label="Total"><b>+9.1</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs BAL · ×1.02 = 2.1</td></tr>
-<tr><td data-label="Player">Aaron Judge</td><td data-label="Pos">RF</td><td data-label="WTD" class="pos">+2.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.5</td><td data-label="Total"><b>+4.5</b></td><td></td></tr>
+<tr><td data-label="Player">Merrill Kelly</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+8.6</td><td data-label="Total"><b>+8.6</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs SEA (opp bat 1.01, ×0.99, <b>8.6 FP</b>)</td></tr>
+<tr><td data-label="Player">Aaron Judge</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.5</td><td data-label="Total"><b>+2.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs ATH · ×1.02 = 2.5</td></tr>
-<tr><td data-label="Player">Pete Alonso</td><td data-label="Pos">1B</td><td data-label="WTD" class="pos">+2.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+3.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs TOR · ×0.95 = 1.9</td></tr>
-<tr><td data-label="Player">Elly De La Cruz</td><td data-label="Pos">SS</td><td data-label="WTD" class="pos">+2.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+3.8</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs ATL · ×0.93 = 1.8</td></tr>
-<tr><td data-label="Player">Daniel Palencia</td><td data-label="Pos">RP</td><td data-label="WTD" class="pos">+1.3</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+1.7</td><td data-label="Total"><b>+3.0</b></td><td></td></tr>
-<tr><td data-label="Player">Bo Bichette</td><td data-label="Pos">SS</td><td data-label="WTD" class="pos">+1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+2.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs MIA · ×0.97 = 1.9</td></tr>
+<tr><td data-label="Player">Jhoan Duran</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+2.5</td><td data-label="Total"><b>+2.5</b></td><td></td></tr>
+<tr><td data-label="Player">Michael Harris II</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.4</td><td data-label="Total"><b>+2.4</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs CIN · ×1.10 = 2.4</td></tr>
 <tr><td data-label="Player">Pete Fairbanks</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+2.4</td><td data-label="Total"><b>+2.4</b></td><td></td></tr>
+<tr><td data-label="Player">Corbin Carroll</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.2</td><td data-label="Total"><b>+2.2</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs SEA · ×0.98 = 2.2</td></tr>
 <tr><td data-label="Player">Luis Arraez</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.1</td><td data-label="Total"><b>+2.1</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs COL · ×1.09 = 2.1</td></tr>
+<tr><td data-label="Player">Vladimir Guerrero Jr.</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.1</td><td data-label="Total"><b>+2.1</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs BAL · ×1.02 = 2.1</td></tr>
+<tr><td data-label="Player">Pete Alonso</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs TOR · ×0.95 = 1.9</td></tr>
+<tr><td data-label="Player">Jordan Walker</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs CHC · ×1.02 = 1.9</td></tr>
+<tr><td data-label="Player">Bo Bichette</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs MIA · ×0.97 = 1.9</td></tr>
+<tr><td data-label="Player">Tanner Scott</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr><td data-label="Player">Max Muncy</td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs PHI · ×0.93 = 1.9</td></tr>
+<tr><td data-label="Player">Elly De La Cruz</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs ATL · ×0.93 = 1.8</td></tr>
+<tr><td data-label="Player">Daniel Palencia</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+1.7</td><td data-label="Total"><b>+1.7</b></td><td></td></tr>
+<tr><td data-label="Player">Salvador Perez</td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.7</td><td data-label="Total"><b>+1.7</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs TEX · ×1.01 = 1.7</td></tr>
 <tr><td data-label="Player">Trea Turner</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.6</td><td data-label="Total"><b>+1.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs LAD · ×0.93 = 1.6</td></tr>
-<tr><td data-label="Player">Michael Harris II</td><td data-label="Pos">CF</td><td data-label="WTD" class="neg">-1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.4</td><td data-label="Total"><b>+1.4</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs CIN · ×1.10 = 2.4</td></tr>
-<tr><td data-label="Player">Corbin Carroll</td><td data-label="Pos">RF</td><td data-label="WTD" class="neg">-1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.2</td><td data-label="Total"><b>+1.2</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs SEA · ×0.98 = 2.2</td></tr>
-<tr><td data-label="Player">Jordan Walker</td><td data-label="Pos">RF</td><td data-label="WTD" class="neg">-1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+0.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs CHC · ×1.02 = 1.9</td></tr>
-<tr><td data-label="Player">Max Muncy</td><td data-label="Pos">3B</td><td data-label="WTD" class="neg">-1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+0.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs PHI · ×0.93 = 1.9</td></tr>
-<tr><td data-label="Player">Salvador Perez</td><td data-label="Pos">C</td><td data-label="WTD" class="neg">-1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.7</td><td data-label="Total"><b>+0.7</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs TEX · ×1.01 = 1.7</td></tr>
 <tr><td data-label="Player">Max Fried</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player">Framber Valdez</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Freddy Peralta</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Wyatt Langford</td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Tyler Glasnow</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
@@ -477,8 +478,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <tr><td data-label="Player">Carlos Rodon</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Hunter Greene</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Jose Soriano</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Logan Henderson</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Tanner Scott</td><td data-label="Pos">RP</td><td data-label="WTD" class="neg">-5.7</td><td data-label="Units" class="muted">~0.6 app</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>-3.8</b></td><td></td></tr>
+<tr><td data-label="Player">Parker Messick</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 </tbody></table>
 </details></section>
 
@@ -486,54 +486,54 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>Opponent — full breakdown</summary>
 <h2>Treasure Island Mashers <span class="totals">WTD <b class="wtd">181.4</b> · rest <b class="proj">101.0</b> · total <b class="total">282.4</b></span></h2>
 <table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
-<tr><td data-label="Player">Seth Lugo</td><td data-label="Pos">SP</td><td data-label="WTD" class="pos">+16.8</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+16.8</b></td><td></td></tr>
 <tr><td data-label="Player">Jacob Misiorowski</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+15.6</td><td data-label="Total"><b>+15.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs HOU (opp bat 1.03, ×0.97, <b>15.6 FP</b>)</td></tr>
 <tr><td data-label="Player">Yoshinobu Yamamoto</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+13.8</td><td data-label="Total"><b>+13.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs PHI (opp bat 0.99, ×1.01, <b>13.8 FP</b>)</td></tr>
 <tr><td data-label="Player">Nolan McLean</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+13.1</td><td data-label="Total"><b>+13.1</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs MIA (opp bat 0.94, ×1.07, <b>13.1 FP</b>)</td></tr>
-<tr><td data-label="Player">Oneil Cruz</td><td data-label="Pos">CF</td><td data-label="WTD" class="pos">+10.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.6</td><td data-label="Total"><b>+11.6</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs MIN · ×0.99 = 1.6</td></tr>
 <tr><td data-label="Player">Kyle Harrison</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.0</td><td data-label="Total"><b>+11.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 05-31 vs HOU (opp bat 1.03, ×0.97, <b>11.0 FP</b>)</td></tr>
-<tr><td data-label="Player">Nick Kurtz</td><td data-label="Pos">1B</td><td data-label="WTD" class="pos">+9.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs NYY · ×0.90 = 1.9</td></tr>
 <tr><td data-label="Player">Sandy Alcantara</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 05-31 vs NYM (opp bat 0.99, ×1.01, <b>10.9 FP</b>)</td></tr>
 <tr><td data-label="Player">Ranger Suarez</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.7</td><td data-label="Total"><b>+10.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 05-31 vs CLE (opp bat 0.98, ×1.02, <b>10.7 FP</b>)</td></tr>
-<tr><td data-label="Player">Xander Bogaerts</td><td data-label="Pos">SS</td><td data-label="WTD" class="pos">+7.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+8.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs WSH · ×1.08 = 1.9</td></tr>
-<tr><td data-label="Player">Fernando Tatis Jr.</td><td data-label="Pos">RF</td><td data-label="WTD" class="pos">+5.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+6.8</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs WSH · ×1.08 = 1.8</td></tr>
-<tr><td data-label="Player">Carson Benge</td><td data-label="Pos">CF</td><td data-label="WTD" class="pos">+5.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.5</td><td data-label="Total"><b>+6.5</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs MIA · ×0.97 = 1.5</td></tr>
-<tr><td data-label="Player">Juan Soto</td><td data-label="Pos">RF</td><td data-label="WTD" class="pos">+4.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.4</td><td data-label="Total"><b>+6.4</b></td><td></td></tr>
+<tr><td data-label="Player">Juan Soto</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.4</td><td data-label="Total"><b>+2.4</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs MIA · ×0.97 = 2.4</td></tr>
-<tr><td data-label="Player">Luke Keaschall</td><td data-label="Pos">2B</td><td data-label="WTD" class="pos">+4.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+5.8</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs PIT · ×0.97 = 1.8</td></tr>
-<tr><td data-label="Player">Wilyer Abreu</td><td data-label="Pos">RF</td><td data-label="WTD" class="pos">+3.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+4.8</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs CLE · ×0.98 = 1.8</td></tr>
-<tr><td data-label="Player">Adley Rutschman</td><td data-label="Pos">C</td><td data-label="WTD" class="pos">+2.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+3.9</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs TOR · ×0.95 = 1.9</td></tr>
-<tr><td data-label="Player">Brice Turang</td><td data-label="Pos">2B</td><td data-label="WTD" class="pos">+1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.1</td><td data-label="Total"><b>+3.1</b></td><td></td></tr>
+<tr><td data-label="Player">Brice Turang</td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.1</td><td data-label="Total"><b>+2.1</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs HOU · ×1.04 = 2.1</td></tr>
-<tr><td data-label="Player">Randy Arozarena</td><td data-label="Pos">LF</td><td data-label="WTD" class="pos">+1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+2.8</b></td><td></td></tr>
+<tr><td data-label="Player">Nick Kurtz</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs NYY · ×0.90 = 1.9</td></tr>
+<tr><td data-label="Player">Adley Rutschman</td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs TOR · ×0.95 = 1.9</td></tr>
+<tr><td data-label="Player">Xander Bogaerts</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.9</td><td data-label="Total"><b>+1.9</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs WSH · ×1.08 = 1.9</td></tr>
+<tr><td data-label="Player">Wilyer Abreu</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs CLE · ×0.98 = 1.8</td></tr>
+<tr><td data-label="Player">Rafael Devers</td><td data-label="Pos">DH</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs COL · ×1.09 = 1.8</td></tr>
+<tr><td data-label="Player">Fernando Tatis Jr.</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs WSH · ×1.08 = 1.8</td></tr>
+<tr><td data-label="Player">Luke Keaschall</td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs PIT · ×0.97 = 1.8</td></tr>
+<tr><td data-label="Player">Randy Arozarena</td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>+1.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs ARI · ×1.00 = 1.8</td></tr>
-<tr><td data-label="Player">Spencer Torkelson</td><td data-label="Pos">1B</td><td data-label="WTD" class="pos">+1.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.6</td><td data-label="Total"><b>+2.6</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs CHW · ×1.00 = 1.6</td></tr>
 <tr><td data-label="Player">Nolan Arenado</td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.7</td><td data-label="Total"><b>+1.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 05-31 vs SEA · ×0.98 = 1.7</td></tr>
+<tr><td data-label="Player">Oneil Cruz</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.6</td><td data-label="Total"><b>+1.6</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs MIN · ×0.99 = 1.6</td></tr>
+<tr><td data-label="Player">Spencer Torkelson</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.6</td><td data-label="Total"><b>+1.6</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs CHW · ×1.00 = 1.6</td></tr>
+<tr><td data-label="Player">Carson Benge</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.5</td><td data-label="Total"><b>+1.5</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 05-31 vs MIA · ×0.97 = 1.5</td></tr>
 <tr><td data-label="Player">Roman Anthony</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Francisco Lindor</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Edwin Diaz</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Zac Gallen</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Alejandro Kirk</td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player">Seth Lugo</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Agustin Ramirez</td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player">Jacob Wilson</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Rafael Devers</td><td data-label="Pos">DH</td><td data-label="WTD" class="neg">-2.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+1.8</td><td data-label="Total"><b>-0.2</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ 05-31 vs COL · ×1.09 = 1.8</td></tr>
 </tbody></table>
 </details></section>
 
@@ -637,50 +637,50 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>🏆 League Power Rankings</summary>
 <h2>🏆 League Power Rankings <small class="muted">(by total RoS projection)</small></h2>
 <table><thead><tr><th>#</th><th>Team</th><th>Total RoS</th><th>Δ vs Avg</th></tr></thead><tbody>
-<tr><td>1</td><td>Frendy&#x27;s Fantastic Team</td><td>6017</td><td class="pos">+404</td></tr>
-<tr><td>2</td><td>New York Ligers ⭐</td><td>5964</td><td class="pos">+352</td></tr>
-<tr><td>3</td><td>2015 Draft First Round</td><td>5888</td><td class="pos">+276</td></tr>
-<tr><td>4</td><td>Late Night Bettsing</td><td>5739</td><td class="pos">+127</td></tr>
-<tr><td>5</td><td>Team Solomon</td><td>5690</td><td class="pos">+77</td></tr>
-<tr><td>6</td><td>U Just Lost To Edwin Diaz</td><td>5486</td><td class="neg">-127</td></tr>
-<tr><td>7</td><td>Boone&#x27;s Bad Bullpen</td><td>5109</td><td class="neg">-503</td></tr>
-<tr><td>8</td><td>Treasure Island Mashers</td><td>5006</td><td class="neg">-606</td></tr>
+<tr><td>1</td><td>Frendy&#x27;s Fantastic Team</td><td>6017</td><td class="pos">+420</td></tr>
+<tr><td>2</td><td>New York Ligers ⭐</td><td>5920</td><td class="pos">+323</td></tr>
+<tr><td>3</td><td>2015 Draft First Round</td><td>5888</td><td class="pos">+291</td></tr>
+<tr><td>4</td><td>Late Night Bettsing</td><td>5739</td><td class="pos">+142</td></tr>
+<tr><td>5</td><td>Team Solomon</td><td>5690</td><td class="pos">+93</td></tr>
+<tr><td>6</td><td>U Just Lost To Edwin Diaz</td><td>5407</td><td class="neg">-190</td></tr>
+<tr><td>7</td><td>Boone&#x27;s Bad Bullpen</td><td>5109</td><td class="neg">-488</td></tr>
+<tr><td>8</td><td>Treasure Island Mashers</td><td>5006</td><td class="neg">-591</td></tr>
 </tbody></table>
 </details></section>
 
 <section id="playoff"><details>
 <summary>🎲 Playoff Simulation</summary>
-<h2>🎲 Playoff Simulation <small class="muted">(Monte Carlo, 10k sims · uses latest weekly win prob)</small></h2><p class="notes">Latest weekly win prob: <b>69.7%</b> · 11 periods remain<br>Projected additional wins: <b>P25 7</b> · <b>median 8</b> · <b>P75 9</b><br>Rough playoff probability (top 4): <b class="pos">56.7%</b> (assumes ~8 more wins needed)</p>
+<h2>🎲 Playoff Simulation <small class="muted">(Monte Carlo, 10k sims · uses latest weekly win prob)</small></h2><p class="notes">Latest weekly win prob: <b>82.0%</b> · 11 periods remain<br>Projected additional wins: <b>P25 8</b> · <b>median 9</b> · <b>P75 10</b><br>Rough playoff probability (top 4): <b class="pos">88.5%</b> (assumes ~8 more wins needed)</p>
 </details></section>
 
 <section id="accuracy"><details>
 <summary>📈 Prediction Accuracy History</summary>
 <h2>📈 Prediction Accuracy History</h2>
 <table><thead><tr><th>Period</th><th>Date</th><th>My WTD</th><th>My Projected</th><th>Opp WTD</th><th>Opp Projected</th><th>Win Prob</th></tr></thead><tbody>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>348.8</b></td><td>69.1</td><td><b>299.7</b></td><td>85.5%</td></tr>
-<tr><td>9</td><td>05/27</td><td>92.5</td><td><b>343.2</b></td><td>69.1</td><td><b>293.6</b></td><td>85.7%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>330.4</b></td><td>97.1</td><td><b>298.3</b></td><td>81.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>310.2</b></td><td>97.1</td><td><b>277.4</b></td><td>80.0%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
-<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
-<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>319.9</b></td><td>97.1</td><td><b>285.3</b></td><td>81.0%</td></tr>
 <tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
-<tr><td>9</td><td>05/30</td><td>204.2</td><td><b>325.8</b></td><td>124.6</td><td><b>273.9</b></td><td>96.6%</td></tr>
+<tr><td>9</td><td>05/28</td><td>136.6</td><td><b>340.1</b></td><td>97.1</td><td><b>306.2</b></td><td>82.6%</td></tr>
 <tr><td>9</td><td>05/30</td><td>204.2</td><td><b>313.3</b></td><td>124.6</td><td><b>261.3</b></td><td>95.0%</td></tr>
+<tr><td>9</td><td>05/30</td><td>204.2</td><td><b>325.8</b></td><td>124.6</td><td><b>273.9</b></td><td>96.6%</td></tr>
+<tr><td>9</td><td>05/31</td><td>238.6</td><td><b>301.8</b></td><td>181.4</td><td><b>282.4</b></td><td>78.6%</td></tr>
+<tr><td>9</td><td>05/31</td><td>238.6</td><td><b>293.2</b></td><td>181.4</td><td><b>282.4</b></td><td>67.5%</td></tr>
 <tr><td>9</td><td>05/31</td><td>238.6</td><td><b>299.5</b></td><td>181.4</td><td><b>288.8</b></td><td>69.7%</td></tr>
 <tr><td>9</td><td>05/31</td><td>238.6</td><td><b>293.2</b></td><td>181.4</td><td><b>282.4</b></td><td>67.5%</td></tr>
-<tr><td>9</td><td>05/31</td><td>238.6</td><td><b>293.2</b></td><td>181.4</td><td><b>282.4</b></td><td>67.5%</td></tr>
 <tr><td>9</td><td>05/31</td><td>238.6</td><td><b>299.5</b></td><td>181.4</td><td><b>288.8</b></td><td>69.7%</td></tr>
+<tr><td>9</td><td>05/31</td><td>238.6</td><td><b>308.1</b></td><td>181.4</td><td><b>288.8</b></td><td>82.0%</td></tr>
 </tbody></table>
 </details></section>
 
-<p class="meta">Generated 2026-05-31 02:33:36 ·
+<p class="meta">Generated 2026-05-31 11:45:57 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
