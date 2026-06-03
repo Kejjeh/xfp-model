@@ -114,6 +114,19 @@ tbody tr:hover td { background: var(--panel); }
           font-size: .7em; font-family: 'IBM Plex Mono', monospace;
           background: rgba(193,102,107,0.22); color: var(--neg);
           letter-spacing: .08em; font-weight: 600; }
+/* Clickable player names — drill into player_profiles.html */
+a.player-link { color: inherit; text-decoration: none;
+                  border-bottom: 1px dotted var(--faint); }
+a.player-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+/* Boom/bust chips on streamer + scan tables */
+.chip { display: inline-block; padding: 0 5px; border-radius: 2px;
+         font-size: .7em; font-family: 'IBM Plex Mono', monospace;
+         background: var(--faint); color: var(--text);
+         letter-spacing: .06em; font-weight: 600; margin-right: 2px; }
+.chip-k     { background: rgba(127,176,105,0.22); color: var(--pos); }
+.chip-frame { background: rgba(140,180,220,0.18); color: #8cb4dc; }
+.chip-il    { background: rgba(212,169,69,0.22);  color: var(--warn); }
+.chip-bad   { background: rgba(193,102,107,0.22); color: var(--neg); }
 .meta { color: var(--dim); font-size: .78em; margin-top: 2em; text-align: center;
          border-top: 1px solid var(--faint); padding-top: 1em;
          font-family: 'IBM Plex Mono', monospace; letter-spacing: .08em; }
@@ -332,6 +345,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   <a href="#fire">🔥 Days of Fire</a>
   <a href="#drops">🔄 Drops/Pickups</a>
   <a href="#streamers">💎 Streamers</a>
+  <a href="#boombust">🎯 Boom/Bust</a>
   <a href="#myteam">My Roster</a>
   <a href="#opp">Opponent</a>
   <a href="#closers">🔒 Closers</a>
@@ -444,28 +458,53 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>🔄 Drop / Pickup Suggestions</summary>
 <h2>🔄 Drop / Pickup Suggestions <small class="muted">(positions match, gain ≥ 20 RoS)</small></h2>
 <table><thead><tr><th>Drop</th><th>RoS</th><th>→ Add</th><th>%Own</th><th>RoS</th><th>Gain</th></tr></thead><tbody>
-<tr><td class="neg">Wyatt Langford</td><td>64</td><td class="pos">Michael Busch</td><td>43%</td><td>201</td><td><b class="pos">+137</b></td></tr>
-<tr><td class="neg">Salvador Perez</td><td>164</td><td class="pos">Colson Montgomery</td><td>42%</td><td>185</td><td><b class="pos">+21</b></td></tr>
+<tr><td class="neg"><a class="player-link" href="player_profiles.html?name=Wyatt%20Langford" target="_blank" rel="noopener" title="Open in Profiles">Wyatt Langford</a></td><td>64</td><td class="pos"><a class="player-link" href="player_profiles.html?name=Michael%20Busch" target="_blank" rel="noopener" title="Open in Profiles">Michael Busch</a></td><td>43%</td><td>201</td><td><b class="pos">+137</b></td></tr>
+<tr><td class="neg"><a class="player-link" href="player_profiles.html?name=Salvador%20Perez" target="_blank" rel="noopener" title="Open in Profiles">Salvador Perez</a></td><td>164</td><td class="pos"><a class="player-link" href="player_profiles.html?name=Colson%20Montgomery" target="_blank" rel="noopener" title="Open in Profiles">Colson Montgomery</a></td><td>42%</td><td>185</td><td><b class="pos">+21</b></td></tr>
 </tbody></table>
 </details></section>
 
 <section id="streamers"><details open>
 <summary>💎 Streamer Targets</summary>
-<h2>💎 Top Streamer Targets <small class="muted">(next-start expected FP — baseline × park × opponent)</small></h2>
-<p class="notes">Ranking = rp3 baseline × park factor × opponent batting index. Pitcher L/R splits excluded (failed YoY stability validation, B1). Coefficients heuristic; direction validated.</p>
-<table><thead><tr><th>Pitcher</th><th>Team</th><th>%Own</th><th>Next vs</th><th>Date</th><th>Park</th><th>Opp idx</th><th>Baseline</th><th>Exp FP</th></tr></thead><tbody>
-<tr><td>Emmet Sheehan</td><td>LAD</td><td>61%</td><td>vs LAA <small class="muted">(pred)</small></td><td>2026-06-06</td><td>0.924</td><td>0.993</td><td>11.61</td><td><b>12.11</b> <small class="pos">(+4%)</small></td></tr>
-<tr><td>Eury Perez</td><td>MIA</td><td>61%</td><td>vs TB <small class="muted">(pred)</small></td><td>2026-06-06</td><td>1.002</td><td>0.967</td><td>11.56</td><td><b>11.82</b> <small class="pos">(+2%)</small></td></tr>
-<tr><td>Logan Henderson</td><td>MIL</td><td>14%</td><td>vs SF <small class="muted">(pred)</small></td><td>2026-06-03</td><td>0.951</td><td>0.939</td><td>11.07</td><td><b>11.82</b> <small class="pos">(+7%)</small></td></tr>
-<tr><td>Jack Leiter</td><td>TEX</td><td>22%</td><td>vs CLE <small class="muted">(pred)</small></td><td>2026-06-06</td><td>0.902</td><td>0.962</td><td>10.76</td><td><b>11.59</b> <small class="pos">(+8%)</small></td></tr>
-<tr><td>Walbert Urena</td><td>LAA</td><td>12%</td><td>vs COL <small class="muted">(pred)</small></td><td>2026-06-04</td><td>0.959</td><td>0.926</td><td>10.60</td><td><b>11.38</b> <small class="pos">(+7%)</small></td></tr>
-<tr><td>Roki Sasaki</td><td>LAD</td><td>26%</td><td>vs AZ <small class="muted">(pred)</small></td><td>2026-06-05</td><td>0.924</td><td>0.989</td><td>10.25</td><td><b>10.72</b> <small class="pos">(+5%)</small></td></tr>
-<tr><td>Chad Patrick</td><td>MIL</td><td>6%</td><td>vs SF <small class="muted">(pred)</small></td><td>2026-06-03</td><td>0.951</td><td>0.939</td><td>9.98</td><td><b>10.66</b> <small class="pos">(+7%)</small></td></tr>
-<tr><td>Ben Brown</td><td>CHC</td><td>32%</td><td>vs ATH <small class="muted">(pred)</small></td><td>2026-06-04</td><td>1.001</td><td>0.985</td><td>10.40</td><td><b>10.50</b> <small class="muted">(+1%)</small></td></tr>
-<tr><td>Ryne Nelson</td><td>ARI</td><td>12%</td><td>@ LAD</td><td>2026-06-05</td><td>0.924</td><td>1.088</td><td>10.77</td><td><b>10.49</b> <small class="neg">(-3%)</small></td></tr>
-<tr><td>Grant Holmes</td><td>ATL</td><td>13%</td><td>vs TOR</td><td>2026-06-03</td><td>0.951</td><td>0.936</td><td>9.68</td><td><b>10.36</b> <small class="pos">(+7%)</small></td></tr>
-<tr><td>Brandon Sproat</td><td>MIL</td><td>1%</td><td>@ COL <small class="muted">(pred)</small></td><td>2026-06-06</td><td>1.016</td><td>0.926</td><td>9.92</td><td><b>10.34</b> <small class="pos">(+4%)</small></td></tr>
-<tr><td>Christian Scott</td><td>NYM</td><td>6%</td><td>@ SD</td><td>2026-06-06</td><td>1.026</td><td>0.952</td><td>9.88</td><td><b>10.08</b> <small class="pos">(+2%)</small></td></tr>
+<h2>💎 Top Streamer Targets <small class="muted">(rp3 × park × opp · tags layered)</small></h2>
+<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 131 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
+<table><thead><tr><th>Pitcher</th><th>Tm</th><th>%Own</th><th>Next</th><th>Date</th><th>Tier</th><th>rp3 (p25–p75)</th><th>boom_stack</th><th>Tags</th><th>Exp FP</th></tr></thead><tbody>
+<tr><td><a class="player-link" href="player_profiles.html?player=686218#player=686218" target="_blank" rel="noopener" title="Open in Profiles">Emmet Sheehan</a></td><td>LAD</td><td>61%</td><td>vs LAA <small class="muted">(pred)</small></td><td>2026-06-06</td><td class="muted">avg</td><td>11.6 <small class="muted">(5.7–17.5)</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈20 bust%≈10 (tier=backend)">···· <small>0/4</small></span></td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>12.1</b> <small class="pos">(+4%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=683004#player=683004" target="_blank" rel="noopener" title="Open in Profiles">Jack Leiter</a></td><td>TEX</td><td>22%</td><td>vs CLE <small class="muted">(pred)</small></td><td>2026-06-06</td><td class="pos">soft</td><td>10.8 <small class="muted">(4.5–16.3)</small></td><td><span class="pos" title="skill_spike=0 recform_hot=0 opp_soft=1 park_friendly=1 · boom%≈13 bust%≈15 (tier=streamer)">✦✦·· <small>2/4</small></span></td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span> <span class="chip chip-bad" title="Framing tax (Q1)">⚠F</span></td><td><b>11.6</b> <small class="pos">(+8%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=700712#player=700712" target="_blank" rel="noopener" title="Open in Profiles">Walbert Urena</a></td><td>LAA</td><td>12%</td><td>vs COL <small class="muted">(pred)</small></td><td>2026-06-04</td><td class="pos">soft</td><td>10.6 <small class="muted">(4.0–15.9)</small></td><td><span class="" title="skill_spike=0 recform_hot=0 opp_soft=1 park_friendly=0 · boom%≈12 bust%≈16 (tier=streamer)">✦··· <small>1/4</small></span></td><td><span class="chip chip-bad" title="Framing tax (Q1)">⚠F</span></td><td><b>11.4</b> <small class="pos">(+7%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=808963#player=808963" target="_blank" rel="noopener" title="Open in Profiles">Roki Sasaki</a></td><td>LAD</td><td>26%</td><td>vs AZ <small class="muted">(pred)</small></td><td>2026-06-05</td><td class="muted">avg</td><td>10.2 <small class="muted">(4.0–15.8)</small></td><td><span class="" title="skill_spike=0 recform_hot=1 opp_soft=0 park_friendly=0 · boom%≈12 bust%≈16 (tier=streamer)">✦··· <small>1/4</small></span></td><td><span class="muted">·</span></td><td><b>10.7</b> <small class="pos">(+5%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=694477#player=694477" target="_blank" rel="noopener" title="Open in Profiles">Chad Patrick</a></td><td>MIL</td><td>6%</td><td>vs SF <small class="muted">(pred)</small></td><td>2026-06-03</td><td class="pos">soft</td><td>10.0 <small class="muted">(4.1–15.9)</small></td><td><span class="" title="skill_spike=0 recform_hot=0 opp_soft=1 park_friendly=0 · boom%≈12 bust%≈16 (tier=streamer)">✦··· <small>1/4</small></span></td><td><span class="muted">·</span></td><td><b>10.7</b> <small class="pos">(+7%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=676962#player=676962" target="_blank" rel="noopener" title="Open in Profiles">Ben Brown</a></td><td>CHC</td><td>32%</td><td>vs ATH <small class="muted">(pred)</small></td><td>2026-06-04</td><td class="muted">avg</td><td>10.4 <small class="muted">(5.0–16.8)</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈9 bust%≈18 (tier=streamer)">···· <small>0/4</small></span></td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span> <span class="chip chip-bad" title="Framing tax (Q1)">⚠F</span></td><td><b>10.5</b> <small class="muted">(+1%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=669194#player=669194" target="_blank" rel="noopener" title="Open in Profiles">Ryne Nelson</a></td><td>ARI</td><td>12%</td><td>@ LAD</td><td>2026-06-05</td><td class="neg">tough</td><td>10.8 <small class="muted">(4.3–16.2)</small></td><td><span class="pos" title="skill_spike=0 recform_hot=1 opp_soft=0 park_friendly=1 · boom%≈13 bust%≈15 (tier=streamer)">✦✦·· <small>2/4</small></span></td><td><span class="muted">·</span></td><td><b>10.5</b> <small class="neg">(-3%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=656550#player=656550" target="_blank" rel="noopener" title="Open in Profiles">Grant Holmes</a></td><td>ATL</td><td>13%</td><td>vs TOR</td><td>2026-06-03</td><td class="pos">soft</td><td>9.7 <small class="muted">(4.2–16.0)</small></td><td><span class="pos" title="skill_spike=0 recform_hot=1 opp_soft=1 park_friendly=1 · boom%≈17 bust%≈15 (tier=streamer)">✦✦✦· <small>3/4</small></span></td><td><span class="muted">·</span></td><td><b>10.4</b> <small class="pos">(+7%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=687075#player=687075" target="_blank" rel="noopener" title="Open in Profiles">Brandon Sproat</a></td><td>MIL</td><td>1%</td><td>@ COL <small class="muted">(pred)</small></td><td>2026-06-06</td><td class="pos">soft</td><td>9.9 <small class="muted">(3.9–15.7)</small></td><td><span class="pos" title="skill_spike=0 recform_hot=0 opp_soft=1 park_friendly=1 · boom%≈13 bust%≈15 (tier=streamer)">✦✦·· <small>2/4</small></span></td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>10.3</b> <small class="pos">(+4%)</small></td></tr>
+<tr><td><a class="player-link" href="player_profiles.html?player=681035#player=681035" target="_blank" rel="noopener" title="Open in Profiles">Christian Scott</a></td><td>NYM</td><td>6%</td><td>@ SD</td><td>2026-06-06</td><td class="pos">soft</td><td>9.9 <small class="muted">(3.2–15.0)</small></td><td><span class="" title="skill_spike=0 recform_hot=0 opp_soft=1 park_friendly=0 · boom%≈12 bust%≈16 (tier=streamer)">✦··· <small>1/4</small></span></td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>10.1</b> <small class="pos">(+2%)</small></td></tr>
+</tbody></table>
+</details></section>
+
+<section id="boombust"><details open>
+<summary>🎯 Boom / Bust Scan</summary>
+<h2>🎯 Boom / Bust Scan <small class="muted">(layered tags · week ahead)</small></h2>
+<p class="notes">Bird's-eye view of today's layered-tag library applied to both rosters. Additive — does not alter projections.</p>
+<h3 style="margin-top:.6em">🎯 High-conviction SPs</h3>
+<table><thead><tr><th>Side</th><th>Pitcher</th><th>Team</th><th>boom_stack</th><th>tier</th><th>boom%</th><th>Flags</th></tr></thead><tbody>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=680694#player=680694" target="_blank" rel="noopener" title="Open in Profiles">Kyle Bradish</a></td><td>BAL</td><td>✦✦·· <small>2/4</small></td><td>streamer</td><td>13%</td><td>🎯 HIGH-CONVICTION 🎯K</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=664285#player=664285" target="_blank" rel="noopener" title="Open in Profiles">Framber Valdez</a></td><td>DET</td><td>✦✦·· <small>2/4</small></td><td>streamer</td><td>13%</td><td>🎯 HIGH-CONVICTION 🧊 elite-framer</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=518876#player=518876" target="_blank" rel="noopener" title="Open in Profiles">Merrill Kelly</a></td><td>ARI</td><td>✦✦·· <small>2/4</small></td><td>streamer</td><td>13%</td><td>🎯 HIGH-CONVICTION</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=642547#player=642547" target="_blank" rel="noopener" title="Open in Profiles">Freddy Peralta</a></td><td>NYM</td><td>✦··· <small>1/4</small></td><td>backend</td><td>25%</td><td>🎯K</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=607074#player=607074" target="_blank" rel="noopener" title="Open in Profiles">Carlos Rodon</a></td><td>NYY</td><td>···· <small>0/4</small></td><td>streamer</td><td>9%</td><td>🎯K 🧊 elite-framer</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=667755#player=667755" target="_blank" rel="noopener" title="Open in Profiles">Jose Soriano</a></td><td>LAA</td><td>···· <small>0/4</small></td><td>sp2_sp3</td><td>27%</td><td>🎯K ⚠ framing-tax</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=800048#player=800048" target="_blank" rel="noopener" title="Open in Profiles">Parker Messick</a></td><td>CLE</td><td>···· <small>0/4</small></td><td>streamer</td><td>9%</td><td>🎯K</td></tr>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=701542#player=701542" target="_blank" rel="noopener" title="Open in Profiles">Will Warren</a></td><td>NYY</td><td>···· <small>0/4</small></td><td>streamer</td><td>9%</td><td>🎯K 🧊 elite-framer</td></tr>
+<tr><td class="muted">OPP</td><td><a class="player-link" href="player_profiles.html?player=677960#player=677960" target="_blank" rel="noopener" title="Open in Profiles">Ryan Weathers</a></td><td>NYY</td><td>···· <small>0/4</small></td><td>streamer</td><td>9%</td><td>🎯K 🧊 elite-framer</td></tr>
+<tr><td class="muted">OPP</td><td><a class="player-link" href="player_profiles.html?player=676974#player=676974" target="_blank" rel="noopener" title="Open in Profiles">Max Meyer</a></td><td>MIA</td><td>···· <small>0/4</small></td><td>streamer</td><td>9%</td><td>🎯K</td></tr>
+</tbody></table>
+<h3 style="margin-top:.6em">⚠ Downside-risk SPs</h3>
+<table><thead><tr><th>Side</th><th>Pitcher</th><th>Team</th><th>bust%</th><th>Flags</th></tr></thead><tbody>
+<tr><td class="neg">YOURS</td><td><a class="player-link" href="player_profiles.html?player=667755#player=667755" target="_blank" rel="noopener" title="Open in Profiles">Jose Soriano</a></td><td>LAA</td><td>6%</td><td>⚠ framing-tax</td></tr>
+</tbody></table>
+<h3 style="margin-top:.6em">✨ High-conviction Hitters</h3>
+<table><thead><tr><th>Side</th><th>Hitter</th><th>Pos</th><th>Team</th><th>boom_stack</th><th>boom%</th><th>Flags</th></tr></thead><tbody>
+<tr><td class="pos">YOURS</td><td><a class="player-link" href="player_profiles.html?player=624413#player=624413" target="_blank" rel="noopener" title="Open in Profiles">Pete Alonso</a></td><td>1B</td><td>BAL</td><td>✦✦·· <small>2/4</small></td><td>28%</td><td>✨ stack 2+ 🔥 lineup-amp 🎯 skill-spike</td></tr>
 </tbody></table>
 </details></section>
 
@@ -473,96 +512,96 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>My Roster — full breakdown</summary>
 <h2>New York Ligers <span class="totals">WTD <b class="wtd">57.6</b> · rest <b class="proj">233.0</b> · total <b class="total">290.6</b></span></h2>
 <table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
-<tr><td data-label="Player">Jhoan Duran</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+12.7</td><td data-label="Total"><b>+12.7</b></td><td></td></tr>
-<tr><td data-label="Player">Aaron Judge</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+12.6</td><td data-label="Total"><b>+12.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jhoan%20Duran" target="_blank" rel="noopener" title="Open in Profiles">Jhoan Duran</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+12.7</td><td data-label="Total"><b>+12.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Aaron%20Judge" target="_blank" rel="noopener" title="Open in Profiles">Aaron Judge</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+12.6</td><td data-label="Total"><b>+12.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs CLE · ×0.98 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs CLE · ×0.98 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs BOS · ×1.02 = 2.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs BOS · ×1.02 = 2.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs BOS · ×1.02 = 2.6</td></tr>
-<tr><td data-label="Player">Freddy Peralta</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.6</td><td data-label="Total"><b>+11.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Freddy%20Peralta" target="_blank" rel="noopener" title="Open in Profiles">Freddy Peralta</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.6</td><td data-label="Total"><b>+11.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 06-03 vs SEA (opp bat 1.01, ×0.99, <b>11.6 FP</b>)</td></tr>
-<tr><td data-label="Player">Corbin Carroll</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.4</td><td data-label="Total"><b>+11.4</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Corbin%20Carroll" target="_blank" rel="noopener" title="Open in Profiles">Corbin Carroll</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.4</td><td data-label="Total"><b>+11.4</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs LAD · ×0.93 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs LAD · ×0.93 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs WSH · ×1.08 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs WSH · ×1.08 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs WSH · ×1.08 = 2.4</td></tr>
-<tr><td data-label="Player">Carlos Rodon</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.4</td><td data-label="Total"><b>+11.4</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Carlos%20Rodon" target="_blank" rel="noopener" title="Open in Profiles">Carlos Rodon</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.4</td><td data-label="Total"><b>+11.4</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 06-04 vs CLE (opp bat 0.98, ×1.02, <b>11.4 FP</b>)</td></tr>
-<tr><td data-label="Player">Kyle Bradish</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.0</td><td data-label="Total"><b>+11.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Kyle%20Bradish" target="_blank" rel="noopener" title="Open in Profiles">Kyle Bradish</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+11.0</td><td data-label="Total"><b>+11.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-06 vs TOR (opp bat 0.95, ×1.05, <b>11.0 FP</b>)</td></tr>
-<tr><td data-label="Player">Jose Soriano</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jose%20Soriano" target="_blank" rel="noopener" title="Open in Profiles">Jose Soriano</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-06 vs LAD (opp bat 1.11, ×0.90, <b>10.9 FP</b>)</td></tr>
-<tr><td data-label="Player">Will Warren</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Will%20Warren" target="_blank" rel="noopener" title="Open in Profiles">Will Warren</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.9</td><td data-label="Total"><b>+10.9</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-06 vs BOS (opp bat 0.97, ×1.04, <b>10.9 FP</b>)</td></tr>
-<tr><td data-label="Player">Parker Messick</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.8</td><td data-label="Total"><b>+10.8</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Parker%20Messick" target="_blank" rel="noopener" title="Open in Profiles">Parker Messick</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.8</td><td data-label="Total"><b>+10.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 06-06 vs TEX (opp bat 1.00, ×1.00, <b>10.8 FP</b>)</td></tr>
-<tr><td data-label="Player">Michael Harris II</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.7</td><td data-label="Total"><b>+10.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Michael%20Harris%20II" target="_blank" rel="noopener" title="Open in Profiles">Michael Harris II</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.7</td><td data-label="Total"><b>+10.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs TOR · ×0.95 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs TOR · ×0.95 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs PIT · ×0.97 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs PIT · ×0.97 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs PIT · ×0.97 = 2.2</td></tr>
-<tr><td data-label="Player">Framber Valdez</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.3</td><td data-label="Total"><b>+10.3</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Framber%20Valdez" target="_blank" rel="noopener" title="Open in Profiles">Framber Valdez</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.3</td><td data-label="Total"><b>+10.3</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs SEA (opp bat 1.01, ×0.99, <b>10.3 FP</b>)</td></tr>
-<tr><td data-label="Player">Max Muncy</td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.2</td><td data-label="Total"><b>+10.2</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Max%20Muncy" target="_blank" rel="noopener" title="Open in Profiles">Max Muncy</a></td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.2</td><td data-label="Total"><b>+10.2</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs ARI · ×1.00 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs ARI · ×1.00 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs LAA · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs LAA · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs LAA · ×1.02 = 2.1</td></tr>
-<tr><td data-label="Player">Vladimir Guerrero Jr.</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.0</td><td data-label="Total"><b>+10.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Vladimir%20Guerrero%20Jr." target="_blank" rel="noopener" title="Open in Profiles">Vladimir Guerrero Jr.</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.0</td><td data-label="Total"><b>+10.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs ATL · ×0.93 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs ATL · ×0.93 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs BAL · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs BAL · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs BAL · ×1.02 = 2.1</td></tr>
-<tr><td data-label="Player">Pete Alonso</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.9</td><td data-label="Total"><b>+9.9</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Pete%20Alonso" target="_blank" rel="noopener" title="Open in Profiles">Pete Alonso</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.9</td><td data-label="Total"><b>+9.9</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs BOS · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs BOS · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs TOR · ×0.95 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs TOR · ×0.95 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs TOR · ×0.95 = 1.9</td></tr>
-<tr><td data-label="Player">Pete Fairbanks</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.2 app</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+9.7</b></td><td></td></tr>
-<tr><td data-label="Player">Tanner Scott</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+9.7</b></td><td></td></tr>
-<tr><td data-label="Player">Luis Arraez</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.4</td><td data-label="Total"><b>+9.4</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Pete%20Fairbanks" target="_blank" rel="noopener" title="Open in Profiles">Pete Fairbanks</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.2 app</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+9.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Tanner%20Scott" target="_blank" rel="noopener" title="Open in Profiles">Tanner Scott</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+9.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Luis%20Arraez" target="_blank" rel="noopener" title="Open in Profiles">Luis Arraez</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.4</td><td data-label="Total"><b>+9.4</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs MIL · ×0.91 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs MIL · ×0.91 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs CHC · ×1.02 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs CHC · ×1.02 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs CHC · ×1.02 = 2.0</td></tr>
-<tr><td data-label="Player">Trea Turner</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.0</td><td data-label="Total"><b>+9.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Trea%20Turner" target="_blank" rel="noopener" title="Open in Profiles">Trea Turner</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+9.0</td><td data-label="Total"><b>+9.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs SD · ×0.96 = 1.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs SD · ×0.96 = 1.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs CHW · ×1.00 = 1.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs CHW · ×1.00 = 1.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs CHW · ×1.00 = 1.8</td></tr>
-<tr><td data-label="Player">Daniel Palencia</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+8.7</td><td data-label="Total"><b>+8.7</b></td><td></td></tr>
-<tr><td data-label="Player">Salvador Perez</td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.4</td><td data-label="Total"><b>+8.4</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Daniel%20Palencia" target="_blank" rel="noopener" title="Open in Profiles">Daniel Palencia</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+8.7</td><td data-label="Total"><b>+8.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Salvador%20Perez" target="_blank" rel="noopener" title="Open in Profiles">Salvador Perez</a></td><td data-label="Pos">C</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.4</td><td data-label="Total"><b>+8.4</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs CIN · ×1.10 = 1.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs MIN · ×0.99 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs MIN · ×0.99 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs MIN · ×0.99 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs MIN · ×0.99 = 1.6</td></tr>
-<tr><td data-label="Player">Jordan Walker</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.3</td><td data-label="Total"><b>+8.3</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jordan%20Walker" target="_blank" rel="noopener" title="Open in Profiles">Jordan Walker</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.3</td><td data-label="Total"><b>+8.3</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs TEX · ×1.01 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs CIN · ×1.10 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs CIN · ×1.10 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs CIN · ×1.10 = 2.1</td></tr>
-<tr><td data-label="Player">Bo Bichette</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Bo%20Bichette" target="_blank" rel="noopener" title="Open in Profiles">Bo Bichette</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs SEA · ×0.98 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs SD · ×0.96 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs SD · ×0.96 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs SD · ×0.96 = 1.9</td></tr>
-<tr><td data-label="Player">Merrill Kelly</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+7.6</td><td data-label="Total"><b>+7.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Merrill%20Kelly" target="_blank" rel="noopener" title="Open in Profiles">Merrill Kelly</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+7.6</td><td data-label="Total"><b>+7.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs LAD (opp bat 1.11, ×0.90, <b>7.6 FP</b>)</td></tr>
-<tr><td data-label="Player">Max Fried</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Elly De La Cruz</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Wyatt Langford</td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Tyler Glasnow</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Ryan Helsley</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Hunter Greene</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Max%20Fried" target="_blank" rel="noopener" title="Open in Profiles">Max Fried</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Elly%20De%20La%20Cruz" target="_blank" rel="noopener" title="Open in Profiles">Elly De La Cruz</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Wyatt%20Langford" target="_blank" rel="noopener" title="Open in Profiles">Wyatt Langford</a></td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Tyler%20Glasnow" target="_blank" rel="noopener" title="Open in Profiles">Tyler Glasnow</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Ryan%20Helsley" target="_blank" rel="noopener" title="Open in Profiles">Ryan Helsley</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Hunter%20Greene" target="_blank" rel="noopener" title="Open in Profiles">Hunter Greene</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 </tbody></table>
 </details></section>
 
@@ -570,106 +609,106 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>Opponent — full breakdown</summary>
 <h2>Late Night Bettsing <span class="totals">WTD <b class="wtd">46.6</b> · rest <b class="proj">234.4</b> · total <b class="total">281.0</b></span></h2>
 <table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
-<tr><td data-label="Player">Cade Smith</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+14.6</td><td data-label="Total"><b>+14.6</b></td><td></td></tr>
-<tr><td data-label="Player">Yordan Alvarez</td><td data-label="Pos">DH</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+13.7</td><td data-label="Total"><b>+13.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Cade%20Smith" target="_blank" rel="noopener" title="Open in Profiles">Cade Smith</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+14.6</td><td data-label="Total"><b>+14.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Yordan%20Alvarez" target="_blank" rel="noopener" title="Open in Profiles">Yordan Alvarez</a></td><td data-label="Pos">DH</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+13.7</td><td data-label="Total"><b>+13.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs PIT · ×0.97 = 2.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs PIT · ×0.97 = 2.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs ATH · ×1.02 = 2.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs ATH · ×1.02 = 2.8</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs ATH · ×1.02 = 2.8</td></tr>
-<tr><td data-label="Player">Aroldis Chapman</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+12.9</td><td data-label="Total"><b>+12.9</b></td><td></td></tr>
-<tr><td data-label="Player">Bryan Woo</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+12.6</td><td data-label="Total"><b>+12.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Aroldis%20Chapman" target="_blank" rel="noopener" title="Open in Profiles">Aroldis Chapman</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.8 app</td><td data-label="Rest">+12.9</td><td data-label="Total"><b>+12.9</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Bryan%20Woo" target="_blank" rel="noopener" title="Open in Profiles">Bryan Woo</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+12.6</td><td data-label="Total"><b>+12.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs DET (opp bat 1.01, ×0.99, <b>12.6 FP</b>)</td></tr>
-<tr><td data-label="Player">Mookie Betts</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.3</td><td data-label="Total"><b>+11.3</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Mookie%20Betts" target="_blank" rel="noopener" title="Open in Profiles">Mookie Betts</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.3</td><td data-label="Total"><b>+11.3</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs ARI · ×1.00 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs ARI · ×1.00 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs LAA · ×1.02 = 2.3</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs LAA · ×1.02 = 2.3</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs LAA · ×1.02 = 2.3</td></tr>
-<tr><td data-label="Player">Jose Ramirez</td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.1</td><td data-label="Total"><b>+11.1</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jose%20Ramirez" target="_blank" rel="noopener" title="Open in Profiles">Jose Ramirez</a></td><td data-label="Pos">3B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.1</td><td data-label="Total"><b>+11.1</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs NYY · ×0.90 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs NYY · ×0.90 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs TEX · ×1.01 = 2.3</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs TEX · ×1.01 = 2.3</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs TEX · ×1.01 = 2.3</td></tr>
-<tr><td data-label="Player">Ben Rice</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.0</td><td data-label="Total"><b>+11.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Ben%20Rice" target="_blank" rel="noopener" title="Open in Profiles">Ben Rice</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+11.0</td><td data-label="Total"><b>+11.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs CLE · ×0.98 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs CLE · ×0.98 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs BOS · ×1.02 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs BOS · ×1.02 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs BOS · ×1.02 = 2.2</td></tr>
-<tr><td data-label="Player">Max Meyer</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.7</td><td data-label="Total"><b>+10.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Max%20Meyer" target="_blank" rel="noopener" title="Open in Profiles">Max Meyer</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.7</td><td data-label="Total"><b>+10.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 06-03 vs WSH (opp bat 1.04, ×0.97, <b>10.7 FP</b>)</td></tr>
-<tr><td data-label="Player">Ryan Weathers</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.6</td><td data-label="Total"><b>+10.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Ryan%20Weathers" target="_blank" rel="noopener" title="Open in Profiles">Ryan Weathers</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.6</td><td data-label="Total"><b>+10.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs BOS (opp bat 0.97, ×1.04, <b>10.6 FP</b>)</td></tr>
-<tr><td data-label="Player">Luis Castillo</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.6</td><td data-label="Total"><b>+10.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Luis%20Castillo" target="_blank" rel="noopener" title="Open in Profiles">Luis Castillo</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+10.6</td><td data-label="Total"><b>+10.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs DET (opp bat 1.01, ×0.99, <b>10.6 FP</b>)</td></tr>
-<tr><td data-label="Player">Andy Pages</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.5</td><td data-label="Total"><b>+10.5</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Andy%20Pages" target="_blank" rel="noopener" title="Open in Profiles">Andy Pages</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.5</td><td data-label="Total"><b>+10.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs ARI · ×1.00 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs ARI · ×1.00 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs LAA · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs LAA · ×1.02 = 2.1</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs LAA · ×1.02 = 2.1</td></tr>
-<tr><td data-label="Player">Kyle Tucker</td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.0</td><td data-label="Total"><b>+10.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Kyle%20Tucker" target="_blank" rel="noopener" title="Open in Profiles">Kyle Tucker</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+10.0</td><td data-label="Total"><b>+10.0</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs ARI · ×1.00 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs ARI · ×1.00 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs LAA · ×1.02 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs LAA · ×1.02 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs LAA · ×1.02 = 2.0</td></tr>
-<tr><td data-label="Player">Mitch Keller</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+9.2</td><td data-label="Total"><b>+9.2</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Mitch%20Keller" target="_blank" rel="noopener" title="Open in Profiles">Mitch Keller</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+9.2</td><td data-label="Total"><b>+9.2</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-04 vs HOU (opp bat 1.03, ×0.97, <b>9.2 FP</b>)</td></tr>
-<tr><td data-label="Player">Yandy Diaz</td><td data-label="Pos">DH</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.8</td><td data-label="Total"><b>+8.8</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Yandy%20Diaz" target="_blank" rel="noopener" title="Open in Profiles">Yandy Diaz</a></td><td data-label="Pos">DH</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.8</td><td data-label="Total"><b>+8.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs DET · ×0.97 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs MIA · ×0.97 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs MIA · ×0.97 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs MIA · ×0.97 = 2.2</td></tr>
-<tr><td data-label="Player">Willson Contreras</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.8</td><td data-label="Total"><b>+8.8</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Willson%20Contreras" target="_blank" rel="noopener" title="Open in Profiles">Willson Contreras</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.8</td><td data-label="Total"><b>+8.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs BAL · ×1.02 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs BAL · ×1.02 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs NYY · ×0.90 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs NYY · ×0.90 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs NYY · ×0.90 = 1.7</td></tr>
-<tr><td data-label="Player">Jackson Merrill</td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.6</td><td data-label="Total"><b>+8.6</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jackson%20Merrill" target="_blank" rel="noopener" title="Open in Profiles">Jackson Merrill</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+8.6</td><td data-label="Total"><b>+8.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs PHI · ×0.93 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs PHI · ×0.93 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs NYM · ×0.96 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs NYM · ×0.96 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs NYM · ×0.96 = 1.7</td></tr>
-<tr><td data-label="Player">Robbie Ray</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+8.5</td><td data-label="Total"><b>+8.5</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Robbie%20Ray" target="_blank" rel="noopener" title="Open in Profiles">Robbie Ray</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+8.5</td><td data-label="Total"><b>+8.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 06-05 vs CHC (opp bat 1.03, ×0.97, <b>8.5 FP</b>)</td></tr>
-<tr><td data-label="Player">Alec Burleson</td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.5</td><td data-label="Total"><b>+8.5</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Alec%20Burleson" target="_blank" rel="noopener" title="Open in Profiles">Alec Burleson</a></td><td data-label="Pos">LF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+8.5</td><td data-label="Total"><b>+8.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs TEX · ×1.01 = 2.0</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs CIN · ×1.10 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs CIN · ×1.10 = 2.2</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs CIN · ×1.10 = 2.2</td></tr>
-<tr><td data-label="Player">Brayan Rocchio</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+7.8</td><td data-label="Total"><b>+7.8</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Brayan%20Rocchio" target="_blank" rel="noopener" title="Open in Profiles">Brayan Rocchio</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">5 games</td><td data-label="Rest">+7.8</td><td data-label="Total"><b>+7.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs NYY · ×0.90 = 1.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-04 vs NYY · ×0.90 = 1.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs TEX · ×1.01 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs TEX · ×1.01 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs TEX · ×1.01 = 1.6</td></tr>
-<tr><td data-label="Player">CJ Abrams</td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=CJ%20Abrams" target="_blank" rel="noopener" title="Open in Profiles">CJ Abrams</a></td><td data-label="Pos">SS</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs MIA · ×0.97 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs ARI · ×1.00 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs ARI · ×1.00 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs ARI · ×1.00 = 1.9</td></tr>
-<tr><td data-label="Player">Devin Williams</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.2 app</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
-<tr><td data-label="Player">Jonathan Aranda</td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.5</td><td data-label="Total"><b>+7.5</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Devin%20Williams" target="_blank" rel="noopener" title="Open in Profiles">Devin Williams</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~2.2 app</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jonathan%20Aranda" target="_blank" rel="noopener" title="Open in Profiles">Jonathan Aranda</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+7.5</td><td data-label="Total"><b>+7.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs DET · ×0.97 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs MIA · ×0.97 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs MIA · ×0.97 = 1.9</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs MIA · ×0.97 = 1.9</td></tr>
-<tr><td data-label="Player">Gleyber Torres</td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+6.5</td><td data-label="Total"><b>+6.5</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Gleyber%20Torres" target="_blank" rel="noopener" title="Open in Profiles">Gleyber Torres</a></td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+6.5</td><td data-label="Total"><b>+6.5</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-03 vs TB · ×1.03 = 1.7</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-05 vs SEA · ×0.98 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-06 vs SEA · ×0.98 = 1.6</td></tr>
 <tr class="breakdown"><td colspan="7">→ 06-07 vs SEA · ×0.98 = 1.6</td></tr>
-<tr><td data-label="Player">Paul Sewald</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~1.5 app</td><td data-label="Rest">+5.4</td><td data-label="Total"><b>+5.4</b></td><td></td></tr>
-<tr><td data-label="Player">Dylan Cease</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Jackson Holliday</td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Joe Musgrove</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Justin Steele</td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
-<tr><td data-label="Player">Braxton Ashcraft</td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Paul%20Sewald" target="_blank" rel="noopener" title="Open in Profiles">Paul Sewald</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~1.5 app</td><td data-label="Rest">+5.4</td><td data-label="Total"><b>+5.4</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Dylan%20Cease" target="_blank" rel="noopener" title="Open in Profiles">Dylan Cease</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jackson%20Holliday" target="_blank" rel="noopener" title="Open in Profiles">Jackson Holliday</a></td><td data-label="Pos">2B</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Joe%20Musgrove" target="_blank" rel="noopener" title="Open in Profiles">Joe Musgrove</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Justin%20Steele" target="_blank" rel="noopener" title="Open in Profiles">Justin Steele</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Braxton%20Ashcraft" target="_blank" rel="noopener" title="Open in Profiles">Braxton Ashcraft</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 </tbody></table>
 </details></section>
 
@@ -795,30 +834,30 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>📈 Prediction Accuracy History</summary>
 <h2>📈 Prediction Accuracy History</h2>
 <table><thead><tr><th>Period</th><th>Date</th><th>My WTD</th><th>My Projected</th><th>Opp WTD</th><th>Opp Projected</th><th>Win Prob</th></tr></thead><tbody>
-<tr><td>10</td><td>06/02</td><td>7.7</td><td><b>269.0</b></td><td>20.6</td><td><b>280.8</b></td><td>40.2%</td></tr>
-<tr><td>10</td><td>06/02</td><td>7.7</td><td><b>306.0</b></td><td>20.6</td><td><b>322.6</b></td><td>35.6%</td></tr>
 <tr><td>10</td><td>06/02</td><td>7.7</td><td><b>272.1</b></td><td>20.6</td><td><b>284.7</b></td><td>39.6%</td></tr>
 <tr><td>10</td><td>06/02</td><td>7.7</td><td><b>272.1</b></td><td>20.6</td><td><b>284.7</b></td><td>39.6%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>290.6</b></td><td>46.6</td><td><b>281.0</b></td><td>58.5%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>290.6</b></td><td>46.6</td><td><b>281.0</b></td><td>60.4%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>318.5</b></td><td>46.6</td><td><b>311.1</b></td><td>55.8%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>290.6</b></td><td>46.6</td><td><b>281.0</b></td><td>58.5%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>318.5</b></td><td>46.6</td><td><b>311.1</b></td><td>58.1%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>290.6</b></td><td>46.6</td><td><b>281.0</b></td><td>60.4%</td></tr>
-<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>289.7</b></td><td>46.6</td><td><b>272.9</b></td><td>64.9%</td></tr>
+<tr><td>10</td><td>06/03</td><td>57.6</td><td><b>317.4</b></td><td>46.6</td><td><b>302.6</b></td><td>61.5%</td></tr>
 <tr><td>10</td><td>06/03</td><td>57.6</td><td><b>318.5</b></td><td>46.6</td><td><b>311.1</b></td><td>58.1%</td></tr>
 </tbody></table>
 </details></section>
 
-<p class="meta">Generated 2026-06-03 03:08:41 ·
+<p class="meta">Generated 2026-06-03 03:22:14 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
