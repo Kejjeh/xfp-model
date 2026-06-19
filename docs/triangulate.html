@@ -1,362 +1,872 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Triangulate — Three-Lens Player Audit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #1a1815;
-  --panel: #211e1a;
-  --stripe: #1d1b17;
-  --border: #34302a;
-  --text: #f5f1ea;
-  --dim: #a89e8a;
-  --faint: #3a352e;
-  --accent: #d97757;
-  --pos: #7fb069;
-  --neg: #c1666b;
-  --warn: #d4a945;
-  --info: #6fa8c7;
-  --mute: #888;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-body { font-family: 'Source Serif 4', Georgia, serif; background: var(--bg); color: var(--text);
-       font-size: 15px; line-height: 1.55; }
-.wrap { max-width: 1480px; margin: 0 auto; padding: 0 1.2em 4em 1.2em; }
-header { border-bottom: 1px solid var(--border); padding: .9em 0; margin-bottom: 1em; }
-h1 { color: var(--accent); margin: 0; font-size: 1.9em; font-weight: 700; }
-h1 .sub { color: var(--dim); font-size: .55em; font-weight: 400; margin-left: .8em;
-          letter-spacing: .12em; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; }
-h2 { color: var(--text); margin-top: 1.6em; font-size: 1.15em; font-weight: 600;
-     border-bottom: 1px solid var(--border); padding-bottom: .3em; letter-spacing: .01em; }
-.meta { color: var(--dim); font-family: 'IBM Plex Mono', monospace; font-size: .82em;
-        margin-top: .3em; letter-spacing: .04em; }
-.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
-         padding: 1em 1.2em; margin: 1em 0; }
-.grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 1em; }
-@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Triangulate — Ligers</title><style>
+:root{--bg:#0f172a;--panel:#1e293b;--ink:#e2e8f0;--mut:#94a3b8;--line:#334155;
+--buy:#10b981;--sell:#ef4444;--hold:#f59e0b;--mixed:#6366f1;--il:#a855f7;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:14px}header h1{margin:0;font-size:20px;font-weight:700}
+header .sub{color:var(--mut);font-size:12px}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 61px)}
+.rail{border-right:1px solid var(--line);overflow:auto;max-height:calc(100vh - 61px)}
+.rail .grp{padding:10px 16px 4px;color:var(--mut);font-size:11px;letter-spacing:.08em;
+text-transform:uppercase}
+.rail button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;
+background:none;border:0;color:var(--ink);padding:8px 16px;cursor:pointer;font-size:13px}
+.rail button:hover{background:#172033}.rail button.active{background:#243049;
+box-shadow:inset 3px 0 0 var(--mixed)}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.dot.buy{background:var(--buy)}.dot.sell{background:var(--sell)}
+.dot.hold{background:var(--hold)}.dot.mixed{background:var(--mixed)}.dot.il{background:var(--il)}
+.main{padding:24px 28px;overflow:auto;max-height:calc(100vh - 61px)}
+.nav{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.nav button{background:var(--panel);border:1px solid var(--line);color:var(--ink);
+border-radius:8px;padding:7px 14px;cursor:pointer}.nav button:hover{border-color:var(--mixed)}
+.nav .pos{color:var(--mut);font-size:12px}
+.card{display:none;max-width:880px}.card.show{display:block}
+.vhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.vhead h2{margin:0;font-size:26px}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
+.badge.buy{background:rgba(16,185,129,.15);color:var(--buy)}
+.badge.sell{background:rgba(239,68,68,.15);color:var(--sell)}
+.badge.hold{background:rgba(245,158,11,.15);color:var(--hold)}
+.badge.mixed{background:rgba(99,102,241,.15);color:var(--mixed)}
+.badge.il{background:rgba(168,85,247,.18);color:var(--il)}
+.team{color:var(--mut);font-size:13px}
+.verdict{font-size:15px;margin:4px 0 18px;color:#cbd5e1}
+.lenses{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.lens .lt{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.lens .big{font-size:22px;font-weight:700}.lens .sm{color:var(--mut);font-size:12px;margin-top:2px}
+.meta{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:16px}
+.meta .k{color:var(--mut);font-size:11px;text-transform:uppercase}.meta .v{font-size:16px;font-weight:600}
+.conf{height:7px;background:#0b1220;border-radius:999px;overflow:hidden;width:160px;margin-top:6px}
+.conf i{display:block;height:100%;background:var(--mixed)}
+.rat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.rat .lt{color:var(--mut);font-size:11px;text-transform:uppercase;margin-bottom:6px}
+.watch{display:flex;flex-wrap:wrap;gap:8px}.watch span{background:#0b1220;border:1px solid var(--line);
+border-radius:8px;padding:5px 10px;font-size:12px}
+.empty{color:var(--mut);padding:40px}
+</style></head>
+<body>
+<header><h1>🔱 Triangulate</h1><span class="sub">29 players · three-lens read · 2026-06-19</span>
+<nav style="margin-left:auto;display:flex;gap:14px;font-size:13px">
+<a href="index.html" style="color:var(--mut);text-decoration:none">XFP</a>
+<a href="matchup.html" style="color:var(--mut);text-decoration:none">Matchup</a>
+<a href="live_dashboard.html" style="color:var(--mut);text-decoration:none">Live</a>
+<a href="player_profiles.html" style="color:var(--mut);text-decoration:none">Profiles</a>
+<a style="color:var(--ink)">Triangulate</a></nav></header>
 
-/* Verdict bars */
-.bar-row { display: grid; grid-template-columns: 200px 1fr 50px; align-items: center;
-           gap: .8em; margin: .25em 0; font-family: 'IBM Plex Mono', monospace; font-size: .8em; }
-.bar-row .label { color: var(--dim); text-align: right; white-space: nowrap; overflow: hidden;
-                   text-overflow: ellipsis; }
-.bar-row .bar { background: var(--faint); height: 14px; border-radius: 2px; overflow: hidden; }
-.bar-row .bar > span { display: block; height: 100%; }
-.bar-row .n { color: var(--text); font-variant-numeric: tabular-nums; }
-
-.v-buy   { background: #4f8a4a; color: #fff; }
-.v-hold  { background: #4a6c8a; color: #fff; }
-.v-caut  { background: #b78c2c; color: #fff; }
-.v-fade  { background: #9c3a3f; color: #fff; }
-.v-mixed { background: #6a655c; color: #fff; }
-.v-pill { padding: .12em .55em; border-radius: 3px; font-family: 'IBM Plex Mono', monospace;
-          font-size: .78em; font-weight: 600; white-space: nowrap; }
-
-/* Filter row */
-.filters { display: flex; flex-wrap: wrap; gap: .8em; align-items: center;
-           margin: .8em 0; font-family: 'IBM Plex Mono', monospace; font-size: .82em; }
-.filters label { color: var(--dim); margin-right: .35em; text-transform: uppercase;
-                  letter-spacing: .08em; font-size: .78em; }
-.filters select, .filters input {
-  background: var(--panel); color: var(--text); border: 1px solid var(--border);
-  padding: .35em .55em; border-radius: 3px; font-family: inherit; font-size: inherit;
-}
-.btn-group button {
-  background: var(--panel); color: var(--dim); border: 1px solid var(--border);
-  padding: .35em .8em; cursor: pointer; font-family: inherit; font-size: inherit;
-}
-.btn-group button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-.btn-group button:first-child { border-radius: 3px 0 0 3px; }
-.btn-group button:last-child  { border-radius: 0 3px 3px 0; }
-.btn-group button + button { border-left: 0; }
-
-/* Player table */
-table.players { border-collapse: collapse; width: 100%; margin-top: 1em;
-                font-family: 'IBM Plex Mono', monospace; font-size: .82em; }
-table.players th { background: var(--panel); padding: .55em .7em; text-align: left;
-                    border-bottom: 1px solid var(--border); color: var(--dim);
-                    text-transform: uppercase; letter-spacing: .08em; font-size: .75em;
-                    cursor: pointer; user-select: none; position: sticky; top: 0; }
-table.players th:hover { color: var(--text); }
-table.players th .sort-arrow { color: var(--accent); margin-left: .25em; }
-table.players td { padding: .45em .7em; border-bottom: 1px solid var(--faint);
-                    font-variant-numeric: tabular-nums; }
-table.players tr:nth-child(even) td { background: var(--stripe); }
-table.players tr:hover td { background: #2a2620; }
-.rationale { color: var(--dim); font-size: .9em; line-height: 1.3; max-width: 460px;
-             font-family: 'Source Serif 4', Georgia, serif; }
-.b-H  { color: var(--info); }
-.b-SP { color: var(--warn); }
-.b-RP { color: var(--accent); }
-.traj-up   { color: var(--pos); }
-.traj-down { color: var(--neg); }
-.traj-flat { color: var(--mute); }
-.ov-tag { background: var(--faint); color: var(--accent); padding: .1em .45em;
-          border-radius: 2px; font-size: .72em; margin-left: .35em; }
-.muted { color: var(--mute); }
-
-.kv { display: flex; flex-direction: column; gap: .2em; font-family: 'IBM Plex Mono', monospace;
-      font-size: .82em; }
-.kv .row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--faint);
-            padding: .2em 0; }
-.kv .row .k { color: var(--dim); }
-.kv .row .v { color: var(--text); }
-.errbox { color: var(--neg); padding: 2em; text-align: center; font-family: 'IBM Plex Mono', monospace; }
-</style>
-</head><body>
-<div class="wrap">
-  <header>
-    <h1>Triangulate <span class="sub">three-lens player audit</span></h1>
-    <div class="meta" id="meta">loading…</div>
-  </header>
-
-  <div id="content" style="display:none;">
-    <div class="grid2">
-      <div class="panel">
-        <h2 style="margin-top:0; border:0; padding:0;">Verdict distribution</h2>
-        <div id="verdict-bars"></div>
-      </div>
-      <div class="panel">
-        <h2 style="margin-top:0; border:0; padding:0;">Overrides</h2>
-        <div id="override-table" class="kv"></div>
-      </div>
+<div class="layout">
+  <nav class="rail"><div class="grp">Hitters</div>
+<button><span class="dot il"></span>Aaron Judge</button>
+<button><span class="dot mixed"></span>Bo Bichette</button>
+<button><span class="dot buy"></span>Bryce Eldridge</button>
+<button><span class="dot buy"></span>Corbin Carroll</button>
+<button><span class="dot mixed"></span>Dominic Canzone</button>
+<button><span class="dot il"></span>Elly De La Cruz</button>
+<button><span class="dot mixed"></span>Hunter Goodman</button>
+<button><span class="dot mixed"></span>Jordan Walker</button>
+<button><span class="dot mixed"></span>Luis Arraez</button>
+<button><span class="dot buy"></span>Max Muncy</button>
+<button><span class="dot buy"></span>Michael Harris II</button>
+<button><span class="dot buy"></span>Pete Alonso</button>
+<button><span class="dot mixed"></span>Vladimir Guerrero Jr.</button>
+<button><span class="dot mixed"></span>Wyatt Langford</button>
+<div class="grp">Starting Pitchers</div>
+<button><span class="dot buy"></span>Carlos Rodón</button>
+<button><span class="dot mixed"></span>Dustin May</button>
+<button><span class="dot mixed"></span>Freddy Peralta</button>
+<button><span class="dot il"></span>Hunter Greene</button>
+<button><span class="dot buy"></span>José Soriano</button>
+<button><span class="dot il"></span>Max Fried</button>
+<button><span class="dot mixed"></span>Parker Messick</button>
+<button><span class="dot buy"></span>Reid Detmers</button>
+<button><span class="dot mixed"></span>Roki Sasaki</button>
+<button><span class="dot il"></span>Tyler Glasnow</button>
+<button><span class="dot buy"></span>Will Warren</button>
+<div class="grp">Relievers</div>
+<button><span class="dot buy"></span>Jacob Latz</button>
+<button><span class="dot buy"></span>Jhoan Duran</button>
+<button><span class="dot mixed"></span>Ryan Helsley</button>
+<button><span class="dot buy"></span>Tanner Scott</button></nav>
+  <section class="main">
+    <div class="nav">
+      <button id="prev">← Prev</button><button id="next">Next →</button>
+      <span class="pos" id="pos"></span>
+      <span class="pos">· use ←/→ keys</span>
     </div>
-
-    <h2>Players <span class="meta" id="player-count" style="float:right;"></span></h2>
-
-    <div class="filters">
-      <span><label>TEAM</label><select id="f-team"><option value="">(all)</option></select></span>
-      <span><label>BUCKET</label>
-        <span class="btn-group" id="f-bucket">
-          <button data-v="">All</button>
-          <button data-v="H">H</button>
-          <button data-v="SP">SP</button>
-          <button data-v="RP">RP</button>
-        </span>
-      </span>
-      <span><label>VERDICT</label><select id="f-verdict" multiple size="1" style="min-width:180px;"></select></span>
-      <span><label>OVERRIDE</label><select id="f-override" multiple size="1" style="min-width:160px;"></select></span>
-      <span><label>SEARCH</label><input id="f-name" type="text" placeholder="name…" size="14"></span>
-      <span><button id="f-reset" style="cursor:pointer; background:var(--panel); color:var(--dim); border:1px solid var(--border); padding:.35em .8em; border-radius:3px; font-family:inherit;">RESET</button></span>
-    </div>
-
-    <table class="players" id="tbl">
-      <thead><tr id="thead-row"></tr></thead>
-      <tbody id="tbody"></tbody>
-    </table>
+    
+<article class="card" data-i="0">
+  <div class="vhead">
+    <h2>Aaron Judge</h2>
+    <span class="team">H · NYY</span>
+    <span class="badge il">BUY</span><span class="badge il">🏥 TEN_DAY_DL</span>
   </div>
-
-  <div id="err" class="errbox" style="display:none;"></div>
+  <div class="verdict">🏥 ON IL (TEN_DAY_DL) — talent read only: BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#4</div>
+      <div class="sm">proj 2.48 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">GOAT_TIER</div>
+      <div class="sm">75 OVR · STABLE · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.41</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #4 and archetype OVERALL 75 (GOAT_TIER) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="1">
+  <div class="vhead">
+    <h2>Bo Bichette</h2>
+    <span class="team">H · NYM</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#42</div>
+      <div class="sm">proj 2.04 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">CONTACT_HACKER</div>
+      <div class="sm">55 OVR · TRENDING_UP · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.50</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #42)</span><span>archetype OVERALL changes by &gt;10 (currently 55)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="2">
+  <div class="vhead">
+    <h2>Bryce Eldridge</h2>
+    <span class="team">H · SF</span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#44</div>
+      <div class="sm">proj 2.03 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">CONTACT_POWER</div>
+      <div class="sm">71 OVR · CAREER_LOW · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">1.68</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #44 and archetype OVERALL 71 (CONTACT_POWER) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="3">
+  <div class="vhead">
+    <h2>Corbin Carroll</h2>
+    <span class="team">H · AZ</span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#8</div>
+      <div class="sm">proj 2.32 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">61 OVR · STABLE · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.09</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #8 and archetype OVERALL 61 (POWER_HITTER) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="4">
+  <div class="vhead">
+    <h2>Dominic Canzone</h2>
+    <span class="team">H · SEA</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#81</div>
+      <div class="sm">proj 1.92 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">CONTACT_POWER</div>
+      <div class="sm">68 OVR · TRENDING_UP · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">1.95</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #81)</span><span>archetype OVERALL changes by &gt;10 (currently 68)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="5">
+  <div class="vhead">
+    <h2>Elly De La Cruz</h2>
+    <span class="team">H · CIN</span>
+    <span class="badge il">MIXED</span><span class="badge il">🏥 TEN_DAY_DL</span>
+  </div>
+  <div class="verdict">🏥 ON IL (TEN_DAY_DL) — talent read only: MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#103</div>
+      <div class="sm">proj 1.86 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">59 OVR · TRENDING_UP · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.86</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #103)</span><span>archetype OVERALL changes by &gt;10 (currently 59)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="6">
+  <div class="vhead">
+    <h2>Hunter Goodman</h2>
+    <span class="team">H · COL</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">36</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#56</div>
+      <div class="sm">proj 1.99 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">55 OVR · STABLE · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.48</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently 36)</span><span>model rank changes by &gt;20 (currently #56)</span><span>archetype OVERALL changes by &gt;10 (currently 55)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="7">
+  <div class="vhead">
+    <h2>Jordan Walker</h2>
+    <span class="team">H · STL</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#86</div>
+      <div class="sm">proj 1.91 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">63 OVR · TRENDING_UP · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">1.25</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #86)</span><span>archetype OVERALL changes by &gt;10 (currently 63)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="8">
+  <div class="vhead">
+    <h2>Luis Arraez</h2>
+    <span class="team">H · SF</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#68</div>
+      <div class="sm">proj 1.95 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">AGGRESSIVE_SLAP</div>
+      <div class="sm">57 OVR · STABLE · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.25</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #68)</span><span>archetype OVERALL changes by &gt;10 (currently 57)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="9">
+  <div class="vhead">
+    <h2>Max Muncy</h2>
+    <span class="team">H · LAD</span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#34</div>
+      <div class="sm">proj 2.07 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">65 OVR · STABLE · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.35</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #34 and archetype OVERALL 65 (POWER_HITTER) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="10">
+  <div class="vhead">
+    <h2>Michael Harris II</h2>
+    <span class="team">H · ATL</span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — process upgrade</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#17</div>
+      <div class="sm">proj 2.21 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">AGGRESSIVE_STAR</div>
+      <div class="sm">65 OVR · TRENDING_UP · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.56</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Archetype AGGRESSIVE_STAR OVERALL 65 TRENDING_UP; ranked top-80 by at least one outcome lens. Process leads the outcomes.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="11">
+  <div class="vhead">
+    <h2>Pete Alonso</h2>
+    <span class="team">H · BAL</span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#29</div>
+      <div class="sm">proj 2.11 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">POWER_HITTER</div>
+      <div class="sm">62 OVR · STABLE · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.01</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #29 and archetype OVERALL 62 (POWER_HITTER) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="12">
+  <div class="vhead">
+    <h2>Vladimir Guerrero Jr.</h2>
+    <span class="team">H · TOR</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#36</div>
+      <div class="sm">proj 2.06 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_HITTER</div>
+      <div class="sm">59 OVR · TRENDING_DOWN · T+1 0.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.03</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #36)</span><span>archetype OVERALL changes by &gt;10 (currently 59)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="13">
+  <div class="vhead">
+    <h2>Wyatt Langford</h2>
+    <span class="team">H · TEX</span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#138</div>
+      <div class="sm">proj 1.77 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">AVERAGE_HITTER</div>
+      <div class="sm">45 OVR · TRENDING_DOWN · T+1 0.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">2.68</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #138)</span><span>archetype OVERALL changes by &gt;10 (currently 45)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="14">
+  <div class="vhead">
+    <h2>Carlos Rodón</h2>
+    <span class="team">SP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">STRONG HOLD/BUY</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">26</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#44</div>
+      <div class="sm">proj 11.35 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_STUFF</div>
+      <div class="sm">59 OVR · TRENDING_UP · T+1 12.0</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">13.65</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>All 3 lenses agree — PL #26, model #44, archetype OVERALL 59 (PURE_STUFF). High conviction.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="15">
+  <div class="vhead">
+    <h2>Dustin May</h2>
+    <span class="team">SP · </span>
+    <span class="badge mixed">CAUTION</span>
+  </div>
+  <div class="verdict">CAUTION</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">75</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#67</div>
+      <div class="sm">proj 10.66 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">JUNKBALLER</div>
+      <div class="sm">42 OVR · CAREER_LOW · T+1 8.4</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">10.55</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>WARN Career-low season (0% career-percentile).</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>career_pct drops below current floor</span><span>L21d xwOBACON drops more than 0.020 from season</span><span>archetype OVERALL drops below 45</span><span>PL rank deteriorates past #100 (currently 75)</span></div></div>
+</article>
+<article class="card" data-i="16">
+  <div class="vhead">
+    <h2>Freddy Peralta</h2>
+    <span class="team">SP · </span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">43</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#46</div>
+      <div class="sm">proj 11.28 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">AVERAGE_4_5</div>
+      <div class="sm">58 OVR · STABLE · T+1 11.8</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">13.54</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently 43)</span><span>model rank changes by &gt;20 (currently #46)</span><span>archetype OVERALL changes by &gt;10 (currently 58)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="17">
+  <div class="vhead">
+    <h2>Hunter Greene</h2>
+    <span class="team">SP · </span>
+    <span class="badge il">BUY</span><span class="badge il">🏥 SIXTY_DAY_DL</span>
+  </div>
+  <div class="verdict">🏥 ON IL (SIXTY_DAY_DL) — talent read only: BUY — process upgrade</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#28</div>
+      <div class="sm">proj 12.27 · il</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_STUFF</div>
+      <div class="sm">64 OVR · TRENDING_UP · T+1 16.3</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">15.45</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Archetype PURE_STUFF OVERALL 64 TRENDING_UP; ranked top-80 by at least one outcome lens. Process leads the outcomes.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="18">
+  <div class="vhead">
+    <h2>José Soriano</h2>
+    <span class="team">SP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — process upgrade</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">48</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#38</div>
+      <div class="sm">proj 11.60 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">STUFF_PLUS_MOVE</div>
+      <div class="sm">66 OVR · TRENDING_UP · T+1 14.2</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">11.86</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Archetype STUFF_PLUS_MOVE OVERALL 66 TRENDING_UP; ranked top-80 by at least one outcome lens. Process leads the outcomes.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="19">
+  <div class="vhead">
+    <h2>Max Fried</h2>
+    <span class="team">SP · </span>
+    <span class="badge il">CAUTION</span><span class="badge il">🏥 FIFTEEN_DAY_DL</span>
+  </div>
+  <div class="verdict">🏥 ON IL (FIFTEEN_DAY_DL) — talent read only: CAUTION — decline veto</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#40</div>
+      <div class="sm">proj 11.57 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_MOVEMENT</div>
+      <div class="sm">60 OVR · STABLE · T+1 10.8</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.25</div>
+      <div class="conf"><i style="width:25%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">1 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">13.82</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Decline VETO (consistency mandate): original &#x27;BUY — under-the-radar&#x27; downgraded — sp-decline DECLINE-RISK (whiff/K level propped, gap +42) contradict the buy. The bullish read is a LEVEL/outcome signal blind to TRAJECTORY; the velo/decline lens is the trajectory veto (Framber 2026). Headline the decline. rp3 point estimate unchanged (#13).</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>career_pct drops below current floor</span><span>L21d xwOBACON drops more than 0.020 from season</span><span>archetype OVERALL drops below 45</span><span>PL rank deteriorates past #100 (currently UR)</span></div></div>
+</article>
+<article class="card" data-i="20">
+  <div class="vhead">
+    <h2>Parker Messick</h2>
+    <span class="team">SP · </span>
+    <span class="badge mixed">CAUTION</span>
+  </div>
+  <div class="verdict">CAUTION</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">32</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#57</div>
+      <div class="sm">proj 10.93 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_MOVEMENT</div>
+      <div class="sm">65 OVR · CAREER_LOW · T+1 13.3</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">11.11</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>WARN Career-low season (0% career-percentile).</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>career_pct drops below current floor</span><span>L21d xwOBACON drops more than 0.020 from season</span><span>archetype OVERALL drops below 45</span><span>PL rank deteriorates past #100 (currently 32)</span></div></div>
+</article>
+<article class="card" data-i="21">
+  <div class="vhead">
+    <h2>Reid Detmers</h2>
+    <span class="team">SP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — process upgrade</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">60</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#34</div>
+      <div class="sm">proj 11.86 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">MT_RUSHMORE</div>
+      <div class="sm">64 OVR · TRENDING_UP · T+1 13.4</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">14.58</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Archetype MT_RUSHMORE OVERALL 64 TRENDING_UP; ranked top-80 by at least one outcome lens. Process leads the outcomes.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="22">
+  <div class="vhead">
+    <h2>Roki Sasaki</h2>
+    <span class="team">SP · </span>
+    <span class="badge mixed">CAUTION</span>
+  </div>
+  <div class="verdict">CAUTION</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">51</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#66</div>
+      <div class="sm">proj 10.67 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">BAD_BIG_INNINGS</div>
+      <div class="sm">39 OVR · CAREER_LOW · T+1 10.2</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">11.30</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>WARN Career-low season (0% career-percentile).</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>career_pct drops below current floor</span><span>L21d xwOBACON drops more than 0.020 from season</span><span>archetype OVERALL drops below 45</span><span>PL rank deteriorates past #100 (currently 51)</span></div></div>
+</article>
+<article class="card" data-i="23">
+  <div class="vhead">
+    <h2>Tyler Glasnow</h2>
+    <span class="team">SP · </span>
+    <span class="badge il">BUY</span><span class="badge il">🏥 SIXTY_DAY_DL</span>
+  </div>
+  <div class="verdict">🏥 ON IL (SIXTY_DAY_DL) — talent read only: BUY — under-the-radar</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#10</div>
+      <div class="sm">proj 13.84 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_STUFF</div>
+      <div class="sm">65 OVR · STABLE · T+1 13.4</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.50</div>
+      <div class="conf"><i style="width:50%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">2 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">12.91</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>PL hasn&#x27;t ranked him but model #10 and archetype OVERALL 65 (PURE_STUFF) both endorse.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="24">
+  <div class="vhead">
+    <h2>Will Warren</h2>
+    <span class="team">SP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">BUY — archetype breakout</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">38</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#92</div>
+      <div class="sm">proj 9.97 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_CONTROL</div>
+      <div class="sm">59 OVR · TRENDING_UP · T+1 12.8</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">12.08</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Archetype TRENDING_UP to PURE_CONTROL (AVG/AVG/PLUS); PL has caught it (#38); model lagging (#92). Buy before model catches up.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="25">
+  <div class="vhead">
+    <h2>Jacob Latz</h2>
+    <span class="team">RP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">STRONG HOLD/BUY</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">15</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#6</div>
+      <div class="sm">proj 125.70 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">COMMAND_MIDDLE</div>
+      <div class="sm">61 OVR · TRENDING_UP · T+1 3.6</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.82</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>All 3 lenses agree — PL #15, model #6, archetype OVERALL 61 (COMMAND_MIDDLE). High conviction.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="26">
+  <div class="vhead">
+    <h2>Jhoan Duran</h2>
+    <span class="team">RP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">STRONG HOLD/BUY</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">8</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#3</div>
+      <div class="sm">proj 171.30 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_STUFF_RP</div>
+      <div class="sm">80 OVR · TRENDING_UP · T+1 4.7</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">4.14</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>All 3 lenses agree — PL #8, model #3, archetype OVERALL 80 (PURE_STUFF_RP). High conviction.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+<article class="card" data-i="27">
+  <div class="vhead">
+    <h2>Ryan Helsley</h2>
+    <span class="team">RP · </span>
+    <span class="badge mixed">MIXED</span>
+  </div>
+  <div class="verdict">MIXED — see profile</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">UR</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#20</div>
+      <div class="sm">proj 170.30 · hold</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">PURE_STUFF_RP</div>
+      <div class="sm">58 OVR · STABLE · T+1 3.5</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">0.75</div>
+      <div class="conf"><i style="width:75%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">3 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">3.91</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>Signals don&#x27;t converge to a single verdict; weigh the rate metrics against the trajectory before acting.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>PL rank changes by &gt;20 (currently UR)</span><span>model rank changes by &gt;20 (currently #20)</span><span>archetype OVERALL changes by &gt;10 (currently 58)</span><span>traj_flag flips direction</span></div></div>
+</article>
+<article class="card" data-i="28">
+  <div class="vhead">
+    <h2>Tanner Scott</h2>
+    <span class="team">RP · </span>
+    <span class="badge buy">BUY</span>
+  </div>
+  <div class="verdict">STRONG HOLD/BUY</div>
+  <div class="lenses">
+    <div class="lens"><div class="lt">Pitcher List</div>
+      <div class="big">3</div><div class="sm">weekly rank</div></div>
+    <div class="lens"><div class="lt">Model</div>
+      <div class="big">#10</div>
+      <div class="sm">proj 130.00 · add</div></div>
+    <div class="lens"><div class="lt">Archetype</div>
+      <div class="big">LATE_INNING_STUFF_CTRL</div>
+      <div class="sm">76 OVR · TRENDING_UP · T+1 4.7</div></div>
+  </div>
+  <div class="meta">
+    <div><div class="k">Confidence</div><div class="v">1.00</div>
+      <div class="conf"><i style="width:100%"></i></div>
+      <div class="sm" style="color:var(--mut);font-size:11px">4 of 4 signals agree</div></div>
+    <div><div class="k">Blended xFP</div><div class="v">4.03</div></div>
+  </div>
+  <div class="rat"><div class="lt">Rationale</div>All 3 lenses agree — PL #3, model #10, archetype OVERALL 76 (LATE_INNING_STUFF_CTRL). High conviction.</div>
+  <div class="rat"><div class="lt">Watch</div><div class="watch"><span>archetype trajectory flips to TRENDING_DOWN</span><span>model rank slips past #80</span><span>PL rank drops more than 30 ranks</span><span>archetype OVERALL drops below 55</span></div></div>
+</article>
+  </section>
 </div>
-
 <script>
-const COLS = [
-  {k:'name',          h:'Name',     type:'str'},
-  {k:'category',      h:'Team',     type:'str'},
-  {k:'bucket',        h:'Bkt',      type:'str'},
-  {k:'pl_rank',       h:'PL',       type:'num'},
-  {k:'model_rank',    h:'Model',    type:'num'},
-  {k:'arche_overall', h:'Arche',    type:'num'},
-  {k:'arche_label',   h:'Label',    type:'str'},
-  {k:'arche_traj',    h:'Traj',     type:'str'},
-  {k:'verdict',       h:'Verdict',  type:'str'},
-  {k:'arche_t1_fp',   h:'T+1',      type:'num'},
-  {k:'rationale',     h:'Rationale',type:'str'},
-];
-
-let DATA = null;
-let STATE = { sort_k:'model_rank', sort_dir:1, f_team:'', f_bucket:'', f_verdicts:new Set(), f_overrides:new Set(), f_name:'' };
-
-function verdictClass(v) {
-  if (!v) return 'v-mixed';
-  const u = v.toUpperCase();
-  if (u.includes('BUY') || u.includes('STRONG')) return 'v-buy';
-  if (u.startsWith('HOLD')) return 'v-hold';
-  if (u.includes('CAUTION')) return 'v-caut';
-  if (u.includes('FADE')) return 'v-fade';
-  return 'v-mixed';
-}
-
-function fmt(x, type) {
-  if (x === null || x === undefined || x === '') return '<span class="muted">—</span>';
-  if (type === 'num') {
-    if (typeof x === 'number' && !Number.isInteger(x)) return x.toFixed(2);
-  }
-  return String(x);
-}
-
-function renderMeta() {
-  const m = document.getElementById('meta');
-  const d = DATA;
-  m.innerHTML = `generated ${d.generated} &nbsp;·&nbsp; ${d.n_players} players` +
-                (d.n_unresolved ? ` &nbsp;·&nbsp; ${d.n_unresolved} unresolved` : '') +
-                ` &nbsp;·&nbsp; H ${d.bucket_counts?.H||0} / SP ${d.bucket_counts?.SP||0} / RP ${d.bucket_counts?.RP||0}`;
-}
-
-function renderVerdictBars() {
-  const counts = DATA.verdict_counts || {};
-  const items = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const max = items.length ? items[0][1] : 1;
-  const root = document.getElementById('verdict-bars');
-  root.innerHTML = items.map(([v,n]) => {
-    const cls = verdictClass(v);
-    const w = Math.max(2, (n/max)*100);
-    return `<div class="bar-row"><div class="label" title="${v}">${v}</div>` +
-           `<div class="bar"><span class="${cls}" style="width:${w}%"></span></div>` +
-           `<div class="n">${n}</div></div>`;
-  }).join('') || '<div class="muted">(none)</div>';
-}
-
-function renderOverrideTable() {
-  const counts = DATA.override_counts || {};
-  const items = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const root = document.getElementById('override-table');
-  root.innerHTML = items.length
-    ? items.map(([k,v]) => `<div class="row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')
-    : '<div class="muted">(no overrides fired)</div>';
-}
-
-function populateFilters() {
-  // Teams
-  const teams = [...new Set(DATA.players.map(p => p.category).filter(Boolean))].sort();
-  const sel = document.getElementById('f-team');
-  teams.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o); });
-
-  // Verdicts
-  const verdicts = [...new Set(DATA.players.map(p => p.verdict).filter(Boolean))].sort();
-  const vsel = document.getElementById('f-verdict');
-  vsel.size = Math.min(6, Math.max(3, verdicts.length));
-  verdicts.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; vsel.appendChild(o); });
-
-  // Overrides
-  const overrides = [...new Set(DATA.players.map(p => p.override_tag).filter(Boolean))].sort();
-  const osel = document.getElementById('f-override');
-  osel.size = Math.min(6, Math.max(2, overrides.length || 2));
-  overrides.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; osel.appendChild(o); });
-}
-
-function renderThead() {
-  const tr = document.getElementById('thead-row');
-  tr.innerHTML = COLS.map(c => {
-    const arrow = STATE.sort_k === c.k ? (STATE.sort_dir > 0 ? '▲' : '▼') : '';
-    return `<th data-k="${c.k}">${c.h}<span class="sort-arrow">${arrow}</span></th>`;
-  }).join('');
-  tr.querySelectorAll('th').forEach(th => {
-    th.onclick = () => {
-      const k = th.dataset.k;
-      if (STATE.sort_k === k) STATE.sort_dir = -STATE.sort_dir;
-      else { STATE.sort_k = k; STATE.sort_dir = 1; }
-      renderTable();
-    };
-  });
-}
-
-function filteredRows() {
-  return DATA.players.filter(p => {
-    if (p.resolved === false) return false;
-    if (STATE.f_team && p.category !== STATE.f_team) return false;
-    if (STATE.f_bucket && p.bucket !== STATE.f_bucket) return false;
-    if (STATE.f_verdicts.size && !STATE.f_verdicts.has(p.verdict)) return false;
-    if (STATE.f_overrides.size && !STATE.f_overrides.has(p.override_tag)) return false;
-    if (STATE.f_name && !(p.name||'').toLowerCase().includes(STATE.f_name.toLowerCase())) return false;
-    return true;
-  });
-}
-
-function renderTable() {
-  renderThead();
-  const rows = filteredRows();
-  const col = COLS.find(c => c.k === STATE.sort_k);
-  const dir = STATE.sort_dir;
-  rows.sort((a,b) => {
-    let av = a[STATE.sort_k], bv = b[STATE.sort_k];
-    const aNull = av === null || av === undefined;
-    const bNull = bv === null || bv === undefined;
-    if (aNull && bNull) return 0;
-    if (aNull) return 1;
-    if (bNull) return -1;
-    if (col && col.type === 'num') return (av - bv) * dir;
-    return String(av).localeCompare(String(bv)) * dir;
-  });
-
-  const tb = document.getElementById('tbody');
-  tb.innerHTML = rows.map(p => {
-    const tds = COLS.map(c => {
-      const v = p[c.k];
-      if (c.k === 'verdict') {
-        const cls = verdictClass(v);
-        const ov = p.override_tag ? `<span class="ov-tag">${p.override_tag}</span>` : '';
-        return `<td><span class="v-pill ${cls}">${v||'—'}</span>${ov}</td>`;
-      }
-      if (c.k === 'bucket') return `<td class="b-${v}">${v||'—'}</td>`;
-      if (c.k === 'arche_traj') {
-        const tc = (v||'').includes('UP') ? 'traj-up' : (v||'').includes('DOWN') ? 'traj-down' : 'traj-flat';
-        return `<td class="${tc}">${v||'—'}</td>`;
-      }
-      if (c.k === 'rationale') return `<td class="rationale">${v||''}</td>`;
-      return `<td>${fmt(v, c.type)}</td>`;
-    }).join('');
-    return `<tr>${tds}</tr>`;
-  }).join('');
-
-  document.getElementById('player-count').textContent = `${rows.length} shown / ${DATA.n_players} total`;
-}
-
-function wireFilters() {
-  document.getElementById('f-team').onchange = e => { STATE.f_team = e.target.value; renderTable(); };
-  document.querySelectorAll('#f-bucket button').forEach(b => {
-    b.onclick = () => {
-      document.querySelectorAll('#f-bucket button').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      STATE.f_bucket = b.dataset.v;
-      renderTable();
-    };
-  });
-  document.querySelector('#f-bucket button[data-v=""]').classList.add('active');
-  document.getElementById('f-verdict').onchange = e => {
-    STATE.f_verdicts = new Set([...e.target.selectedOptions].map(o => o.value));
-    renderTable();
-  };
-  document.getElementById('f-override').onchange = e => {
-    STATE.f_overrides = new Set([...e.target.selectedOptions].map(o => o.value));
-    renderTable();
-  };
-  document.getElementById('f-name').oninput = e => { STATE.f_name = e.target.value; renderTable(); };
-  document.getElementById('f-reset').onclick = () => {
-    STATE = { sort_k:'model_rank', sort_dir:1, f_team:'', f_bucket:'', f_verdicts:new Set(), f_overrides:new Set(), f_name:'' };
-    document.getElementById('f-team').value = '';
-    document.getElementById('f-name').value = '';
-    document.getElementById('f-verdict').selectedIndex = -1;
-    document.getElementById('f-override').selectedIndex = -1;
-    document.querySelectorAll('#f-bucket button').forEach(x => x.classList.remove('active'));
-    document.querySelector('#f-bucket button[data-v=""]').classList.add('active');
-    renderTable();
-  };
-}
-
-fetch('triangulate_data.json?_=' + Date.now())
-  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-  .then(d => {
-    DATA = d;
-    document.getElementById('content').style.display = '';
-    renderMeta();
-    renderVerdictBars();
-    renderOverrideTable();
-    populateFilters();
-    wireFilters();
-    renderTable();
-  })
-  .catch(e => {
-    document.getElementById('err').style.display = '';
-    document.getElementById('err').textContent =
-      'Failed to load triangulate_data.json: ' + e.message +
-      ' — run: python scripts/xfp/run_triangulate.py --names-file data/research/triangulate_universe/all_teams_roster.csv --json-out xfp-model/docs/triangulate_data.json';
-    document.getElementById('meta').textContent = 'error';
-  });
-</script>
-</body></html>
+const cards=[...document.querySelectorAll('.card')];
+const btns=[...document.querySelectorAll('.rail button')];
+let i=0;
+function show(n){i=(n+cards.length)%cards.length;
+ cards.forEach((c,k)=>c.classList.toggle('show',k===i));
+ btns.forEach((b,k)=>b.classList.toggle('active',k===i));
+ document.getElementById('pos').textContent=(i+1)+' / '+cards.length;
+ const a=btns[i]; if(a) a.scrollIntoView({block:'nearest'});}
+btns.forEach((b,k)=>b.onclick=()=>show(k));
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(i-1);
+ if(e.key==='ArrowRight')show(i+1);});
+show(0);
+</script></body></html>
