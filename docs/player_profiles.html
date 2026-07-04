@@ -1098,7 +1098,7 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
     <div id="modal-content"></div>
   </div>
 </div>
-<div class="meta">Generated 2026-07-04 14:15 · 4896 hitter-years · 2032 SP-years · 2433 RP-years · years 2015–2026</div>
+<div class="meta">Generated 2026-07-04 14:31 · 4896 hitter-years · 2032 SP-years · 2433 RP-years · years 2015–2026</div>
 </div><!-- /.wrap -->
 <script src="player_profiles_data.js"></script>
 
@@ -2998,13 +2998,13 @@ const COL_TOOLTIPS = {
   t2_fp_projection: 'Two-year-out FP rate projection (T+2). Hitters: R²=0.28 on n=531 pairs (age coefficient sharper than T+1). SP R²=0.39. RP R²=0.26. Directional for dynasty/keeper.',
   OVERALL: 'Composite 20-80 rating: 0.55*CONTACT + 0.35*POWER + 0.10*DISCIPLINE (hitters) or empirical weights (pitchers). CAVEAT (2026-07-04 study): these weights describe SKILL, not fantasy value — the hitter version forward-predicts FP worse than last year FP alone. For FP-faithful weighting see FPwt. Feeds Blended xFP as a fitted prior — construction frozen pending /validate-feature.',
   OVERALL_FP: 'FP-faithful parallel composite (display-only, rating_reimagine 2026-07-04). Hitters .58*CONTACT+.17*POWER+.17*SB+.08*DISC (fwd r .515 vs OVERALL .477). SP .76*STUFF+.14*MOVE+.10*CTRL (fwd .577 vs .551). RP role-first .55*z(SV)+.35*STUFF+.10*z(FP/g) — CONTROL/BATTED_BALL carry zero forward FP and holds are anti-signal. Rule 13: context lens, never a ranker; rp3/rh3/rprs2 stay the headline.',
-  CONTACT: 'Contact domain 20-80 rating — within-year z-score of (Z-contact + Chase-contact + K-avoid + Quality + Spray). Higher = better.',
-  POWER: 'Power domain 20-80 rating — within-year z-score of (Raw EV + Launch + Damage production). Higher = better.',
-  DISCIPLINE: 'Discipline domain 20-80 rating — within-year z-score of (Patience + Aggression). Higher = better.',
+  CONTACT: 'Contact domain 20-80 rating — within-year z-score of (Z-contact + Chase-contact + K-avoid + Quality + Spray). Higher = better. THE load-bearing hitter pillar for FP (fwd r .47; carries ~58% of FP-faithful weight).',
+  POWER: 'Power domain 20-80 rating — within-year z-score of (Raw EV + Launch + Damage production). Higher = better. FP-faithful weight ~17% (fwd r .25 — half its shipped weight); not rescued by high contact (interaction dead).',
+  DISCIPLINE: 'Discipline domain 20-80 rating — within-year z-score of (Patience + Aggression). Higher = better. Near-zero forward FP weight for BrownU points (~8% FP-faithful) — skill descriptor, not a fantasy driver.',
   SB: 'Speed/SB domain 20-80 — within-year z-score of (Speed tool + SB conversion). Higher = better.',
-  STUFF: 'Pitcher stuff domain 20-80 — within-year z-score. SP: SwM+Velo. RP: 0.85*SwM + 0.15*Velo. Higher = better.',
-  MOVEMENT: 'Pitcher movement domain 20-80 (SP). RP rows show BATTED_BALL here (GB + Bulk IP). Higher = better.',
-  CONTROL: 'Pitcher control domain 20-80 — within-year z-score. SP: WalkAvoid+CalledStrike. RP: 0.85*WalkAvoid + 0.15*CalledStrike. Higher = better.',
+  STUFF: 'Pitcher stuff domain 20-80 — within-year z-score. SP: SwM+Velo. RP: 0.85*SwM + 0.15*Velo. Higher = better. THE load-bearing SP pillar (fwd r .57 — out-predicts FP itself; ~76% FP-faithful weight, SWING_MISS dominant). For RPs its forward value is JOB SECURITY (closer retention 33/52/88% by tercile), not run prevention.',
+  MOVEMENT: 'Pitcher movement domain 20-80 (SP). RP rows show BATTED_BALL here (GB + Bulk IP). Higher = better. FP-faithful weight ~14% (shipped OVERALL uses 35% — 3x its forward value); display trait.',
+  CONTROL: 'Pitcher control domain 20-80 — within-year z-score. SP: WalkAvoid+CalledStrike. RP: 0.85*WalkAvoid + 0.15*CalledStrike. Higher = better. SP FP-faithful weight ~10%; RP forward FP ~ZERO (2026-07-04) — RP CONTROL is a scouting descriptor, excluded from FPwt.',
   velo_rating: 'Average fastball velocity 20-80, within-year z-score. Higher = harder.',
   SWING_MISS: 'Swing-and-miss rate 20-80 — derived from SwStr% (whiffs / pitches). Higher = better.',
   CALLED_STRIKE: 'Called strike rate 20-80 — called strikes / pitches outside swings. Higher = better.',
@@ -3016,8 +3016,8 @@ const COL_TOOLTIPS = {
   Z_CONTACT: 'Contact rate on in-zone pitches 20-80. Higher = better.',
   O_CONTACT: 'Contact rate on out-of-zone (chase) pitches 20-80. Higher = better.',
   K_AVOIDANCE: 'Strikeout avoidance 20-80 (inverted K% — lower K rate scores higher).',
-  CONTACT_QUALITY: 'xwOBA-on-contact 20-80 — quality of contact, not quantity. Higher = better.',
-  SPRAY_PROFILE: 'Pull-side fly ball rate 20-80. Higher = more pulled-FB damage.',
+  CONTACT_QUALITY: 'xwOBA-on-contact 20-80 — quality of contact, not quantity. Higher = better. Forward-FP weight ~0 (2026-07-04) — use as the xwOBACON DIAGNOSTIC (slump/luck read), not a forward signal.',
+  SPRAY_PROFILE: 'Pull-side fly ball rate 20-80. Higher = more pulled-FB damage. Forward-FP weight ~0 (2026-07-04) — style descriptor.',
   RAW_POWER: 'Raw exit velocity 20-80 (EV90 — 90th-pct EV). Higher = harder contact.',
   LAUNCH_OPTIM: 'Launch angle optimization 20-80 (Barrel% + HardHit% blend). Higher = better.',
   DAMAGE_PROD: 'Damage production 20-80 (ISO + HR/PA blend). Higher = more pop.',
@@ -3043,10 +3043,10 @@ const COL_TOOLTIPS = {
   // RP-specific columns
   g: 'Games appeared',
   sv: 'Saves',
-  hld: 'Holds',
+  hld: 'Holds. NOTE: anti-signal for forward RP FP (half as sticky as saves, fwd −.08) — never weight holds like saves when projecting.',
   ip_per_appearance: 'Innings per outing — BULK_IP rating substrate',
   fp_per_g: 'Fantasy points per game appearance: (K+IP*3.3−H−2*ER−BB−HBP+5*SV+2*HLD) / G',
-  BATTED_BALL: 'Batted-ball domain 20-80: 0.50 GB% + 0.50 BULK_IP — RP only',
+  BATTED_BALL: 'Batted-ball domain 20-80: 0.50 GB% + 0.50 BULK_IP — RP only. Forward FP ~ZERO (2026-07-04) — excluded from FPwt.',
   BULK_IP: 'Multi-inning capacity 20-80 — IP per appearance',
   VELO: 'Average fastball velocity 20-80',
   gmli: 'Game-entry leverage index from FanGraphs — average leverage at moment of entry',
