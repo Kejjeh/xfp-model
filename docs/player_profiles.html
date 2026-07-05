@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Player Profiles — Archetype Browser</title>
+<title>Player Profiles — Expected Performance (Statcast &amp; Ratings)</title>
+<meta name="description" content="Expected / talent-level performance from Statcast, bat tracking, Stuff+, the 20-80 archetype ratings, and the rh3/rp3/rprs2 model projections. NOT a record of actual results (HR/RBI/R, W/L, ERA, realized FP).">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +43,14 @@ header { border-bottom: 1px solid var(--border); padding: .9em 0;
               flex-wrap: wrap; gap: 1.2em; }
 h1 { color: var(--accent); margin: 0; font-size: 2em; font-weight: 700;
      letter-spacing: .01em; line-height: 1.15; }
+/* Expected-Performance framing (2026-07-04) */
+.page-tagline { color: var(--dim); font-size: .5em; font-weight: 600; letter-spacing: .04em;
+     text-transform: uppercase; vertical-align: middle; margin-left: .4em; }
+.page-subtitle { color: var(--text); font-size: .95em; margin: .25em 0 .3em; max-width: 70ch; }
+.page-scopenote { color: var(--dim); font-size: .8em; border-left: 3px solid var(--accent);
+     padding-left: .6em; margin: .3em 0 .5em; max-width: 90ch; line-height: 1.5; }
+.page-scopenote code { color: var(--text); font-size: .95em; }
+.col-actual { color: var(--dim); font-style: italic; font-weight: 400; }
 h2 { color: var(--text); margin-top: 2em; font-size: 1.5em; font-weight: 600;
      border-bottom: 1px solid var(--border); padding-bottom: .35em;
      letter-spacing: .01em; line-height: 1.2; }
@@ -564,14 +573,10 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
 <header>
 <div class="header-row">
   <div>
-    <h1>Player Profiles</h1>
-    <nav class="topnav">
-      <a href="index.html">XFP</a>
-      <a href="matchup.html">Matchup</a>
-      <a href="live_dashboard.html">Live</a>
-      <a class="current">Profiles</a>
-      <a href="triangulate.html">Triangulate</a>
-    </nav>
+    <h1>Player Profiles <span class="page-tagline">Expected Performance</span></h1>
+    <p class="page-subtitle">What a player's underlying skill says to <b>expect</b> — from Statcast, bat tracking, Stuff+, the 20-80 archetype ratings, and the rh3/rp3/rprs2 model projections.</p>
+    <p class="page-scopenote"><b>What this is:</b> talent &amp; process, forward-looking. &nbsp;<b>What this is NOT:</b> a box score — no realized HR/RBI/R, W/L, ERA, or actual FP totals. Columns tagged <span class="col-actual">· actual</span> appear only as validation / usage context. &nbsp;·&nbsp; <b>Distinct from the xFP board</b> (<code>index.html</code> — "V12 · SP xFP Model"): that board <i>ranks</i> your roster + FAs + league by projected fantasy points for start / add / drop calls; this page is the <b>scouting layer beneath it</b> — the expected-skill ratings &amp; archetype process that explain why a player projects the way they do.</p>
+    <nav class="topnav"><a href="index.html">XFP</a><a href="matchup.html">Matchup</a><a href="live_dashboard.html">Live</a><a href="xfp_board.html">xFP Board</a><a class="current">Profiles</a><a href="triangulate.html">Triangulate</a></nav>
   </div>
   <div class="search-wrap">
     <input id="search-input" type="text" placeholder="Search any hitter or pitcher…" autocomplete="off">
@@ -627,6 +632,24 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
   <details>
     <summary>Glossary &amp; methodology</summary>
     <div class="glossary">
+      <p><b>What this dashboard is.</b> An <b>expected-performance</b> surface: it
+      grades a player's underlying skill from Statcast, bat tracking, Stuff+ and
+      the 20-80 archetype ratings, and pairs that with the rh3/rp3/rprs2 model
+      projections. It answers "what should we expect," not "what happened." Realized
+      results (HR/RBI/R, W/L, ERA, actual FP totals) are out of scope; the columns
+      tagged <span class="col-actual">· actual</span> (FP/PA, FP/start, FP/g, Rank,
+      and usage counts) are kept only so you can eyeball whether the expected grade
+      tracks realized output — they never drive the default view (every table sorts
+      by the expected Overall grade).</p>
+      <p><b>Distinct from the xFP board</b> (<code>index.html</code> — the
+      "V12 PRODUCTION (V11 + IL) · SP xFP Model" page). That board is the
+      <b>decision surface</b>: it ranks your roster, the FA pool, and league leaders
+      by the model's <b>projected fantasy points</b> (rh3 for hitters, rp3 for SPs),
+      with My-Team, Team Audit, Analysis and Advisory tabs — it answers "who to
+      start, add, or drop." This page is the <b>scouting layer beneath it</b>: the
+      20-80 expected-skill ratings and the archetype process that explain <i>why</i>
+      a player projects the way they do. Same models, two altitudes — the xFP board
+      is the bottom-line ranking; Profiles is the talent/process behind the number.</p>
       <p><b>20-80 scale.</b> 50 = league mean for that year, 10 points = 1 SD,
       capped to [20, 80]. PLUS = ≥60, AVG = 40–59, MINUS = &lt;40.</p>
       <p><b>27-cell archetype matrix.</b> Hitters: every combination of
@@ -641,6 +664,22 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       / Control 0.15 (n=1,205, R²=0.74).</i> Year-by-year weights vary by
       ±2-3pp. Overall correlates with realized FP rate at r=0.86 (hitters)
       and r=0.81 (SPs).</p>
+      <p><b>FPwt</b> (<code>Overall_FP</code>). A parallel, <i>FP-faithful</i>
+      reweighting of the same domains, tuned to forward-predict next-period
+      fantasy output rather than describe same-year skill. Weights: hitters
+      <i>0.58 Contact / 0.17 Power / 0.17 SB / 0.08 Discipline</i> — SB is
+      <i>included</i> here because steals score points, whereas the archetype
+      Overall treats SB as an overlay; SPs <i>0.76 Stuff / 0.14 Movement /
+      0.10 Control</i>; RPs <i>role-first</i> (0.55 z-saves + 0.35 Stuff +
+      0.10 z-FP/g). In the 2026 CV-by-year refit it forward-predicts modestly
+      better than the shipped Overall (hitters .515 vs .477, SPs .577 vs .551).
+      <b>FPwt·s</b> is the sub-rating-level variant (better still — SPs .590,
+      hitters .548). <b>Display/context only (Rule 13)</b> — a diagnostic beside
+      Overall, never a projection; the headline stays rh3/rp3/rprs2 / Blended xFP.</p>
+      <p><b>Reliever role tags.</b> CLOSER / SETUP / HIGH-LEVERAGE / FIREMAN /
+      MULTI-INNING-BULK describe how a reliever is <i>used</i> — derived from
+      saves, holds, leverage and innings-per-appearance. They contextualize
+      fantasy value (saves + holds score) but do not feed the 20-80 ratings.</p>
       <p><b>Sub-domains.</b> Each domain decomposes into conceptually distinct
       sub-ratings (all 20-80), shown in the per-player modal's Composition tab and the
       "Sub-domain ratings" section at the bottom of each tab.</p>
@@ -738,10 +777,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="DISCIPLINE">Discipline</option>
       <option value="SB">SB</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rh3">rh3 (xFP/g)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_pa">FP/PA (actual)</option>
       </optgroup>
     </select>
@@ -754,10 +795,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="DISCIPLINE">Discipline</option>
       <option value="SB">SB</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rh3">rh3 (xFP/g)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_pa">FP/PA (actual)</option>
       </optgroup>
     </select>
@@ -890,10 +933,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="CONTROL">Control</option>
       <option value="velo_rating">Velo</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rp3">rp3 (xFP/start)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_start">FP/start (actual)</option>
       </optgroup>
     </select>
@@ -906,10 +951,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="CONTROL">Control</option>
       <option value="velo_rating">Velo</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rp3">rp3 (xFP/start)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_start">FP/start (actual)</option>
       </optgroup>
     </select>
@@ -1013,10 +1060,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="BATTED_BALL" selected>Batted-ball</option>
       <option value="velo_rating">Velo</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rprs2">rprs2 (xFP RoS)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_g">FP/g (actual)</option>
       </optgroup>
     </select>
@@ -1029,10 +1078,12 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
       <option value="BATTED_BALL">Batted-ball</option>
       <option value="velo_rating">Velo</option>
       </optgroup>
-      <optgroup label="Models &amp; FP">
+      <optgroup label="Projections (expected)">
       <option value="rprs2">rprs2 (xFP RoS)</option>
       <option value="t1_fp_projection">Archetype T+1</option>
       <option value="t2_fp_projection">Archetype T+2</option>
+      </optgroup>
+      <optgroup label="Validation — actual results">
       <option value="fp_per_g">FP/g (actual)</option>
       </optgroup>
     </select>
@@ -1098,7 +1149,7 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
     <div id="modal-content"></div>
   </div>
 </div>
-<div class="meta">Generated 2026-07-04 14:31 · 4896 hitter-years · 2032 SP-years · 2433 RP-years · years 2015–2026</div>
+<div class="meta" id="pp-meta"></div><script>window.addEventListener("DOMContentLoaded",function(){var d=window.PROFILES_DATA;var m=document.getElementById("pp-meta");if(!m||!d||!d.years)return;m.textContent="Generated "+d.last_refresh+" \u00b7 "+d.hitters.length+" hitter-years \u00b7 "+d.sps.length+" SP-years \u00b7 "+((d.rps&&d.rps.length)||0)+" RP-years \u00b7 years "+d.years[0]+"\u2013"+d.years[d.years.length-1];});</script>
 </div><!-- /.wrap -->
 <script src="player_profiles_data.js"></script>
 
@@ -1362,9 +1413,11 @@ const state = {
   // Archetype-roster table state (each archetype block is independently
   // sorted by FP rate desc by default; the dropdown narrows to a single
   // archetype, the search box filters rows across all visible blocks).
-  hArchSort:  { col: 'fp_per_pa',    dir: 'desc' },
-  sArchSort:  { col: 'fp_per_start', dir: 'desc' },
-  rpArchSort: { col: 'fp_per_g',     dir: 'desc' },
+  // Default sort = EXPECTED grade (OVERALL 20-80), not realized FP (2026-07-04).
+  // The dashboard's front door ranks by expected skill; FP/PA etc. stay one click away.
+  hArchSort:  { col: 'OVERALL', dir: 'desc' },
+  sArchSort:  { col: 'OVERALL', dir: 'desc' },
+  rpArchSort: { col: 'OVERALL', dir: 'desc' },
   hArchQuery: '',
   sArchQuery: '',
   rpArchQuery: '',
@@ -1641,6 +1694,23 @@ function renderQuadrant(divId, rDispId, rows, xKey, yKey, role, opts) {
 // text?, fmt?, domain?, idCol?, teamCol?}. `domain` flags a numeric domain
 // cell that should expose the existing hover tooltip showing sub-domain
 // component ratings (same UX as the alltable).
+// Compact trajectory chip for the archetype tables — surfaces the same
+// rising/falling read the modal hero shows (traj_flag) at table-scan level, so
+// the scouting story includes career DIRECTION, not just the current grade.
+// Display/context only (Rule 13); the arrow never re-ranks anything.
+function trajChip(v) {
+  if (!v || v === 'STABLE') return '<span style="color:var(--faint)">·</span>';
+  const up = v === 'TRENDING_UP' || v === 'CAREER_HIGH';
+  const dn = v === 'TRENDING_DOWN' || v === 'CAREER_LOW';
+  const arrow = up ? '▲' : dn ? '▼' : '·';
+  const col = up ? 'pos' : dn ? 'neg' : 'dim';
+  const tip = v === 'TRENDING_UP'   ? 'Trending up — 3-yr Overall slope ≥ +3/yr'
+            : v === 'TRENDING_DOWN' ? 'Trending down — 3-yr Overall slope ≤ -3/yr'
+            : v === 'CAREER_HIGH'   ? 'Career high — ≥90th career percentile'
+            : v === 'CAREER_LOW'    ? 'Career low — ≤10th career percentile' : '';
+  return `<span style="color:var(--${col})" title="${tip}">${arrow}</span>`;
+}
+
 const H_ARCH_COLS = [
   { key: '_n',            label: '#',        num: true, text: true },  // rank within block
   { key: 'player_name',   label: 'Player',   text: true, idCol: true },
@@ -1651,11 +1721,12 @@ const H_ARCH_COLS = [
   { key: 'DISCIPLINE',    label: 'D',        num: true, domain: 'DISCIPLINE' },
   { key: 'SB',            label: 'SB',       num: true, domain: 'SB' },
   { key: 'sb_tier',       label: 'SB tier',  text: true, pretty: true },
+  { key: 'traj_flag',     label: 'Trend',    text: true, fmt: trajChip },
   { key: 'age_tier',      label: 'Age',      text: true, pretty: true },
   { key: 'boundary_tier', label: 'Bnd',      text: true, pretty: true },
-  { key: 'fp_per_pa',     label: 'FP/PA',    num: true,
+  { key: 'fp_per_pa',     label: 'FP/PA·act', num: true, actual: true,
     fmt: v => (v == null ? '' : (+v).toFixed(3)) },
-  { key: 'rank_in_year',  label: 'Rank',     num: true },
+  { key: 'rank_in_year',  label: 'Rank·act', num: true, actual: true },
 ];
 
 const S_ARCH_COLS = [
@@ -1667,11 +1738,12 @@ const S_ARCH_COLS = [
   { key: 'CONTROL',       label: 'C',        num: true, domain: 'CONTROL' },
   { key: 'velo_rating',   label: 'Velo',     num: true },
   { key: 'velo_tier',     label: 'Velo tier',text: true, pretty: true },
+  { key: 'traj_flag',     label: 'Trend',    text: true, fmt: trajChip },
   { key: 'age_tier',      label: 'Age',      text: true, pretty: true },
   { key: 'boundary_tier', label: 'Bnd',      text: true, pretty: true },
-  { key: 'fp_per_start',  label: 'FP/start', num: true,
+  { key: 'fp_per_start',  label: 'FP/start·act', num: true, actual: true,
     fmt: v => (v == null ? '' : (+v).toFixed(2)) },
-  { key: 'rank_in_year',  label: 'Rank',     num: true },
+  { key: 'rank_in_year',  label: 'Rank·act', num: true, actual: true },
 ];
 
 const RP_ARCH_COLS = [
@@ -1683,11 +1755,12 @@ const RP_ARCH_COLS = [
   { key: 'BATTED_BALL',   label: 'BB',       num: true, domain: 'BATTED_BALL' },
   { key: 'velo_rating',   label: 'Velo',     num: true },
   { key: 'leverage_tier', label: 'Lev',      text: true, pretty: true },
+  { key: 'traj_flag',     label: 'Trend',    text: true, fmt: trajChip },
   { key: 'age_tier',      label: 'Age',      text: true, pretty: true },
   { key: 'boundary_tier', label: 'Bnd',      text: true, pretty: true },
-  { key: 'fp_per_g',      label: 'FP/g',     num: true,
+  { key: 'fp_per_g',      label: 'FP/g·act', num: true, actual: true,
     fmt: v => (v == null ? '' : (+v).toFixed(2)) },
-  { key: 'rank_in_year',  label: 'Rank',     num: true },
+  { key: 'rank_in_year',  label: 'Rank·act', num: true, actual: true },
 ];
 
 // Same DOMAIN_SUBS table as renderAllTable uses — preserves the existing
@@ -1852,8 +1925,8 @@ function renderArchetypeTables(rows, role, targetId) {
          +  `</summary>`
          +  `<div class="arch-table-scroll"><table class="archtable"><thead><tr>`;
     cols.forEach(c => {
-      const cls = (c.num ? 'num ' : '') + (sort.col === c.key ? `sort-${sort.dir}` : '');
-      html += `<th class="${cls.trim()}" data-col="${c.key}">${c.label}</th>`;
+      const cls = (c.num ? 'num ' : '') + (c.actual ? 'col-actual ' : '') + (sort.col === c.key ? `sort-${sort.dir}` : '');
+      html += `<th class="${cls.trim()}" data-col="${c.key}" title="${c.actual ? 'actual / realized — validation &amp; usage context, not expected performance' : ''}">${c.label}</th>`;
     });
     html += '</tr></thead><tbody>';
     sortedRs.forEach((r, i) => {
@@ -1880,7 +1953,7 @@ function renderArchetypeTables(rows, role, targetId) {
           html += `<td class="num domain-cell">${display}${tip}</td>`;
           return;
         }
-        const cellCls = c.num ? 'num' : '';
+        const cellCls = (c.num ? 'num' : '') + (c.actual ? ' col-actual' : '');
         html += `<td class="${cellCls}">${display}</td>`;
       });
       html += '</tr>';
@@ -1937,11 +2010,18 @@ function renderLeaderboard(rows, role, targetId) {
               :                     'fp_per_start';
   const modalRole = role === 'hitter' ? 'hitter' : 'sp';
   const idKey = role === 'hitter' ? 'batter' : 'pitcher';
-  const top = rows.slice().sort((a,b) => (b[fpKey]||0) - (a[fpKey]||0)).slice(0, 15);
+  // Rank the leaderboard by the EXPECTED grade (Overall), not realized FP —
+  // this is the scouting/expected-performance surface. FP rate stays as a
+  // trailing ·act validation column so you can eyeball whether the grade tracks
+  // output. Tie-break by FP rate.
+  const top = rows.slice()
+    .sort((a,b) => (b.OVERALL||0) - (a.OVERALL||0) || (b[fpKey]||0) - (a[fpKey]||0))
+    .slice(0, 15);
+  const fpActLabel = role === 'hitter' ? 'FP/PA·act' : role === 'rp' ? 'FP/g·act' : 'FP/start·act';
   let html = '<table><thead><tr><th class="num">#</th><th>Player</th><th class="num">Overall</th><th class="num">T+1</th>';
-  if      (role === 'hitter') html += '<th class="num">C</th><th class="num">P</th><th class="num">D</th><th class="num">SB</th><th>Archetype</th><th class="num">FP/PA</th>';
-  else if (role === 'rp')     html += '<th class="num">S</th><th class="num">C</th><th class="num">BB</th><th>Archetype</th><th class="num">FP/g</th>';
-  else                        html += '<th class="num">S</th><th class="num">M</th><th class="num">C</th><th>Archetype</th><th class="num">FP/start</th>';
+  if      (role === 'hitter') html += `<th class="num">C</th><th class="num">P</th><th class="num">D</th><th class="num">SB</th><th>Archetype</th><th class="num col-actual" title="actual / realized — validation, not expected">${fpActLabel}</th>`;
+  else if (role === 'rp')     html += `<th class="num">S</th><th class="num">C</th><th class="num">BB</th><th>Archetype</th><th class="num col-actual" title="actual / realized — validation, not expected">${fpActLabel}</th>`;
+  else                        html += `<th class="num">S</th><th class="num">M</th><th class="num">C</th><th>Archetype</th><th class="num col-actual" title="actual / realized — validation, not expected">${fpActLabel}</th>`;
   html += '</tr></thead><tbody>';
   top.forEach((r, i) => {
     const t1 = r.t1_fp_projection;
@@ -1953,15 +2033,15 @@ function renderLeaderboard(rows, role, targetId) {
     if (role === 'hitter') {
       html += `<td class="num">${r.CONTACT}</td><td class="num">${r.POWER}</td>`
             + `<td class="num">${r.DISCIPLINE}</td><td class="num">${r.SB}</td>`
-            + `<td>${prettyLabel(r.archetype)}</td><td class="num">${(r.fp_per_pa||0).toFixed(3)}</td>`;
+            + `<td>${prettyLabel(r.archetype)}</td><td class="num col-actual">${(r.fp_per_pa||0).toFixed(3)}</td>`;
     } else if (role === 'rp') {
       html += `<td class="num">${r.STUFF}</td><td class="num">${r.CONTROL}</td>`
             + `<td class="num">${r.BATTED_BALL}</td>`
-            + `<td>${prettyLabel(r.archetype)}</td><td class="num">${(r.fp_per_g||0).toFixed(2)}</td>`;
+            + `<td>${prettyLabel(r.archetype)}</td><td class="num col-actual">${(r.fp_per_g||0).toFixed(2)}</td>`;
     } else {
       html += `<td class="num">${r.STUFF}</td><td class="num">${r.MOVEMENT}</td>`
             + `<td class="num">${r.CONTROL}</td>`
-            + `<td>${prettyLabel(r.archetype)}</td><td class="num">${(r.fp_per_start||0).toFixed(2)}</td>`;
+            + `<td>${prettyLabel(r.archetype)}</td><td class="num col-actual">${(r.fp_per_start||0).toFixed(2)}</td>`;
     }
     html += '</tr>';
   });
@@ -2302,7 +2382,7 @@ function openModal(role, id) {
   // Boom / Bust / Variance — SPs (pre-computed), hitters (placeholder).
   // Always shown for pitchers so deep-links (?player=ID&tab=boom) land reliably.
   const _boomEligible = (role === 'sp') || (role === 'hitter');
-  if (_boomEligible) tabs += '<button data-mtab="boom">Boom / Bust / Variance</button>';
+  if (_boomEligible) tabs += '<button data-mtab="boom" title="Forward-looking: projects P(boom)/P(bust) for the player\'s NEXT start/game from current skill — not a look-back at past results. (For historical actuals, see /boom-bust-history.)">Boom / Bust / Variance</button>';
   tabs += '</div>';
 
   // ── Year table header + rows (shared by years panel) ──
@@ -2998,6 +3078,7 @@ const COL_TOOLTIPS = {
   t2_fp_projection: 'Two-year-out FP rate projection (T+2). Hitters: R²=0.28 on n=531 pairs (age coefficient sharper than T+1). SP R²=0.39. RP R²=0.26. Directional for dynasty/keeper.',
   OVERALL: 'Composite 20-80 rating: 0.55*CONTACT + 0.35*POWER + 0.10*DISCIPLINE (hitters) or empirical weights (pitchers). CAVEAT (2026-07-04 study): these weights describe SKILL, not fantasy value — the hitter version forward-predicts FP worse than last year FP alone. For FP-faithful weighting see FPwt. Feeds Blended xFP as a fitted prior — construction frozen pending /validate-feature.',
   OVERALL_FP: 'FP-faithful parallel composite (display-only, rating_reimagine 2026-07-04). Hitters .58*CONTACT+.17*POWER+.17*SB+.08*DISC (fwd r .515 vs OVERALL .477). SP .76*STUFF+.14*MOVE+.10*CTRL (fwd .577 vs .551). RP role-first .55*z(SV)+.35*STUFF+.10*z(FP/g) — CONTROL/BATTED_BALL carry zero forward FP and holds are anti-signal. Rule 13: context lens, never a ranker; rp3/rh3/rprs2 stay the headline.',
+  OVERALL_FP_SUB: 'EXPERIMENTAL sub-rating FPwt variant (item 7, display-only). Reweights the finer SUB-ratings instead of the pillars — SP is SWING_MISS-dominant (fwd r .590 vs FPwt-pillars .577); hitter uses RAW_POWER+K_AVOIDANCE leads (fwd .548 vs .515). A DIAGNOSTIC beside FPwt: when it disagrees with FPwt the sub-tools and the pillar rollup are telling different stories. Rule 13: context only, never a ranker. (No RP variant — RP FP is job-security-driven.)',
   CONTACT: 'Contact domain 20-80 rating — within-year z-score of (Z-contact + Chase-contact + K-avoid + Quality + Spray). Higher = better. THE load-bearing hitter pillar for FP (fwd r .47; carries ~58% of FP-faithful weight).',
   POWER: 'Power domain 20-80 rating — within-year z-score of (Raw EV + Launch + Damage production). Higher = better. FP-faithful weight ~17% (fwd r .25 — half its shipped weight); not rescued by high contact (interaction dead).',
   DISCIPLINE: 'Discipline domain 20-80 rating — within-year z-score of (Patience + Aggression). Higher = better. Near-zero forward FP weight for BrownU points (~8% FP-faithful) — skill descriptor, not a fantasy driver.',
@@ -3071,12 +3152,13 @@ const H_TBL_COLS = [
   { key: 'lineup_role_tier', label: 'Lineup', text: true, cat: true, pretty: true, w: 5, core: true },
   { key: 'mean_lineup_spot', label: 'Spot', num: true, w: 3, fmt: v => (v == null ? '' : (+v).toFixed(1)) },
   { key: 'year',        label: 'Yr',  num: true, w: 2, core: true },
-  { key: 'pa',          label: 'PA',  num: true, w: 2, core: true },
-  { key: 'fp_per_pa',   label: 'FP/PA', num: true, w: 4, core: true, fmt: v => (v == null ? '' : v.toFixed(3)) },
+  { key: 'pa',          label: 'PA',  num: true, actual: true, w: 2, core: true },
+  { key: 'fp_per_pa',   label: 'FP/PA·act', num: true, actual: true, w: 4, core: true, fmt: v => (v == null ? '' : v.toFixed(3)) },
   { key: 't1_fp_projection', label: 'T+1', num: true, w: 4, core: true, fmt: v => (v == null ? '' : v.toFixed(3)) },
   { key: 't2_fp_projection', label: 'T+2', num: true, w: 4, fmt: v => (v == null ? '' : v.toFixed(3)) },
   { key: 'OVERALL',     label: 'Overall', num: true, bold: true, w: 4, core: true },
   { key: 'OVERALL_FP',  label: 'FPwt', num: true, w: 4, core: true },
+  { key: 'OVERALL_FP_SUB', label: 'FPwt·s', num: true, w: 4 },
   { key: 'CONTACT',     label: 'C',   labelFull: 'Contact', num: true, w: 3, core: true },
   { key: 'POWER',       label: 'P',   labelFull: 'Power', num: true, w: 3, core: true },
   { key: 'DISCIPLINE',  label: 'D',   labelFull: 'Disc', num: true, w: 3, core: true },
@@ -3091,17 +3173,18 @@ const H_TBL_COLS = [
   { key: 'age_tier',            label: 'Age tier', text: true, cat: true, pretty: true, w: 5 },
   { key: 'boundary_tier',       label: 'Bnd', text: true, cat: true, pretty: true, w: 3 },
   { key: 'data_tier',           label: 'Tier', text: true, cat: true, pretty: true, w: 3 },
-  { key: 'rank_in_year',        label: 'Rank', num: true, w: 2 },
+  { key: 'rank_in_year',        label: 'Rank·act', num: true, actual: true, w: 2 },
 ];
 
 const S_TBL_COLS = [
   { key: 'player_name', label: 'Pitcher', text: true, w: 14, core: true },
   { key: 'year',        label: 'Yr',  num: true, w: 2, core: true },
-  { key: 'gs',          label: 'GS',  num: true, w: 3, core: true },
-  { key: 'tbf',         label: 'TBF', num: true, w: 3 },
-  { key: 'fp_per_start', label: 'FP/start', num: true, w: 4, core: true, fmt: v => (v == null ? '' : v.toFixed(2)) },
+  { key: 'gs',          label: 'GS',  num: true, actual: true, w: 3, core: true },
+  { key: 'tbf',         label: 'TBF', num: true, actual: true, w: 3 },
+  { key: 'fp_per_start', label: 'FP/start·act', num: true, actual: true, w: 4, core: true, fmt: v => (v == null ? '' : v.toFixed(2)) },
   { key: 'OVERALL',     label: 'Overall', num: true, bold: true, w: 4, core: true },
   { key: 'OVERALL_FP',  label: 'FPwt', num: true, w: 4, core: true },
+  { key: 'OVERALL_FP_SUB', label: 'FPwt·s', num: true, w: 4 },
   { key: 'STUFF',       label: 'S',   labelFull: 'Stuff', num: true, w: 3, core: true },
   { key: 'MOVEMENT',    label: 'M',   labelFull: 'Move', num: true, w: 3, core: true },
   { key: 'CONTROL',     label: 'C',   labelFull: 'Ctrl', num: true, w: 3, core: true },
@@ -3115,7 +3198,7 @@ const S_TBL_COLS = [
   { key: 'age_tier',            label: 'Age tier', text: true, cat: true, pretty: true, w: 4 },
   { key: 'boundary_tier',       label: 'Bnd', text: true, cat: true, pretty: true, w: 3 },
   { key: 'data_tier',           label: 'Tier', text: true, cat: true, pretty: true, w: 2 },
-  { key: 'rank_in_year',        label: 'Rank', num: true, w: 2 },
+  { key: 'rank_in_year',        label: 'Rank·act', num: true, actual: true, w: 2 },
 ];
 
 // RP all-players table — drops MOVEMENT/gs/tbf/fp_per_start schema bridges
@@ -3128,11 +3211,11 @@ const RP_TBL_COLS = [
   { key: 'player_name', label: 'Reliever', text: true, w: 14, core: true },
   { key: 'team',        label: 'Tm', text: true, cat: true, w: 4, core: true },
   { key: 'year',        label: 'Yr',  num: true, w: 2, core: true },
-  { key: 'g',           label: 'G',   num: true, w: 2, core: true },
-  { key: 'sv',          label: 'SV',  num: true, w: 2, core: true },
-  { key: 'hld',         label: 'HLD', num: true, w: 2, core: true },
-  { key: 'ip_per_appearance', label: 'IP/g', num: true, w: 3, fmt: v => (v == null ? '' : (+v).toFixed(2)) },
-  { key: 'fp_per_g',    label: 'FP/g', num: true, w: 4, core: true, fmt: v => (v == null ? '' : (+v).toFixed(2)) },
+  { key: 'g',           label: 'G',   num: true, actual: true, w: 2, core: true },
+  { key: 'sv',          label: 'SV',  num: true, actual: true, w: 2, core: true },
+  { key: 'hld',         label: 'HLD', num: true, actual: true, w: 2, core: true },
+  { key: 'ip_per_appearance', label: 'IP/g', num: true, actual: true, w: 3, fmt: v => (v == null ? '' : (+v).toFixed(2)) },
+  { key: 'fp_per_g',    label: 'FP/g·act', num: true, actual: true, w: 4, core: true, fmt: v => (v == null ? '' : (+v).toFixed(2)) },
   { key: 'OVERALL',     label: 'Overall', num: true, bold: true, w: 4, core: true },
   { key: 'OVERALL_FP',  label: 'FPwt', num: true, w: 4, core: true },
   { key: 'STUFF',       label: 'S',   labelFull: 'Stuff', num: true, w: 3, core: true },
@@ -3145,13 +3228,13 @@ const RP_TBL_COLS = [
   { key: 'leverage_tier',       label: 'Lev', text: true, cat: true, pretty: true, w: 4, core: true },
   { key: 'CLOSER',              label: 'Closer', text: true, cat: true, w: 3, core: true },
   { key: 'FIREMAN',             label: 'Fire', text: true, cat: true, w: 3 },
-  { key: 'inherited_stranded_pct', label: 'IR-S%', num: true, w: 4, fmt: v => (v == null ? '' : (+v).toFixed(0)) },
+  { key: 'inherited_stranded_pct', label: 'IR-S%·act', num: true, actual: true, w: 4, fmt: v => (v == null ? '' : (+v).toFixed(0)) },
   { key: 'MULTI_INNING_BULK',   label: 'Bulk', text: true, cat: true, w: 3 },
   { key: 'age',                 label: 'Age', num: true, w: 2, core: true },
   { key: 'age_tier',            label: 'Age tier', text: true, cat: true, pretty: true, w: 4 },
   { key: 'boundary_tier',       label: 'Bnd', text: true, cat: true, pretty: true, w: 3 },
   { key: 'data_tier',           label: 'Tier', text: true, cat: true, pretty: true, w: 2 },
-  { key: 'rank_in_year',        label: 'Rank', num: true, w: 2 },
+  { key: 'rank_in_year',        label: 'Rank·act', num: true, actual: true, w: 2 },
 ];
 
 // Sub-domain tables — focused on the intermediate-layer ratings.
@@ -3592,7 +3675,7 @@ function tblSortRows(rows, sort, cols) {
 // 20-80 rating chip helpers — every rating cell renders as a color-banded chip
 // so a 74 reads as elite at a glance (2026-07-04 readability feedback).
 const RATING_CHIP_KEYS = new Set([
-  'OVERALL', 'OVERALL_FP', 'CONTACT', 'POWER', 'DISCIPLINE', 'SB', 'STUFF', 'MOVEMENT', 'CONTROL',
+  'OVERALL', 'OVERALL_FP', 'OVERALL_FP_SUB', 'CONTACT', 'POWER', 'DISCIPLINE', 'SB', 'STUFF', 'MOVEMENT', 'CONTROL',
   'BATTED_BALL', 'velo_rating', 'VELO', 'SWING_MISS', 'CALLED_STRIKE', 'WALK_AVOID',
   'STRIKE_THROWING', 'DAMAGE_SUPP', 'GB_TENDENCY', 'BULK_IP', 'Z_CONTACT', 'O_CONTACT',
   'K_AVOIDANCE', 'CONTACT_QUALITY', 'SPRAY_PROFILE', 'RAW_POWER', 'LAUNCH_OPTIM',
@@ -3706,7 +3789,7 @@ function renderAllTable(rows, role, kind) {
   h += '<thead><tr>';
   h += '<th class="num"><div class="th-inner"><span class="th-label" title="Row number within current sort/filter">#</span></div></th>';
   cols.forEach(c => {
-    const cls = (c.num ? 'num ' : '') + (sort.col === c.key ? `sort-${sort.dir}` : '');
+    const cls = (c.num ? 'num ' : '') + (c.actual ? 'col-actual ' : '') + (sort.col === c.key ? `sort-${sort.dir}` : '');
     const isFilterable = !!(c.cat || c.num);
     const hasFilter = !!filters[c.key];
     const lbl = c.labelFull || c.label;
@@ -3730,7 +3813,7 @@ function renderAllTable(rows, role, kind) {
       if (c.fmt) v = c.fmt(v);
       else if (c.pretty) v = (v == null ? '' : prettyLabel(v));
       else if (v == null) v = '';
-      const cellCls = (c.num ? 'num' : '') + (c.key === 'player_name' ? ' player' : '');
+      const cellCls = (c.num ? 'num' : '') + (c.actual ? ' col-actual' : '') + (c.key === 'player_name' ? ' player' : '');
       const tier = r.data_tier === 'PARTIAL' && c.key === 'player_name' ? partialBadge(r) : '';
       let display = c.bold ? `<b>${v}</b>` : v;
       // 20-80 ratings render as color-banded chips (band from the RAW value,
