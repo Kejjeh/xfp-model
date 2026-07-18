@@ -219,8 +219,13 @@ td.player:hover { text-decoration: underline; }
 /* Alltable lives inside .table-scroll. Since fixed-layout fits 100%, the
    wrapper no longer needs to scroll — and `overflow: visible` is required so
    the per-column filter popover and the domain hover tooltip aren't clipped. */
-.table-scroll:has(table.alltable) { overflow: visible; }
-table.alltable { width: 100%; table-layout: fixed; margin-bottom: 0;
+/* 2026-07-18: fixed layout crushed columns until headers were unreadable.
+   Columns now size to their content (headers set the floor) and the wrapper
+   scrolls horizontally when the table outgrows the viewport. Tradeoff: a
+   filter popover near the right edge can clip against the scroll wrapper. */
+.table-scroll:has(table.alltable) { overflow-x: auto; }
+table.alltable { width: max-content; min-width: 100%; table-layout: auto;
+    margin-bottom: 0;
     /* Bumped from inherited .87em so rows are comfortably readable at 1080p.
        Numeric tabular alignment is preserved via font-variant-numeric on td. */
     font-size: 1em; }
