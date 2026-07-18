@@ -124,6 +124,10 @@ section[id] { scroll-margin-top: 160px; }
 .modal-hero { display: flex; justify-content: space-between; align-items: center;
               padding: 1em 0 1.2em 0; border-bottom: 1px solid var(--border);
               margin-bottom: 1em; gap: 1em; flex-wrap: wrap; }
+.tri-xlink { font-size: .5em; font-weight: 500; margin-left: .9em; color: var(--dim);
+             text-decoration: none; border: 1px solid var(--border); border-radius: 3px;
+             padding: .25em .6em; vertical-align: middle; }
+.tri-xlink:hover { color: var(--accent); border-color: var(--accent); }
 .modal-hero .hero-name { font-size: 1.6em; font-weight: 700; color: var(--accent);
                           font-family: 'Source Serif 4', serif; }
 .modal-hero .hero-meta { color: var(--dim); font-family: 'IBM Plex Mono', monospace;
@@ -2267,7 +2271,7 @@ function openModal(role, id) {
 
   // ── Hero block ──
   let hero = `<div class="modal-hero">`;
-  hero += `<div><div class="hero-name">${last.player_name}${partialBadge(last)}</div>`;
+  hero += `<div><div class="hero-name">${last.player_name}${partialBadge(last)}<a class="tri-xlink" href="triangulate.html#p=${encodeURIComponent(last.player_name)}" title="Three-lens verdict card">verdict →</a></div>`;
   hero += `<div class="hero-meta">`;
   if (role === 'hitter') hero += `Latest: ${last.team || '—'} · age ${last.age ?? '?'} (${prettyLabel(last.age_tier)})`;
   else                    hero += `Latest: age ${last.age ?? '?'} (${prettyLabel(last.age_tier)})`;
