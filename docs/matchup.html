@@ -7,25 +7,53 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #1a1815;
-  --panel: #211e1a;
-  --stripe: #1d1b17;
-  --border: #34302a;
-  --text: #f5f1ea;
-  --dim: #a89e8a;
-  --faint: #3a352e;
-  --accent: #d97757;
-  --pos: #7fb069;
-  --neg: #c1666b;
-  --warn: #d4a945;
-}
+
+:root { --bg:#1a1815; --panel:#211e1a; --stripe:#1d1b17; --border:#34302a; --text:#f5f1ea; --dim:#b3a996; --faint:#3a352e; --accent:#d97757; --pos:#7fb069; --neg:#c1666b; --warn:#d4a945; --info:#8aa8c4; --mine:#2a3320; --mine-hover:#33401f; }
+html[data-theme="light"] { --bg:#f7f3ec; --panel:#fdfaf3; --stripe:#f3eee4; --border:#e3dccb; --text:#1a1815; --dim:#6e6654; --faint:#d4ccba; --accent:#a8421f; --pos:#56753f; --neg:#9d3540; --warn:#8f6a1a; --info:#46697f; --mine:#e7ecd9; --mine-hover:#dde5c8; }
+:root { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+.theme-toggle { font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.7em;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--dim); background:transparent;
+  border:1px solid var(--border); border-radius:3px; padding:.35em .7em; cursor:pointer;
+  margin-left:.5em; }
+.theme-toggle:hover { color:var(--text); background:var(--panel); border-color:var(--accent); }
+
+details.note { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  margin:1em 0; padding:0; max-width:95ch; font-size:.84em; color:var(--dim); line-height:1.6; }
+details.note > summary { cursor:pointer; padding:.7em 1.1em; color:var(--text);
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.9em; letter-spacing:.03em;
+  user-select:none; }
+details.note[open] > summary { border-bottom:1px solid var(--border); }
+details.note .note-body { padding:.8em 1.2em 1em; }
+details.note .note-body ul { margin:.3em 0; padding-left:1.2em; }
+details.note .note-body li { margin:.3em 0; }
+details.note .note-body b { color:var(--text); }
+
+.colpick { position:relative; display:inline-block; margin:0 0 .6em;
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.72em; }
+.colpick > summary { cursor:pointer; color:var(--dim); list-style:none; user-select:none;
+  padding:.25em .7em; border:1px solid var(--border); border-radius:3px; display:inline-block;
+  text-transform:uppercase; letter-spacing:.1em; }
+.colpick > summary::-webkit-details-marker { display:none; }
+.colpick > summary:hover { color:var(--text); background:var(--panel); }
+.colpick[open] > summary { color:var(--accent); border-color:var(--accent); }
+.colpick-body { position:absolute; z-index:30; margin-top:.3em; background:var(--panel);
+  border:1px solid var(--border); border-radius:5px; padding:.5em .8em; max-height:60vh;
+  overflow:auto; box-shadow:0 6px 22px rgba(0,0,0,.35); min-width:190px; }
+.colpick-body label { display:block; padding:.18em 0; color:var(--text); white-space:nowrap;
+  cursor:pointer; text-transform:none; letter-spacing:0; }
+.colpick-body input { margin-right:.55em; }
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
        background: var(--bg); color: var(--text);
        font-size: 16px; line-height: 1.6; }
-.wrap { max-width: 1480px; margin: 0 auto; padding: 0 1.2em 4em 1.2em; }
+.wrap { max-width: none; width: 100%; margin: 0; padding: 0 2em 4em 2em; }
+@media (min-width: 1600px) { .wrap { padding: 0 3em 4em 3em; } }
+@media (min-width: 2100px) { .wrap { padding: 0 4em 4em 4em; } }
+.notes, p { max-width: 95ch; }
 .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
 
 header { border-bottom: 1px solid var(--border); padding: .9em 0;
@@ -47,17 +75,22 @@ h2 .totals .wtd { color: var(--pos); }
 h2 .totals .proj { color: var(--accent); }
 h2 .totals .total { color: var(--accent); font-size: 1.2em; }
 
+
 nav.topnav { display: flex; align-items: center; gap: 0;
-             font-family: 'IBM Plex Mono', monospace;
+             font-family: 'IBM Plex Mono', ui-monospace, monospace;
              font-size: .72em; text-transform: uppercase; letter-spacing: .15em;
              margin-top: .4em; }
 nav.topnav a { color: var(--dim); text-decoration: none; padding: .35em .9em;
-               border: 1px solid var(--border); border-right: 0;
-               cursor: pointer; }
+               border: 1px solid var(--border); border-right: 0; cursor: pointer; }
 nav.topnav a:first-child { border-radius: 3px 0 0 3px; }
 nav.topnav a:last-child  { border-radius: 0 3px 3px 0; border-right: 1px solid var(--border); }
 nav.topnav a:hover { color: var(--text); background: var(--panel); }
 nav.topnav a.current { color: var(--accent); background: var(--panel); border-color: var(--accent); }
+@media (max-width: 640px) {
+  nav.topnav { font-size: .65em; flex-wrap: wrap; }
+  nav.topnav a { padding: .3em .65em; }
+}
+
 
 .scoreboard { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
               padding: 1.5em; margin: 1em 0; }
@@ -289,6 +322,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   nav.topnav a { padding: .3em .65em; }
 }
 </style>
+<script>(function(){try{var t=localStorage.getItem('xfp_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}window.__xfpToggleTheme=function(){var el=document.documentElement,isLight=el.getAttribute('data-theme')==='light';if(isLight){el.removeAttribute('data-theme');}else{el.setAttribute('data-theme','light');}try{localStorage.setItem('xfp_theme',isLight?'dark':'light');}catch(e){}};})();</script>
 </head><body>
 <div class="wrap">
 <header>
@@ -297,6 +331,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
       <h1>Ligers Weekly Matchup</h1>
       <nav class="topnav"><a href="index.html">XFP</a><a class="current">Matchup</a><a href="live_dashboard.html">Live</a><a href="xfp_board.html">xFP Board</a><a href="player_profiles.html">Profiles</a><a href="triangulate.html">Triangulate</a></nav>
     </div>
+    <button class="theme-toggle" type="button" onclick="__xfpToggleTheme()" aria-label="Toggle light or dark theme">◐ theme</button>
   </div>
 </header>
 
@@ -304,9 +339,9 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   <div class="score-grid">
     <div class="score-team">
       <div class="name">New York Ligers</div>
-      <div class="wtd">196.2</div>
-      <div class="proj">+ <b>211.9</b> projected rest</div>
-      <div class="total-final">→ 408.1</div>
+      <div class="wtd">198.2</div>
+      <div class="proj">+ <b>215.1</b> projected rest</div>
+      <div class="total-final">→ 413.3</div>
     </div>
     <div class="vs">vs</div>
     <div class="score-team opp">
@@ -318,22 +353,22 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
   </div>
 
   <div class="gauge-wrap">
-  <div class="gauge" style="background: conic-gradient(#7fb069 0% 100.0%, #34302a 100.0% 100%);">
+  <div class="gauge" style="background: conic-gradient(var(--pos) 0% 100.0%, var(--faint) 100.0% 100%);">
     <div class="gauge-inner">
-      <div class="gauge-pct">100%</div>
+      <div class="gauge-pct">>99%</div>
       <div class="gauge-label">win probability</div>
     </div>
   </div>
 </div>
   <div class="gap-row">
-    Current gap: <b class="pos">+82.8</b>
-    &nbsp;·&nbsp; Projected final gap: <b class="pos">+153.4</b>
+    Current gap: <b class="pos">+84.8</b>
+    &nbsp;·&nbsp; Projected final gap: <b class="pos">+158.5</b>
   </div>
 </div>
 
 <div class="action-items"><h3>⚡ Action Items</h3><ul>
-<li class="urgency-med">📉 Only 4 confirmed starts (+2 predicted) this week — add a streamer to hit the 10-start cap</li>
-<li class="urgency-low">🟢 Strong position — win prob 100%. Hold steady.</li>
+<li class="urgency-med">📉 Only 5 confirmed starts (+1 predicted) this week — add a streamer to hit the 10-start cap</li>
+<li class="urgency-low">🟢 Strong position — win prob &gt;99%. Hold steady.</li>
 </ul></div>
 
 <div class="toc">
@@ -362,8 +397,8 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 </div>
 
 <p class="notes">📊 Since last snapshot: Ligers projected <b class="neg">-2.4</b>, Opp projected <b class="neg">+1.4</b>, win prob <b class="pos">+0.0 pp</b>.</p>
-<p class="notes">📐 <b>50% confidence intervals</b>: Ligers [<b>392.1</b> – <b>424.2</b>] vs Opp [<b>243.3</b> – <b>266.2</b>]. 80% CI: ±31 / ±22 FP respectively.</p>
-<p class="notes"><b>⚠ SP cap at maximum:</b> <b>6 banked (ESPN)</b> + <b>6 today/upcoming</b> <span class="muted">(+2 rotation-gap predicted)</span> · 12/10 starts this week. Excess starts past 10 are zeroed in scoring.</p>
+<p class="notes">📐 <b>50% confidence intervals</b>: Ligers [<b>397.2</b> – <b>429.3</b>] vs Opp [<b>243.3</b> – <b>266.2</b>]. 80% CI: ±31 / ±22 FP respectively.</p>
+<p class="notes"><b>⚠ SP cap at maximum:</b> <b>6 banked (ESPN)</b> + <b>6 today/upcoming</b> <span class="muted">(+1 rotation-gap predicted)</span> · 12/10 starts this week. Excess starts past 10 are zeroed in scoring.</p>
 
 <h2>🏥 Injury Status <small class="muted">(current per ESPN)</small></h2>
 <table><thead><tr><th>Player</th><th>Pos</th><th>Status</th><th>Slot</th></tr></thead><tbody>
@@ -478,21 +513,21 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 
 <section id="myteam"><details open>
 <summary>My Roster — full breakdown</summary>
-<h2>New York Ligers <span class="totals">WTD <b class="wtd">196.2</b> · rest <b class="proj">211.9</b> · total <b class="total">408.1</b></span></h2>
-<table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
-<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Michael%20Harris%20II" target="_blank" rel="noopener" title="Open in Profiles">Michael Harris II</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="pos">+6.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+15.7</b></td><td></td></tr>
+<h2>New York Ligers <span class="totals">WTD <b class="wtd">198.2</b> · rest <b class="proj">215.1</b> · total <b class="total">413.3</b></span></h2>
+<table class="player-table" data-cols="roster" data-col-lock="2"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Michael%20Harris%20II" target="_blank" rel="noopener" title="Open in Profiles">Michael Harris II</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="pos">+8.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+9.7</td><td data-label="Total"><b>+17.7</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ 07-23 vs SD · ×0.99 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 07-24 vs BAL · ×1.00 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 07-25 vs BAL · ×1.00 = 2.4</td></tr>
 <tr class="breakdown"><td colspan="7">→ 07-26 vs BAL · ×1.00 = 2.4</td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Drew%20Rasmussen" target="_blank" rel="noopener" title="Open in Profiles">Drew Rasmussen</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+15.8</td><td data-label="Total"><b>+15.8</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ ✓ 07-26 vs CLE (opp bat 0.95, ×1.05, <b>15.8 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Hunter%20Greene" target="_blank" rel="noopener" title="Open in Profiles">Hunter Greene</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+14.8</td><td data-label="Total"><b>+14.8</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 07-25 vs STL (opp bat 1.02, ×0.98, <b>14.8 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Shota%20Imanaga" target="_blank" rel="noopener" title="Open in Profiles">Shota Imanaga</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+14.6</td><td data-label="Total"><b>+14.6</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 07-25 vs PIT (opp bat 1.02, ×0.98, <b>14.6 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jose%20Soriano" target="_blank" rel="noopener" title="Open in Profiles">Jose Soriano</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+13.1</td><td data-label="Total"><b>+13.1</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 07-26 vs SF (opp bat 0.98, ×1.02, <b>13.1 FP</b>)</td></tr>
-<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Drew%20Rasmussen" target="_blank" rel="noopener" title="Open in Profiles">Drew Rasmussen</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+12.6</td><td data-label="Total"><b>+12.6</b></td><td></td></tr>
-<tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 07-26 vs CLE (opp bat 0.95, ×1.05, <b>12.6 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Parker%20Messick" target="_blank" rel="noopener" title="Open in Profiles">Parker Messick</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+12.2</td><td data-label="Total"><b>+12.2</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 07-26 vs TB (opp bat 0.98, ×1.02, <b>12.2 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Corbin%20Carroll" target="_blank" rel="noopener" title="Open in Profiles">Corbin Carroll</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">4 games</td><td data-label="Rest">+11.9</td><td data-label="Total"><b>+11.9</b></td><td></td></tr>
@@ -564,7 +599,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <section id="opp"><details>
 <summary>Opponent — full breakdown</summary>
 <h2>Treasure Island Mashers <span class="totals">WTD <b class="wtd">113.4</b> · rest <b class="proj">154.4</b> · total <b class="total">267.8</b></span></h2>
-<table class="player-table"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
+<table class="player-table" data-cols="roster" data-col-lock="2"><thead><tr><th>Player</th><th>Pos</th><th>WTD</th><th>Units</th><th>Rest</th><th>Total</th><th></th></tr></thead><tbody>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jacob%20Misiorowski" target="_blank" rel="noopener" title="Open in Profiles">Jacob Misiorowski</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+22.2</td><td data-label="Total"><b>+22.2</b></td><td></td></tr>
 <tr class="breakdown"><td colspan="7">→ ✓ 07-26 vs COL (opp bat 0.98, ×1.02, <b>22.2 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Yoshinobu%20Yamamoto" target="_blank" rel="noopener" title="Open in Profiles">Yoshinobu Yamamoto</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">1 start</td><td data-label="Rest">+16.2</td><td data-label="Total"><b>+16.2</b></td><td></td></tr>
@@ -802,12 +837,12 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <tr><td>15</td><td>07/18</td><td>406.7</td><td><b>547.5</b></td><td>473.6</td><td><b>644.7</b></td><td>0.0%</td></tr>
 <tr><td>15</td><td>07/19</td><td>437.1</td><td><b>522.7</b></td><td>555.3</td><td><b>623.8</b></td><td>0.0%</td></tr>
 <tr><td>15</td><td>07/19</td><td>437.1</td><td><b>531.8</b></td><td>555.3</td><td><b>635.5</b></td><td>0.0%</td></tr>
-<tr><td>16</td><td>07/23</td><td>196.2</td><td><b>408.1</b></td><td>113.4</td><td><b>254.7</b></td><td>100.0%</td></tr>
-<tr><td>16</td><td>07/23</td><td>196.2</td><td><b>405.7</b></td><td>113.4</td><td><b>256.1</b></td><td>100.0%</td></tr>
+<tr><td>16</td><td>07/23</td><td>198.2</td><td><b>413.3</b></td><td>113.4</td><td><b>254.7</b></td><td>100.0%</td></tr>
+<tr><td>16</td><td>07/23</td><td>198.2</td><td><b>410.9</b></td><td>113.4</td><td><b>256.1</b></td><td>100.0%</td></tr>
 </tbody></table>
 </details></section>
 
-<p class="meta">Generated 2026-07-23 17:14:40 ·
+<p class="meta">Generated 2026-07-23 17:47:29 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
@@ -821,12 +856,23 @@ document.querySelectorAll('table').forEach(table => {
     th.classList.add('sortable');
     th.addEventListener('click', () => {
       const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr')).filter(r => !r.classList.contains('breakdown'));
+      // Group each data row with the breakdown sub-rows that follow it, so the
+      // sub-rows travel WITH their parent. Fix 2026-07-23: the old
+      // filter+innerHTML='' path silently DELETED every .breakdown row on the
+      // first sort click.
+      const groups = [];
+      Array.from(tbody.querySelectorAll('tr')).forEach(r => {
+        if (r.classList.contains('breakdown')) {
+          if (groups.length) groups[groups.length - 1].extra.push(r);
+        } else {
+          groups.push({ main: r, extra: [] });
+        }
+      });
       const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
       th.dataset.sortDir = dir;
-      rows.sort((a, b) => {
-        const av = a.children[idx]?.innerText.trim() || '';
-        const bv = b.children[idx]?.innerText.trim() || '';
+      groups.sort((a, b) => {
+        const av = a.main.children[idx]?.innerText.trim() || '';
+        const bv = b.main.children[idx]?.innerText.trim() || '';
         const an = parseFloat(av.replace(/[^\d.+-]/g, ''));
         const bn = parseFloat(bv.replace(/[^\d.+-]/g, ''));
         if (!isNaN(an) && !isNaN(bn)) {
@@ -834,9 +880,8 @@ document.querySelectorAll('table').forEach(table => {
         }
         return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
       });
-      // Re-insert in new order (keeping breakdown rows attached)
       tbody.innerHTML = '';
-      rows.forEach(r => tbody.appendChild(r));
+      groups.forEach(g => { tbody.appendChild(g.main); g.extra.forEach(e => tbody.appendChild(e)); });
     });
   });
 });
@@ -844,7 +889,7 @@ document.querySelectorAll('table').forEach(table => {
 // Expand/collapse all controls
 const expandBtn = document.createElement('button');
 expandBtn.textContent = 'Expand all';
-expandBtn.style.cssText = 'margin: 1em .5em; padding: .4em 1em; background: #211e1a; color: #f5f1ea; border: 1px solid #34302a; border-radius: 3px; cursor: pointer; font-family: \'IBM Plex Mono\', monospace; font-size: .8em; text-transform: uppercase; letter-spacing: .12em;';
+expandBtn.style.cssText = 'margin: 1em .5em; padding: .4em 1em; background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; font-family: \'IBM Plex Mono\', monospace; font-size: .8em; text-transform: uppercase; letter-spacing: .12em;';
 expandBtn.onclick = () => document.querySelectorAll('details').forEach(d => d.open = true);
 const collapseBtn = document.createElement('button');
 collapseBtn.textContent = 'Collapse all';
@@ -853,4 +898,17 @@ collapseBtn.onclick = () => document.querySelectorAll('details').forEach(d => d.
 document.querySelector('.toc').appendChild(expandBtn);
 document.querySelector('.toc').appendChild(collapseBtn);
 </script>
+<script>(function(){
+var PAGE='matchup';
+function keyFor(id){return 'xfp_cols::'+PAGE+'::'+id;}
+function headRow(t){var h=t.tHead;if(!h||h.rows.length!==1)return null;return Array.prototype.slice.call(h.rows[0].cells);}
+function labels(cells){var seen={},out=[];cells.forEach(function(c,i){var s=(c.textContent||'').trim().replace(/\s+/g,' ');if(!s)s='(col '+(i+1)+')';seen[s]=(seen[s]||0)+1;out.push(s+'#'+seen[s]);});return out;}
+function apply(t,hidden){var cells=headRow(t);if(!cells)return;var n=cells.length;var lb=labels(cells);var hide={};lb.forEach(function(l,i){if(hidden.indexOf(l)>=0)hide[i]=true;});Array.prototype.forEach.call(t.querySelectorAll('tr'),function(r){if(r.cells.length!==n)return;for(var i=0;i<n;i++){r.cells[i].style.display=hide[i]?'none':'';}});}
+function build(t,idx){var id=t.getAttribute('data-cols')||('t'+idx);var lock=parseInt(t.getAttribute('data-col-lock')||'2',10);var cells=headRow(t);if(!cells)return;var lb=labels(cells);var stored=[];try{stored=JSON.parse(localStorage.getItem(keyFor(id))||'[]');}catch(e){}
+var det=document.createElement('details');det.className='colpick';var sum=document.createElement('summary');sum.textContent='Columns';det.appendChild(sum);var box=document.createElement('div');box.className='colpick-body';det.appendChild(box);
+lb.forEach(function(l,i){if(i<lock)return;var lab=document.createElement('label');var cb=document.createElement('input');cb.type='checkbox';cb.checked=stored.indexOf(l)<0;cb.setAttribute('data-lb',l);cb.addEventListener('change',function(){var h=[];Array.prototype.forEach.call(box.querySelectorAll('input'),function(x){if(!x.checked)h.push(x.getAttribute('data-lb'));});try{localStorage.setItem(keyFor(id),JSON.stringify(h));}catch(e){}apply(t,h);});lab.appendChild(cb);lab.appendChild(document.createTextNode(' '+cells[i].textContent.trim()));box.appendChild(lab);});
+t.parentNode.insertBefore(det,t);apply(t,stored);}
+function init(){Array.prototype.forEach.call(document.querySelectorAll('table[data-cols]'),build);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();</script>
 </body></html>
