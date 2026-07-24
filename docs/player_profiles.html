@@ -10,19 +10,44 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
-:root {
-  --bg: #1a1815;
-  --panel: #211e1a;
-  --stripe: #1d1b17;
-  --border: #34302a;
-  --text: #f5f1ea;
-  --dim: #a89e8a;
-  --faint: #3a352e;
-  --accent: #d97757;
-  --pos: #7fb069;
-  --neg: #c1666b;
-  --warn: #d4a945;
-}
+
+:root { --bg:#1a1815; --panel:#211e1a; --stripe:#1d1b17; --border:#34302a; --text:#f5f1ea; --dim:#b3a996; --faint:#3a352e; --accent:#d97757; --pos:#7fb069; --neg:#c1666b; --warn:#d4a945; --info:#8aa8c4; }
+html[data-theme="light"] { --bg:#f7f3ec; --panel:#fdfaf3; --stripe:#f3eee4; --border:#e3dccb; --text:#1a1815; --dim:#6e6654; --faint:#d4ccba; --accent:#a8421f; --pos:#56753f; --neg:#9d3540; --warn:#8f6a1a; --info:#46697f; }
+:root { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+.theme-toggle { font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.7em;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--dim); background:transparent;
+  border:1px solid var(--border); border-radius:3px; padding:.35em .7em; cursor:pointer;
+  margin-left:.5em; }
+.theme-toggle:hover { color:var(--text); background:var(--panel); border-color:var(--accent); }
+
+details.note { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  margin:1em 0; padding:0; max-width:95ch; font-size:.84em; color:var(--dim); line-height:1.6; }
+details.note > summary { cursor:pointer; padding:.7em 1.1em; color:var(--text);
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.9em; letter-spacing:.03em;
+  user-select:none; }
+details.note[open] > summary { border-bottom:1px solid var(--border); }
+details.note .note-body { padding:.8em 1.2em 1em; }
+details.note .note-body ul { margin:.3em 0; padding-left:1.2em; }
+details.note .note-body li { margin:.3em 0; }
+details.note .note-body b { color:var(--text); }
+
+.colpick { position:relative; display:inline-block; margin:0 0 .6em;
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:.72em; }
+.colpick > summary { cursor:pointer; color:var(--dim); list-style:none; user-select:none;
+  padding:.25em .7em; border:1px solid var(--border); border-radius:3px; display:inline-block;
+  text-transform:uppercase; letter-spacing:.1em; }
+.colpick > summary::-webkit-details-marker { display:none; }
+.colpick > summary:hover { color:var(--text); background:var(--panel); }
+.colpick[open] > summary { color:var(--accent); border-color:var(--accent); }
+.colpick-body { position:absolute; z-index:30; margin-top:.3em; background:var(--panel);
+  border:1px solid var(--border); border-radius:5px; padding:.5em .8em; max-height:60vh;
+  overflow:auto; box-shadow:0 6px 22px rgba(0,0,0,.35); min-width:190px; }
+.colpick-body label { display:block; padding:.18em 0; color:var(--text); white-space:nowrap;
+  cursor:pointer; text-transform:none; letter-spacing:0; }
+.colpick-body input { margin-right:.55em; }
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
@@ -571,6 +596,7 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
 .domain-tooltip .dom-sub b { color: var(--accent); }
 .domain-tooltip .dom-sub .name { color: var(--dim); }
 </style>
+<script>(function(){try{var t=localStorage.getItem('xfp_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}window.__xfpToggleTheme=function(){var el=document.documentElement,isLight=el.getAttribute('data-theme')==='light';if(isLight){el.removeAttribute('data-theme');}else{el.setAttribute('data-theme','light');}try{localStorage.setItem('xfp_theme',isLight?'dark':'light');}catch(e){}};})();</script>
 </head>
 <body>
 
@@ -584,8 +610,8 @@ header.collapsed nav.topnav a { padding-top: .25em; padding-bottom: .25em; }
   <div>
     <h1>Player Profiles <span class="page-tagline">Expected Performance</span></h1>
     <p class="page-subtitle">What a player's underlying skill says to <b>expect</b> — from Statcast, bat tracking, Stuff+, the 20-80 archetype ratings, and the rh3/rp3/rprs2 model projections.</p>
-    <p class="page-scopenote"><b>What this is:</b> talent &amp; process, forward-looking. &nbsp;<b>What this is NOT:</b> a box score — no realized HR/RBI/R, W/L, ERA, or actual FP totals. Columns tagged <span class="col-actual">· actual</span> appear only as validation / usage context. &nbsp;·&nbsp; <b>Distinct from the xFP board</b> (<code>index.html</code> — "V12 · SP xFP Model"): that board <i>ranks</i> your roster + FAs + league by projected fantasy points for start / add / drop calls; this page is the <b>scouting layer beneath it</b> — the expected-skill ratings &amp; archetype process that explain why a player projects the way they do.</p>
-    <nav class="topnav"><a href="index.html">XFP</a><a href="matchup.html">Matchup</a><a href="live_dashboard.html">Live</a><a href="xfp_board.html">xFP Board</a><a class="current">Profiles</a><a href="triangulate.html">Triangulate</a></nav>
+    <p class="page-scopenote"><b>What this is:</b> talent &amp; process, forward-looking. &nbsp;<b>What this is NOT:</b> a box score — no realized HR/RBI/R, W/L, ERA, or actual FP totals. Columns tagged <span class="col-actual">· actual</span> appear only as validation / usage context. &nbsp;·&nbsp; <b>Distinct from the xFP board</b> (<code>index.html</code> — "xFP Model"): that board <i>ranks</i> your roster + FAs + league by projected fantasy points for start / add / drop calls; this page is the <b>scouting layer beneath it</b> — the expected-skill ratings &amp; archetype process that explain why a player projects the way they do.</p>
+    <nav class="topnav"><a href="index.html">XFP</a><a href="matchup.html">Matchup</a><a href="live_dashboard.html">Live</a><a href="xfp_board.html">xFP Board</a><a class="current">Profiles</a><a href="triangulate.html">Triangulate</a></nav> <button class="theme-toggle" type="button" onclick="__xfpToggleTheme()" aria-label="Toggle light or dark theme">◐ theme</button>
   </div>
   <div class="search-wrap">
     <input id="search-input" type="text" placeholder="Search any hitter or pitcher…" autocomplete="off">
