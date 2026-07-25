@@ -412,8 +412,8 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <summary>🎯 Lineup Optimizer</summary>
 <h2>🎯 Lineup Optimizer <small class="muted">— suggested swaps for next game day</small></h2>
 <table><thead><tr><th>Start (active → bench)</th><th>Current Proj</th><th>Bench Better (bench → active)</th><th>Bench Proj</th><th>Slot</th><th>Gain/wk</th></tr></thead><tbody>
-<tr><td class="neg">Max Muncy →BE</td><td>2.18/g</td><td class="pos">Vladimir Guerrero Jr. →UTIL</td><td>2.26/g</td><td>UTIL</td><td><b class="pos">+0.17</b></td></tr>
-</tbody></table><p class="notes">Total weekly FP left on the bench: <b class="pos">+0.2</b> if all swaps executed. Note: only obvious projection-based swaps shown; ESPN may auto-fill optimal lineup if you set your lineup to "auto". Manual override only.</p>
+<tr><td class="neg">Max Muncy →BE</td><td>2.18/g</td><td class="pos">Luis Garcia Jr. →UTIL</td><td>2.70/g</td><td>UTIL</td><td><b class="pos">+1.04</b></td></tr>
+</tbody></table><p class="notes">Total weekly FP left on the bench: <b class="pos">+1.0</b> if all swaps executed. Note: only obvious projection-based swaps shown; ESPN may auto-fill optimal lineup if you set your lineup to "auto". Manual override only.</p>
 </details></section>
 
 <section id="fire"><details open>
@@ -466,7 +466,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <section id="streamers"><details open>
 <summary>💎 Streamer Targets</summary>
 <h2>💎 Top Streamer Targets <small class="muted">(rp3 × park × opp · tags layered)</small></h2>
-<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 125 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
+<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 124 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
 <table><thead><tr><th>Pitcher</th><th>Tm</th><th>%Own</th><th>Next</th><th>Date</th><th>Tier</th><th>rp3 (p25–p75)</th><th>boom_stack</th><th title="K-BB floor: FLOOR-RISK = RISKY-tier bust the mean hides; SAFE-FLOOR = SAFE-tier mean under-credits (context only)">Floor</th><th title="Model-vs-process divergence: PROCESS&gt;MODEL buy-low / MODEL&gt;PROCESS sell-high (context only)">Conv</th><th>Tags</th><th>Exp FP</th></tr></thead><tbody>
 <tr><td><a class="player-link" href="player_profiles.html?player=686218#player=686218" target="_blank" rel="noopener" title="Open in Profiles">Emmet Sheehan</a></td><td>LAD</td><td>50%</td><td>@ NYM</td><td>2026-07-26</td><td class="muted">avg</td><td>12.8 <small class="muted">(6.3–18.1)</small> <small class="muted">(blended 11.4 [4.0-17.9])</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈20 bust%≈10 (tier=backend)">···· <small>0/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="muted">·</span></td><td><b>13.2</b> <small class="pos">(+3%)</small></td></tr>
 <tr><td><a class="player-link" href="player_profiles.html?player=669854#player=669854" target="_blank" rel="noopener" title="Open in Profiles">Ronel Blanco</a></td><td>HOU</td><td>4%</td><td>@ CWS</td><td>2026-07-26</td><td class="pos">soft</td><td>12.0 <small class="muted">(6.2–18.0)</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈20 bust%≈10 (tier=backend)">···· <small>0/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="muted">·</span></td><td><b>12.3</b> <small class="pos">(+3%)</small></td></tr>
@@ -792,7 +792,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 </tbody></table>
 </details></section>
 
-<p class="meta">Generated 2026-07-25 16:52:59 ·
+<p class="meta">Generated 2026-07-25 17:55:01 ·
 <code>python scripts/xfp/build_matchup_dashboard.py</code>
 <meta http-equiv="refresh" content="300">
 </p>
