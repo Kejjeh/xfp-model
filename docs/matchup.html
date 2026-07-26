@@ -408,12 +408,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <tr><td>Tyler Glasnow</td><td>SP</td><td class="neg">SIXTY_DAY_DL</td><td>IL</td></tr>
 </tbody></table>
 
-<h2 id="trend">📈 Physical Trend Watch <small class="muted">(hitters: bat speed/swing-path/intent; SP/RP: FB velo · vs prior-yr baseline · display/context, NOT a projection input)</small></h2>
-<table><thead><tr><th>Player</th><th>Physical trend</th></tr></thead><tbody>
-<tr><td>Luis Arraez</td><td class="pos">🔺 breakout watch (phys +1.0σ) — bat speed +1.2mph, swing-path toward-band +2.1σ; contact not yet</td></tr>
-<tr><td>Hunter Goodman</td><td class="pos">🔺 breakout watch (phys +1.1σ) — bat speed +1.2mph, intent +1.5σ; contact confirming</td></tr>
-<tr><td>Reid Detmers</td><td class="neg">🔻 FB velo -1.7 mph (-2.2σ) — velo decline/health watch, results not yet</td></tr>
-</tbody></table>
+
 
 <section id="optimizer"><details open>
 <summary>🎯 Lineup Optimizer</summary>
@@ -662,7 +657,7 @@ even below the FA display cut.</p>
 <section id="streamers"><details open>
 <summary>💎 Streamer Targets</summary>
 <h2>💎 Top Streamer Targets <small class="muted">(rp3 × park × opp · tags layered)</small></h2>
-<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 125 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
+<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 124 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
 <table><thead><tr><th>Pitcher</th><th>Tm</th><th>%Own</th><th>Next</th><th>Date</th><th>Tier</th><th>rp3 (p25–p75)</th><th>boom_stack</th><th title="K-BB floor: FLOOR-RISK = RISKY-tier bust the mean hides; SAFE-FLOOR = SAFE-tier mean under-credits (context only)">Floor</th><th title="Model-vs-process divergence: PROCESS&gt;MODEL buy-low / MODEL&gt;PROCESS sell-high (context only)">Conv</th><th>Tags</th><th>Exp FP</th></tr></thead><tbody>
 <tr><td><a class="player-link" href="player_profiles.html?player=686218#player=686218" target="_blank" rel="noopener" title="Open in Profiles">Emmet Sheehan</a></td><td>LAD</td><td>54%</td><td>@ NYM</td><td>2026-07-26</td><td class="muted">avg</td><td>12.5 <small class="muted">(5.4–18.4)</small> <small class="muted">(blended 11.4 [4.0-17.9])</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈9 bust%≈18 (tier=streamer)">···· <small>0/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>12.8</b> <small class="pos">(+3%)</small></td></tr>
 <tr><td><a class="player-link" href="player_profiles.html?player=669854#player=669854" target="_blank" rel="noopener" title="Open in Profiles">Ronel Blanco</a></td><td>HOU</td><td>7%</td><td>@ CWS</td><td>2026-07-26</td><td class="muted">avg</td><td>12.0 <small class="muted">(6.2–18.0)</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈9 bust%≈18 (tier=streamer)">···· <small>0/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="muted">·</span></td><td><b>12.3</b> <small class="pos">(+2%)</small></td></tr>
@@ -832,9 +827,11 @@ even below the FA display cut.</p>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Luke%20Weaver" target="_blank" rel="noopener" title="Open in Profiles">Luke Weaver</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.4 app</td><td data-label="Rest">+1.5</td><td data-label="Total"><b>+1.5</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jacob%20Latz" target="_blank" rel="noopener" title="Open in Profiles">Jacob Latz</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~0.3 app</td><td data-label="Rest">+1.2</td><td data-label="Total"><b>+1.2</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Aaron%20Judge" target="_blank" rel="noopener" title="Open in Profiles">Aaron Judge</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Max%20Fried" target="_blank" rel="noopener" title="Open in Profiles">Max Fried</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Tyler%20Glasnow" target="_blank" rel="noopener" title="Open in Profiles">Tyler Glasnow</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Hunter%20Greene" target="_blank" rel="noopener" title="Open in Profiles">Hunter Greene</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Reid%20Detmers" target="_blank" rel="noopener" title="Open in Profiles">Reid Detmers</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Logan%20Henderson" target="_blank" rel="noopener" title="Open in Profiles">Logan Henderson</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 </tbody></table>
 </details></section>
 
@@ -956,6 +953,8 @@ even below the FA display cut.</p>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Zac%20Gallen" target="_blank" rel="noopener" title="Open in Profiles">Zac Gallen</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Ranger%20Suarez" target="_blank" rel="noopener" title="Open in Profiles">Ranger Suarez</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Oneil%20Cruz" target="_blank" rel="noopener" title="Open in Profiles">Oneil Cruz</a></td><td data-label="Pos">CF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Sandy%20Alcantara" target="_blank" rel="noopener" title="Open in Profiles">Sandy Alcantara</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Seth%20Lugo" target="_blank" rel="noopener" title="Open in Profiles">Seth Lugo</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Kyle%20Harrison" target="_blank" rel="noopener" title="Open in Profiles">Kyle Harrison</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 </tbody></table>
 </details></section>
@@ -1095,19 +1094,18 @@ even below the FA display cut.</p>
 <tr><td>15</td><td>07/18</td><td>406.7</td><td><b>547.5</b></td><td>473.6</td><td><b>644.7</b></td><td>0.0%</td></tr>
 <tr><td>15</td><td>07/19</td><td>437.1</td><td><b>522.7</b></td><td>555.3</td><td><b>623.8</b></td><td>0.0%</td></tr>
 <tr><td>15</td><td>07/19</td><td>437.1</td><td><b>531.8</b></td><td>555.3</td><td><b>635.5</b></td><td>0.0%</td></tr>
+<tr><td>16</td><td>07/20</td><td>0.0</td><td><b>414.8</b></td><td>0.0</td><td><b>322.1</b></td><td>99.0%</td></tr>
 <tr><td>15</td><td>07/20</td><td>552.1</td><td><b>930.8</b></td><td>581.4</td><td><b>965.7</b></td><td>21.4%</td></tr>
 <tr><td>15</td><td>07/20</td><td>552.1</td><td><b>975.1</b></td><td>581.4</td><td><b>1016.0</b></td><td>17.7%</td></tr>
 <tr><td>16</td><td>07/20</td><td>0.0</td><td><b>369.0</b></td><td>0.0</td><td><b>275.2</b></td><td>99.1%</td></tr>
-<tr><td>16</td><td>07/20</td><td>0.0</td><td><b>414.8</b></td><td>0.0</td><td><b>322.1</b></td><td>99.0%</td></tr>
 <tr><td>16</td><td>07/21</td><td>43.8</td><td><b>415.8</b></td><td>31.2</td><td><b>285.8</b></td><td>99.9%</td></tr>
 <tr><td>16</td><td>07/21</td><td>43.8</td><td><b>376.2</b></td><td>31.2</td><td><b>247.4</b></td><td>99.9%</td></tr>
 <tr><td>16</td><td>07/22</td><td>121.8</td><td><b>390.7</b></td><td>48.2</td><td><b>240.1</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/22</td><td>121.8</td><td><b>425.9</b></td><td>48.2</td><td><b>273.1</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/23</td><td>190.2</td><td><b>401.9</b></td><td>112.4</td><td><b>263.3</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/23</td><td>190.2</td><td><b>429.0</b></td><td>112.4</td><td><b>290.5</b></td><td>100.0%</td></tr>
-<tr><td>16</td><td>07/24</td><td>207.2</td><td><b>416.1</b></td><td>117.4</td><td><b>256.1</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/24</td><td>207.2</td><td><b>442.0</b></td><td>117.4</td><td><b>283.7</b></td><td>100.0%</td></tr>
-<tr><td>16</td><td>07/25</td><td>247.8</td><td><b>416.9</b></td><td>138.4</td><td><b>248.1</b></td><td>100.0%</td></tr>
+<tr><td>16</td><td>07/24</td><td>207.2</td><td><b>416.1</b></td><td>117.4</td><td><b>256.1</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/25</td><td>247.8</td><td><b>433.5</b></td><td>138.4</td><td><b>265.9</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/26</td><td>311.7</td><td><b>399.7</b></td><td>182.0</td><td><b>234.1</b></td><td>100.0%</td></tr>
 <tr><td>16</td><td>07/26</td><td>311.7</td><td><b>405.1</b></td><td>182.0</td><td><b>236.2</b></td><td>100.0%</td></tr>
