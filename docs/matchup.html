@@ -406,15 +406,7 @@ th.sortable::after { content: ' ⇅'; opacity: 0.3; font-size: .8em; }
 <tr><td>Nick Pivetta</td><td>SP</td><td class="neg">SIXTY_DAY_DL</td><td>IL</td></tr>
 </tbody></table>
 
-<h2 id="trend">📈 Physical Trend Watch <small class="muted">(hitters: bat speed/swing-path/intent; SP/RP: FB velo · vs prior-yr baseline · display/context, NOT a projection input)</small></h2>
-<table><thead><tr><th>Player</th><th>Physical trend</th></tr></thead><tbody>
-<tr><td>Elly De La Cruz</td><td class="pos">🔺 breakout watch (phys +1.0σ) — bat speed +1.8mph, intent +1.5σ; contact confirming  🏃 L30 running more (+0.18 SB/g); sprint -0.6ft/s</td></tr>
-<tr><td>Luis Arraez</td><td class="pos">🔺 breakout watch (phys +1.0σ) — bat speed +1.2mph, swing-path toward-band +2.1σ; contact not yet</td></tr>
-<tr><td>Hunter Goodman</td><td class="pos">🔺 breakout watch (phys +1.0σ) — bat speed +1.2mph, intent +1.4σ; contact confirming</td></tr>
-<tr><td>Luis Garcia Jr.</td><td class="pos">🔺 breakout watch (phys +1.1σ) — bat speed +2.0mph, intent +1.5σ; contact confirming</td></tr>
-<tr><td>Hunter Greene</td><td class="neg">🔻 FB velo -1.2 mph (-1.5σ) — velo decline/health watch, results confirming</td></tr>
-<tr><td>Reid Detmers</td><td class="neg">🔻 FB velo -1.7 mph (-2.2σ) — velo decline/health watch, results not yet</td></tr>
-</tbody></table>
+<h2 id="trend">📈 Physical Trend Watch</h2><p class="notes muted">unavailable this build — [Errno 2] No such file or directory: &#x27;/home/runner/work/PLV_Clone/PLV_Clone/data/research/xfp_cache/statcast_2026.parquet&#x27;</p>
 
 <section id="optimizer"><details open>
 <summary>🎯 Lineup Optimizer</summary>
@@ -714,7 +706,7 @@ even below the FA display cut.</p>
 <section id="streamers"><details open>
 <summary>💎 Streamer Targets</summary>
 <h2>💎 Top Streamer Targets <small class="muted">(rp3 × park × opp · tags layered)</small></h2>
-<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 123 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
+<p class="notes">Composite EV = rp3 baseline × park × opp batting index, ranked desc; ties broken by boom_stack desc → matchup tier desc → %owned asc. Tags layer on top — boom_stack (✦ N/4), 🎯 HIGH-K ARM, 🧊 elite framer, ⚠ framing tax, 🏥 first-back-from-IL, ⛔ anti-predictive skill-spike. IL filter (paranoid): excluded 124 FA SPs with injury status. Pitcher L/R splits excluded (failed YoY stability B1).</p>
 <table><thead><tr><th>Pitcher</th><th>Tm</th><th>%Own</th><th>Next</th><th>Date</th><th>Tier</th><th>rp3 (p25–p75)</th><th>boom_stack</th><th title="K-BB floor: FLOOR-RISK = RISKY-tier bust the mean hides; SAFE-FLOOR = SAFE-tier mean under-credits (context only)">Floor</th><th title="Model-vs-process divergence: PROCESS&gt;MODEL buy-low / MODEL&gt;PROCESS sell-high (context only)">Conv</th><th>Tags</th><th>Exp FP</th></tr></thead><tbody>
 <tr><td><a class="player-link" href="player_profiles.html?player=675660#player=675660" target="_blank" rel="noopener" title="Open in Profiles">Shane Drohan</a></td><td>MIL</td><td>15%</td><td>vs PIT</td><td>2026-08-06</td><td class="pos">soft</td><td>12.3 <small class="muted">(5.7–17.4)</small> <small class="muted">(blended 13.6 [4.8-23.0])</small></td><td><span class="pos" title="skill_spike=0 recform_hot=1 opp_soft=1 park_friendly=1 · boom%≈17 bust%≈15 (tier=streamer)">✦✦✦· <small>3/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>13.3</b> <small class="pos">(+8%)</small></td></tr>
 <tr><td><a class="player-link" href="player_profiles.html?player=686218#player=686218" target="_blank" rel="noopener" title="Open in Profiles">Emmet Sheehan</a></td><td>LAD</td><td>51%</td><td>@ AZ <small class="muted">(pred)</small></td><td>2026-08-09</td><td class="muted">avg</td><td>12.9 <small class="muted">(6.1–17.9)</small> <small class="muted">(blended 11.5 [3.0-17.7])</small></td><td><span class="muted" title="skill_spike=0 recform_hot=0 opp_soft=0 park_friendly=0 · boom%≈9 bust%≈18 (tier=streamer)">···· <small>0/4</small></span></td><td class="muted">·</td><td class="muted">·</td><td><span class="chip chip-k" title="HIGH-K ARM (z>=+1.0)">🎯K</span></td><td><b>12.6</b> <small class="neg">(-2%)</small></td></tr>
@@ -879,9 +871,12 @@ even below the FA display cut.</p>
 <tr class="breakdown"><td colspan="7">→ <span class="muted" title="rotation-gap prediction — not yet confirmed probable">~</span> 08-07 vs SEA (opp bat 1.01, ×0.99, <b>10.6 FP</b>)</td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Jacob%20Latz" target="_blank" rel="noopener" title="Open in Profiles">Jacob Latz</a></td><td data-label="Pos">RP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">~1.8 app</td><td data-label="Rest">+7.7</td><td data-label="Total"><b>+7.7</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Aaron%20Judge" target="_blank" rel="noopener" title="Open in Profiles">Aaron Judge</a></td><td data-label="Pos">RF</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Max%20Fried" target="_blank" rel="noopener" title="Open in Profiles">Max Fried</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Tyler%20Glasnow" target="_blank" rel="noopener" title="Open in Profiles">Tyler Glasnow</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Drew%20Rasmussen" target="_blank" rel="noopener" title="Open in Profiles">Drew Rasmussen</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
 <tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Nick%20Pivetta" target="_blank" rel="noopener" title="Open in Profiles">Nick Pivetta</a></td><td data-label="Pos">SP</td><td data-label="WTD" class="zero">+0.0</td><td data-label="Units" class="muted">—</td><td data-label="Rest">+0.0</td><td data-label="Total"><b>+0.0</b></td><td></td></tr>
+<tr><td data-label="Player"><a class="player-link" href="player_profiles.html?name=Vladimir%20Guerrero%20Jr." target="_blank" rel="noopener" title="Open in Profiles">Vladimir Guerrero Jr.</a></td><td data-label="Pos">1B</td><td data-label="WTD" class="neg">-3.0</td><td data-label="Units" class="muted">1 games</td><td data-label="Rest">+2.6</td><td data-label="Total"><b>-0.4</b></td><td></td></tr>
+<tr class="breakdown"><td colspan="7">→ 08-02 vs STL · ×1.04 = 2.6</td></tr>
 </tbody></table>
 </details></section>
 
@@ -1180,7 +1175,6 @@ even below the FA display cut.</p>
 <tr><td>17</td><td>08/01</td><td>194.9</td><td><b>344.7</b></td><td>264.5</td><td><b>376.0</b></td><td>16.3%</td></tr>
 <tr><td>17</td><td>08/01</td><td>206.5</td><td><b>337.8</b></td><td>266.5</td><td><b>363.9</b></td><td>19.0%</td></tr>
 <tr><td>17</td><td>08/01</td><td>206.5</td><td><b>354.0</b></td><td>266.5</td><td><b>378.1</b></td><td>21.9%</td></tr>
-<tr><td>17</td><td>08/02</td><td>284.9</td><td><b>334.5</b></td><td>295.3</td><td><b>336.4</b></td><td>42.8%</td></tr>
 <tr><td>17</td><td>08/02</td><td>284.9</td><td><b>340.8</b></td><td>295.3</td><td><b>345.0</b></td><td>39.0%</td></tr>
 <tr><td>18</td><td>08/03</td><td>0.0</td><td><b>346.6</b></td><td>0.0</td><td><b>303.4</b></td><td>77.8%</td></tr>
 <tr><td>18</td><td>08/03</td><td>0.0</td><td><b>401.0</b></td><td>0.0</td><td><b>359.6</b></td><td>75.8%</td></tr>
