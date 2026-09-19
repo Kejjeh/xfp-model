@@ -11,8 +11,10 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / 'scripts' / 'xfp'))
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling modules
 
 from xfp_v7_pipeline import derive_features, add_ip_resid_lag, cross_year_evaluate, ooy_evaluate
 from xfp_v8_pipeline import derive_v8_features, build_pitch_type_panel, score_fn
@@ -145,6 +147,8 @@ def main():
         'n_train': len(train),
         'version': 'v11',
         'training_years': '2020-2025',
+        'ip_resid_mode': 'point_in_time',   # add_ip_resid_lag default since the 2026-09 audit
+        'cross_year_r_provenance': 'expanding-window split; ip_resid_lag1 point-in-time; 4 transitions 2021->2025',
         'ytd_mae_2026': round(v11_mae, 4) if v11_mae is not None else None,
         'ytd_r_2026': round(v11_r, 5) if v11_r is not None else None,
         'comparison': {'v8_5_score': V85_SCORE, 'v8_5_ytd_mae': round(v85_mae, 4) if v85_mae is not None else None,
@@ -170,7 +174,16 @@ def main():
     return out, bundle
 
 
-def build_dashboard(proj, bundle, v85_mae, v85_r, v11_mae, v11_r):
+def build_dashboard(proj, bundle, v85_mae, v85_r, v11_mae, v11_r, provenance: dict | None = None,
+                    out_path: Path | None = None):
+    """Render the V11 dashboard. `provenance` (dict from xfp_provenance.build_provenance) is embedded as a
+    source/model/as-of panel; when None it is built from the repo artifacts."""
+    from xfp_provenance import build_provenance, render_provenance_html
+    if provenance is None:
+        provenance = build_provenance(ROOT, bundle=bundle, proj=proj)
+    provenance_html = render_provenance_html(provenance)
+    inputs_as_of = provenance.get('inputs', {}).get('inputs_as_of') or 'unknown'
+    cy_status = provenance.get('metrics_provenance', {}).get('cross_year_r', {}).get('status', 'unverified')
     proj_d = proj.sort_values('xfp_v11', ascending=False, na_position='last').reset_index(drop=True)
     proj_d['rank_v11'] = proj_d.index + 1
     proj_d['rank_v85'] = proj_d['xfp_v8_5'].rank(ascending=False, method='min')
@@ -286,18 +299,21 @@ sup{{font-size:9px}}
 <div class="hdr">
 <div class="title">SP xFP <span>V11</span> — Production Dashboard <span class="vbadge">v11 | {today}</span></div>
 <div class="sub">V8.5 + pitching_plus + fp_strike_pct. Trained on {bundle["n_train"]} SP-seasons (2020-2025).
-Cross-year r {bundle["cross_year_r"]} | k_bias_hi {bundle["k_bias_hi"]} | YTD r {fmt(v11_r,4)} | YTD MAE {fmt(v11_mae,3)}.
+Cross-year r {bundle["cross_year_r"]} ({cy_status}) | k_bias_hi {bundle["k_bias_hi"]} | YTD r {fmt(v11_r,4)} (contemporaneous) | YTD MAE {fmt(v11_mae,3)} (contemporaneous).<br>
+Model trained {bundle["trained_date"]} | 2026 inputs as-of {inputs_as_of} | provenance panel below.
 Mid-season blend (V8.1) used for 2026 inputs: rate metrics weighted by 2025+2026 pitches; xwoba_contact two-sample Bayesian.
 * indicates V8.5 fallback (pitching_plus history not available for that pitcher).</div>
 </div>
 
 <div class="banner">
 <b>V11 vs V8.5 (production model upgrade):</b>
-<span class="acc-badge improved">YTD r: {fmt(v85_r,4)} → {fmt(v11_r,4)}</span>
-<span class="acc-badge improved">YTD MAE: {fmt(v85_mae,3)} → {fmt(v11_mae,3)}</span>
+<span class="acc-badge improved">YTD r (contemporaneous): {fmt(v85_r,4)} → {fmt(v11_r,4)}</span>
+<span class="acc-badge improved">YTD MAE (contemporaneous): {fmt(v85_mae,3)} → {fmt(v11_mae,3)}</span>
 <span class="acc-badge">Cross-year r: 0.600 → {bundle["cross_year_r"]}</span>
 <span class="acc-badge">+pitching_plus +fp_strike_pct</span>
 </div>
+
+{provenance_html}
 
 <div class="grid3">
 <div class="card">
@@ -375,7 +391,7 @@ xFP V11 | Built {today} | {bundle["features"]}
 const V11_PROJECTIONS = {proj_json};
 </script>
 </body></html>'''
-    out_path = OUTPUTS / 'xfp_v11_dashboard.html'
+    out_path = Path(out_path) if out_path is not None else OUTPUTS / 'xfp_v11_dashboard.html'
     out_path.write_text(html, encoding='utf-8')
     print(f'  wrote {out_path}')
 
