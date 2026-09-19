@@ -309,4 +309,5 @@ def missing_sources(root: Path = ROOT) -> list[dict]:
         (root / 'data' / 'outputs' / 'xfp_v11_dashboard.html', 'dashboard written by xfp_v11_lock.build_dashboard (docs/index.html is generated elsewhere)'),
         (root / 'data' / 'outputs' / 'plv_rolling_2026.parquet', 'PLV rolling file read by xfp_rolling_ip.py'),
     ]
-    return [{'path': str(p.relative_to(root)), 'present': p.exists(), 'role': role} for p, role in checks]
+    # POSIX form so the serialized report is identical on Windows and Unix (documented paths use '/').
+    return [{'path': p.relative_to(root).as_posix(), 'present': p.exists(), 'role': role} for p, role in checks]

@@ -77,3 +77,17 @@ def test_dashboard_embeds_provenance_panel(tmp_path):
 def test_missing_sources_lists_fp_strike():
     ms = {s['path']: s['present'] for s in xp.missing_sources(REPO)}
     assert 'data/research/xfp_cache/fp_strike_2015_2026.csv' in ms
+
+
+def test_missing_sources_paths_are_posix_on_every_platform(monkeypatch):
+    """Control for the Windows portability failure: serialized report paths must use '/' regardless of
+    the host separator, so the documented output (and the tests that read it) are identical everywhere."""
+    import pathlib
+    for s in xp.missing_sources(REPO):
+        assert '\\' not in s['path'] and s['path'] == pathlib.PurePosixPath(s['path']).as_posix()
+    # simulate a Windows-style root: PureWindowsPath arithmetic must still serialize as POSIX
+    win_root = pathlib.PureWindowsPath('C:/repo')
+    rel = (win_root / 'data' / 'research' / 'xfp_cache' / 'fp_strike_2015_2026.csv').relative_to(win_root)
+    assert str(rel) == 'data\\research\\xfp_cache\\fp_strike_2015_2026.csv'   # what str() gives on Windows
+    assert rel.as_posix() == 'data/research/xfp_cache/fp_strike_2015_2026.csv'    # what the report must emit
+
