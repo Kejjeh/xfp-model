@@ -3,7 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
 RESEARCH = ROOT / 'data' / 'research'
 
 # (config_name, cross_year_r, k_bias_hi, dataset)

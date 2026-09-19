@@ -7,7 +7,9 @@ import sys, time, re, json
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
 OUTPUTS = ROOT / 'data' / 'outputs'
 
 YEARS = [2020, 2021, 2022, 2023, 2024, 2025]

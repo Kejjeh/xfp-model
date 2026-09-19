@@ -11,8 +11,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / 'scripts' / 'xfp'))
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling modules
 
 from xfp_v7_pipeline import derive_features, add_ip_resid_lag
 from xfp_v8_pipeline import derive_v8_features, build_pitch_type_panel

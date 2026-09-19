@@ -21,7 +21,9 @@ import pandas as pd
 warnings.filterwarnings('ignore')
 np.random.seed(42)
 
-ROOT     = Path(__file__).resolve().parents[2]
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT     = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
 RESEARCH = ROOT / 'data' / 'research'
 OUTPUTS  = ROOT / 'data' / 'outputs'
 MODELS   = ROOT / 'data' / 'models'
@@ -52,7 +54,7 @@ def score_fn(cross_r: float | None, k_bias_hi: float | None) -> float:
 
 
 # ---------- Reuse V7 core functions ----------
-sys.path.insert(0, str(ROOT / 'scripts' / 'xfp'))
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling modules
 from xfp_v7_pipeline import (load_data, derive_features, add_ip_resid_lag,
                               ooy_evaluate, cross_year_evaluate, cv_evaluate,
                               ooy_evaluate_nonlinear, cross_year_evaluate_nonlinear,

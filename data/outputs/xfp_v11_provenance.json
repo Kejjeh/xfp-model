@@ -1,0 +1,279 @@
+{
+  "generated_utc": "2026-09-19T01:07:27Z",
+  "git_head": "6600842",
+  "model": {
+    "version": "v11",
+    "bundle_path": "data/models/xfp_v11_pipeline.pkl",
+    "trained_date": "2026-05-05",
+    "training_years": "2020-2025",
+    "n_train": 768,
+    "features": [
+      "avg_velo",
+      "zone_pct",
+      "o_swing_pct",
+      "swstr_pct",
+      "c_plus_swstr",
+      "xwoba_per_pa",
+      "z_swing_pct",
+      "xwoba_x_swstr",
+      "ip_resid_lag1",
+      "k_pct_lag1",
+      "pitch_entropy",
+      "bb_pfxz",
+      "pitching_plus",
+      "fp_strike_pct"
+    ],
+    "estimator": "StandardScaler -> RidgeCV(alphas=logspace(-1,5,80), cv=10), scaler fit on training rows only",
+    "fallback": "V8.5 (12 features, 2015-2025) when pitching_plus history is missing (v11_has_pitching_plus=False)"
+  },
+  "inputs": {
+    "training_panel": {
+      "path": "data/research/xfp_cache/sp_multiyr_2015_2025.csv",
+      "years": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "rows": 2159,
+      "note": "file name says 2015_2025 but it also carries the partial-2026 slice"
+    },
+    "season_windows": {
+      "2015": [
+        "2015-04-05",
+        "2015-10-15"
+      ],
+      "2016": [
+        "2016-04-03",
+        "2016-10-15"
+      ],
+      "2017": [
+        "2017-04-02",
+        "2017-10-15"
+      ],
+      "2018": [
+        "2018-03-29",
+        "2018-10-15"
+      ],
+      "2019": [
+        "2019-03-20",
+        "2019-10-15"
+      ],
+      "2020": [
+        "2020-07-23",
+        "2020-09-30"
+      ],
+      "2021": [
+        "2021-04-01",
+        "2021-10-03"
+      ],
+      "2022": [
+        "2022-04-07",
+        "2022-10-05"
+      ],
+      "2023": [
+        "2023-03-30",
+        "2023-10-01"
+      ],
+      "2024": [
+        "2024-03-28",
+        "2024-09-29"
+      ],
+      "2025": [
+        "2025-03-27",
+        "2025-10-05"
+      ],
+      "2026": [
+        "2026-03-26",
+        "2026-05-04"
+      ]
+    },
+    "inputs_as_of": "2026-05-04",
+    "season_2026_partial": {
+      "rows": 161,
+      "max_gs": 7,
+      "window_end": "2026-05-04"
+    },
+    "fangraphs_years": [
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "blend": {
+      "method": "V8.1 mid-season blend (xfp_v8_midseason.blend_pitcher)",
+      "cohorts": {
+        "blended": 124,
+        "2025_only": 44,
+        "2026_only": 14
+      },
+      "per_feature_semantics": {
+        "avg_velo": "pitch_weighted",
+        "zone_pct": "pitch_weighted",
+        "o_swing_pct": "pitch_weighted",
+        "swstr_pct": "pitch_weighted",
+        "c_plus_swstr": "pitch_weighted",
+        "xwoba_per_pa": "derived (bayes xwoba_contact x pitch-weighted bip_pct)",
+        "z_swing_pct": "pitch_weighted",
+        "xwoba_x_swstr": "derived (bayes xwoba_contact x pitch-weighted swstr_pct)",
+        "ip_resid_lag1": "latest_available (= 2025 residual; 2026 row carries the 2025 lag)",
+        "k_pct_lag1": "latest_available (= 2025 k_pct; 2026 row carries the 2025 lag)",
+        "pitch_entropy": "latest_available (2026 YTD outright)",
+        "bb_pfxz": "latest_available (2026 YTD outright)",
+        "pitching_plus": "latest_available (2026 YTD outright)",
+        "fp_strike_pct": "latest_available (2026 YTD outright)"
+      }
+    },
+    "feature_availability": {
+      "avg_velo": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "zone_pct": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "o_swing_pct": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "swstr_pct": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "c_plus_swstr": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "xwoba_per_pa": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "xwOBA (estimated_woba_using_speedangle) from 2015"
+      },
+      "z_swing_pct": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "Statcast pitch tracking starts 2015"
+      },
+      "xwoba_x_swstr": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "derived from xwoba_contact x swstr_pct"
+      },
+      "ip_resid_lag1": {
+        "source": "statcast_lag",
+        "first_year": 2017,
+        "reason": "needs prior-season residual from an IP model fit on >=50 rows of EARLIER seasons (point-in-time: 2015 has no earlier seasons, so 2016 residuals are the first)"
+      },
+      "k_pct_lag1": {
+        "source": "statcast_lag",
+        "first_year": 2016,
+        "reason": "needs the pitchers PRIOR season (2015 is the first)"
+      },
+      "pitch_entropy": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "pitch_type mix from Statcast"
+      },
+      "bb_pfxz": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "pfx_z by pitch family, >=30 breaking balls"
+      },
+      "pitching_plus": {
+        "source": "fangraphs",
+        "first_year": 2020,
+        "reason": "FanGraphs Stuff+/Location+/Pitching+ published from 2020"
+      },
+      "fp_strike_pct": {
+        "source": "statcast",
+        "first_year": 2015,
+        "reason": "first-pitch strike rate from Statcast; SOURCE FILE (fp_strike_2015_2026.csv) NOT IN REPO"
+      }
+    },
+    "missing_sources": [
+      {
+        "path": "data/research/xfp_cache/fp_strike_2015_2026.csv",
+        "present": false,
+        "role": "fp_strike_pct feature for V11 (14th feature); V11 cannot be retrained from the repo without it"
+      },
+      {
+        "path": "data/research/xfp_cache/statcast_2025.parquet",
+        "present": false,
+        "role": "raw Statcast cache (any year); needed by build_sp_multiyr / pitch-type panels"
+      },
+      {
+        "path": "data/outputs/xfp_v8_projections.csv",
+        "present": false,
+        "role": "V8 baseline projections read by xfp_v8_midseason.py"
+      },
+      {
+        "path": "data/outputs/xfp_v11_dashboard.html",
+        "present": false,
+        "role": "dashboard written by xfp_v11_lock.build_dashboard (docs/index.html is generated elsewhere)"
+      },
+      {
+        "path": "data/outputs/plv_rolling_2026.parquet",
+        "present": false,
+        "role": "PLV rolling file read by xfp_rolling_ip.py"
+      }
+    ]
+  },
+  "projections": {
+    "path": "data/outputs/xfp_v11_projections.csv",
+    "rows": 182,
+    "n_v11": 177,
+    "n_v85_fallback": 5,
+    "ytd_columns_source": "data/outputs/xfp_v8_5_projections.csv (gs_2026, fp_per_start_actual_2026, k_pct_2026)"
+  },
+  "metrics": {
+    "cross_year_r": 0.61381,
+    "k_bias_hi": 0.773,
+    "score_current": 1.45493,
+    "score_tolerance_T1": 1.84143,
+    "ytd_r_2026": 0.51075,
+    "ytd_mae_2026": 3.393,
+    "n_train": 768.0
+  },
+  "evaluation_labels": {
+    "cross_year_r": {
+      "point_in_time": true,
+      "definition": "features from season T (pitchers present in T and T+1) -> FP/start in T+1; scaler+RidgeCV fit on rows with year < T+1 only",
+      "transitions": "2021->2022, 2022->2023, 2023->2024, 2024->2025 (4; NOT 9)",
+      "caveat": "ip_resid_lag1 in archived numbers was built in leave-one-year-out mode (future seasons incl. partial 2026 in the IP model). Point-in-time rebuild changes r by <0.001 (see audit). k_bias cohorts use TEST-year k_pct (post-hoc diagnostic)."
+    },
+    "ooy_r": {
+      "point_in_time": false,
+      "definition": "same-season holdout: model for season Y trained on all OTHER seasons, including seasons after Y",
+      "caveat": "secondary diagnostic; never a deployment metric"
+    },
+    "ytd_r_2026": {
+      "point_in_time": false,
+      "definition": "corr(projection, 2026 FP/start through data cutoff) for gs_2026 >= 5",
+      "caveat": "CONTEMPORANEOUS, not forward: the projection inputs are the V8.1 blend, which folds the SAME 2026 starts (swstr, xwoba, Pitching+ ...) into the features. Frozen-V8 check: pre-season inputs r=0.31 vs blended inputs r=0.49 on the same 112 pitchers."
+    }
+  },
+  "ytd_overlap": {
+    "n_ytd_eval": 112,
+    "n_inputs_include_2026_starts": 112,
+    "share_contemporaneous": 1.0,
+    "label": "contemporaneous",
+    "mean_weight_2026": 0.2139
+  }
+}

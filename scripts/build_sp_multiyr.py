@@ -26,7 +26,9 @@ import numpy as np
 import pandas as pd
 warnings.filterwarnings('ignore')
 
-ROOT = Path(__file__).resolve().parents[2]
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
 CACHE = ROOT / 'data' / 'research' / 'xfp_cache'
 CACHE.mkdir(parents=True, exist_ok=True)
 TMP = Path('/tmp')
