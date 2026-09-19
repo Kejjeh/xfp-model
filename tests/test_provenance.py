@@ -43,7 +43,11 @@ def test_provenance_record_has_source_model_asof(tmp_path):
     assert prov['inputs']['training_panel']['years'][0] == 2015 and prov['inputs']['training_panel']['years'][-1] == 2026
     assert prov['inputs']['inputs_as_of'] == '2026-05-04'           # SEASON_DATES[2026] window end
     assert prov['evaluation_labels']['ytd_r_2026']['point_in_time'] is False
-    assert prov['evaluation_labels']['cross_year_r']['point_in_time'] is True
+    # the synthetic bundle has no ip_resid_mode -> archived legacy construction, NOT point-in-time
+    assert prov['evaluation_labels']['cross_year_r']['point_in_time'] is False
+    assert prov['metrics_provenance']['cross_year_r']['status'].startswith('archived_legacy_loo')
+    prov_pit = xp.build_provenance(REPO, bundle={**_bundle(), 'ip_resid_mode': 'point_in_time'}, proj=_proj(), panel=panel, blend_proj=pd.DataFrame())
+    assert prov_pit['metrics_provenance']['cross_year_r']['point_in_time'] is True
     assert prov['inputs']['blend']['per_feature_semantics']['pitching_plus'].startswith('latest_available')
     assert any(s['path'].endswith('fp_strike_2015_2026.csv') and not s['present'] for s in prov['inputs']['missing_sources'])
     json.dumps(prov, default=str)                                   # serialisable
@@ -53,8 +57,9 @@ def test_provenance_html_states_contemporaneous_and_asof():
     prov = xp.build_provenance(REPO, bundle=_bundle(), proj=_proj(), panel=make_panel(), blend_proj=pd.DataFrame())
     html = xp.render_provenance_html(prov)
     for needle in ['CONTEMPORANEOUS', '2026-05-04', '2026-05-05', 'xfp_v11_pipeline.pkl', 'latest_available',
-                   'fp_strike_2015_2026.csv', '4; NOT 9']:
+                   'fp_strike_2015_2026.csv', '4; NOT 9', 'NOT point-in-time', 'archived_legacy_loo']:
         assert needle in html, needle
+    assert 'cross-year r, 4 transitions (point-in-time)' not in html   # archived bundle score is never headlined as PIT
 
 
 def test_dashboard_embeds_provenance_panel(tmp_path):
@@ -66,6 +71,7 @@ def test_dashboard_embeds_provenance_panel(tmp_path):
     assert 'YTD r (contemporaneous)' in html
     assert '2026 inputs as-of 2026-05-04' in html
     assert 'Model trained 2026-05-05' in html
+    assert 'Cross-year r 0.61381 (archived_legacy_loo' in html
 
 
 def test_missing_sources_lists_fp_strike():

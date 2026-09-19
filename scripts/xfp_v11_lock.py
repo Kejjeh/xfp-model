@@ -147,6 +147,8 @@ def main():
         'n_train': len(train),
         'version': 'v11',
         'training_years': '2020-2025',
+        'ip_resid_mode': 'point_in_time',   # add_ip_resid_lag default since the 2026-09 audit
+        'cross_year_r_provenance': 'expanding-window split; ip_resid_lag1 point-in-time; 4 transitions 2021->2025',
         'ytd_mae_2026': round(v11_mae, 4) if v11_mae is not None else None,
         'ytd_r_2026': round(v11_r, 5) if v11_r is not None else None,
         'comparison': {'v8_5_score': V85_SCORE, 'v8_5_ytd_mae': round(v85_mae, 4) if v85_mae is not None else None,
@@ -181,6 +183,7 @@ def build_dashboard(proj, bundle, v85_mae, v85_r, v11_mae, v11_r, provenance: di
         provenance = build_provenance(ROOT, bundle=bundle, proj=proj)
     provenance_html = render_provenance_html(provenance)
     inputs_as_of = provenance.get('inputs', {}).get('inputs_as_of') or 'unknown'
+    cy_status = provenance.get('metrics_provenance', {}).get('cross_year_r', {}).get('status', 'unverified')
     proj_d = proj.sort_values('xfp_v11', ascending=False, na_position='last').reset_index(drop=True)
     proj_d['rank_v11'] = proj_d.index + 1
     proj_d['rank_v85'] = proj_d['xfp_v8_5'].rank(ascending=False, method='min')
@@ -296,7 +299,7 @@ sup{{font-size:9px}}
 <div class="hdr">
 <div class="title">SP xFP <span>V11</span> — Production Dashboard <span class="vbadge">v11 | {today}</span></div>
 <div class="sub">V8.5 + pitching_plus + fp_strike_pct. Trained on {bundle["n_train"]} SP-seasons (2020-2025).
-Cross-year r {bundle["cross_year_r"]} | k_bias_hi {bundle["k_bias_hi"]} | YTD r {fmt(v11_r,4)} (contemporaneous) | YTD MAE {fmt(v11_mae,3)} (contemporaneous).<br>
+Cross-year r {bundle["cross_year_r"]} ({cy_status}) | k_bias_hi {bundle["k_bias_hi"]} | YTD r {fmt(v11_r,4)} (contemporaneous) | YTD MAE {fmt(v11_mae,3)} (contemporaneous).<br>
 Model trained {bundle["trained_date"]} | 2026 inputs as-of {inputs_as_of} | provenance panel below.
 Mid-season blend (V8.1) used for 2026 inputs: rate metrics weighted by 2025+2026 pitches; xwoba_contact two-sample Bayesian.
 * indicates V8.5 fallback (pitching_plus history not available for that pitcher).</div>

@@ -101,7 +101,52 @@ def test_fg_alignment_passes_on_consistent_ids_and_name_formats():
     fg.loc[0, 'player_name_fg'] = f'First {surname(0)} Jr.'          # suffix variant
     fg.loc[1, 'player_name_fg'] = f'First X. {surname(1)}'            # middle-initial variant
     res = xc.check_fg_id_alignment(p, fg, 2024)
-    assert res['ok'] and res['n_matched'] == 8
+    assert res['ok'] and res['n_matched'] == 8 and res['n_consistent'] == 8 and res['n_ambiguous'] == 0
+    assert res['identity_verified_by_name'] is False       # name agreement is never proof of identity
+
+
+def test_fg_alignment_swapped_siblings_are_ambiguous_not_consistent():
+    """Control: two pitchers share a surname (Rogers, Taylor / Rogers, Tyler) and their ids are swapped.
+    Surname-only checking passes this silently; the status must be 'ambiguous', never 'consistent'."""
+    p = make_panel(n_pitchers=2, years=[2024])
+    p['player_name'] = ['Rogers, Taylor', 'Rogers, Tyler']
+    fg = pd.DataFrame({'mlb_id': p['pitcher'].values[::-1], 'player_name_fg': ['Taylor Rogers', 'Tyler Rogers']})
+    res = xc.check_fg_id_alignment(p, fg, 2024)
+    assert res['n_consistent'] == 0 and res['n_ambiguous'] == 2 and res['n_name_mismatch'] == 0
+    assert res['identity_verified_by_name'] is False
+    # even with ids in the right order a same-surname pool stays ambiguous (names cannot separate them)
+    fg_ok = pd.DataFrame({'mlb_id': p['pitcher'].values, 'player_name_fg': ['Taylor Rogers', 'Tyler Rogers']})
+    res_ok = xc.check_fg_id_alignment(p, fg_ok, 2024)
+    assert res_ok['n_ambiguous'] == 2 and res_ok['n_consistent'] == 0
+
+
+def test_fg_alignment_first_name_conflict_is_ambiguous():
+    p = make_panel(n_pitchers=1, years=[2024]); p['player_name'] = ['Rogers, Taylor']
+    fg = pd.DataFrame({'mlb_id': p['pitcher'], 'player_name_fg': ['Tyler Rogers']})
+    res = xc.check_fg_id_alignment(p, fg, 2024)
+    assert res['ok'] and res['n_ambiguous'] == 1 and res['n_consistent'] == 0
+    assert xc.name_status('Rogers, Taylor', 'Tyler Rogers') == 'ambiguous'
+    assert xc.names_match('Rogers, Taylor', 'Tyler Rogers')          # surname-only helper is (by design) weaker
+
+
+def test_name_status_preserves_accents_and_suffix_semantics():
+    assert xc.name_status('Peña, Jeremy', 'Jeremy Pena') == 'consistent'          # accent variants tolerated
+    assert xc.name_status('Otto Jr., Glenn', 'Glenn Otto') == 'consistent'        # suffix on one side only
+    assert xc.name_status('Acuña Jr., Ronald', 'Ronald Acuna Sr.') == 'ambiguous' # conflicting suffixes
+    assert xc.name_status('Ortiz, Luis', 'Luis L. Ortiz') == 'consistent'
+    assert xc.name_status('Woods Richardson, Simeon', 'Simeon Woods Richardson') == 'consistent'
+    assert xc.name_status('Smith, John', 'John Jones') == 'mismatch'
+
+
+def test_fg_alignment_refuses_fractional_ids_instead_of_truncating():
+    p = make_panel(n_pitchers=2, years=[2024])
+    fg = pd.DataFrame({'mlb_id': [float(p['pitcher'][0]) + 0.5, float(p['pitcher'][1])],
+                       'player_name_fg': ['First ' + surname(0), 'First ' + surname(1)]})
+    res = xc.check_fg_id_alignment(p, fg, 2024)
+    assert not res['ok'] and 'fractional' in res['error']
+    ids, err = xc.strict_int_ids(pd.Series([1.0, 2.0]))
+    assert err is None and ids.tolist() == [1, 2]
+    assert xc.strict_int_ids(pd.Series(['1', 'x']))[1] is not None
 
 
 def test_fg_alignment_flags_swapped_ids():
@@ -140,6 +185,21 @@ def test_ytd_overlap_report_labels_contemporaneous_sample():
     proj = pd.DataFrame({'pitcher': [1, 2, 3], 'gs_2026': [7, 6, 2], 'fp_per_start_actual_2026': [10., 12., 5.]})
     panel26 = pd.DataFrame({'pitcher': [1, 2]})
     rep = xc.ytd_overlap_report(proj, panel26)
-    assert rep == {'n_ytd_eval': 2, 'n_inputs_include_2026_starts': 2, 'share_contemporaneous': 1.0,
-                   'label': 'contemporaneous'}
-    assert xc.ytd_overlap_report(proj, pd.DataFrame({'pitcher': [99]}))['label'] == 'forward'
+    assert rep['n_ytd_eval'] == 2 and rep['n_inputs_include_2026_starts'] == 2
+    assert rep['label'] == 'contemporaneous' and rep['forward_status'] == 'not_forward'
+    # no overlap is NOT evidence of a forward evaluation without frozen input/cutoff provenance
+    none = xc.ytd_overlap_report(proj, pd.DataFrame({'pitcher': [99]}))
+    assert none['label'] == 'no_overlap_detected' and none['forward_status'].startswith('unverified')
+    assert 'forward' not in none['label']
+
+
+def test_metric_provenance_is_tied_to_the_artifact():
+    legacy = xc.metric_provenance({'cross_year_r': 0.61381, 'trained_date': '2026-05-05'})['cross_year_r']
+    assert legacy['point_in_time'] is False and legacy['status'].startswith('archived_legacy_loo')
+    pit = xc.metric_provenance({'cross_year_r': 0.6, 'ip_resid_mode': 'point_in_time'})['cross_year_r']
+    assert pit['point_in_time'] is True and pit['status'] == 'point_in_time'
+    unk = xc.metric_provenance({'cross_year_r': 0.6, 'ip_resid_mode': 'something_else'})['cross_year_r']
+    assert unk['point_in_time'] is None and unk['status'] == 'unverified'
+    assert xc.metric_provenance(None)['cross_year_r']['status'] == 'unverified'
+    assert xc.evaluation_labels()['cross_year_r']['point_in_time'] is None
+    assert xc.evaluation_labels({'cross_year_r': 0.6})['cross_year_r']['point_in_time'] is False

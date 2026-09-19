@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-19T01:06:50Z",
+  "generated_utc": "2026-09-19T21:20:45Z",
   "bundle": {
     "sklearn_runtime": "1.9.1",
     "unpickle_version_warnings": [
@@ -108,6 +108,7 @@
     "n_inputs_include_2026_starts": 112,
     "share_contemporaneous": 1.0,
     "label": "contemporaneous",
+    "forward_status": "not_forward",
     "mean_weight_2026": 0.2139
   },
   "ids": {
@@ -127,56 +128,791 @@
         "year": 2020,
         "n_panel": 146,
         "n_matched": 146,
+        "n_consistent": 117,
+        "n_ambiguous": 29,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            434671,
+            "S\u00e1nchez, An\u00edbal",
+            "Anibal Sanchez"
+          ],
+          [
+            448179,
+            "Hill, Rich",
+            "Rich Hill"
+          ],
+          [
+            474463,
+            "Anderson, Brett",
+            "Brett Anderson"
+          ],
+          [
+            502624,
+            "Anderson, Chase",
+            "Chase Anderson"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            543037,
+            "Cole, Gerrit",
+            "Gerrit Cole"
+          ],
+          [
+            543243,
+            "Gray, Sonny",
+            "Sonny Gray"
+          ],
+          [
+            547942,
+            "Kim, Kwang Hyun",
+            "Kwang-hyun Kim"
+          ],
+          [
+            547943,
+            "Ryu, Hyun Jin",
+            "Hyun-Jin Ryu"
+          ],
+          [
+            572070,
+            "Richards, Garrett",
+            "Garrett Richards"
+          ],
+          [
+            592351,
+            "Gray, Jon",
+            "Jon Gray"
+          ],
+          [
+            592866,
+            "Williams, Trevor",
+            "Trevor Williams"
+          ],
+          [
+            605242,
+            "Fulmer, Michael",
+            "Michael Fulmer"
+          ],
+          [
+            605347,
+            "L\u00f3pez, Jorge",
+            "Jorge Lopez"
+          ],
+          [
+            622491,
+            "Castillo, Luis",
+            "Luis Castillo"
+          ],
+          [
+            622694,
+            "Hern\u00e1ndez, Elieser",
+            "Elieser Hernandez"
+          ],
+          [
+            625643,
+            "L\u00f3pez, Reynaldo",
+            "Reynaldo Lopez"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            641712,
+            "Hudson, Dakota",
+            "Dakota Hudson"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2021,
         "n_panel": 190,
         "n_matched": 170,
+        "n_consistent": 138,
+        "n_ambiguous": 32,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            474463,
+            "Anderson, Brett",
+            "Brett Anderson"
+          ],
+          [
+            503449,
+            "Peralta, Wily",
+            "Wily Peralta"
+          ],
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            543243,
+            "Gray, Sonny",
+            "Sonny Gray"
+          ],
+          [
+            547942,
+            "Kim, Kwang Hyun",
+            "Kwang-hyun Kim"
+          ],
+          [
+            547943,
+            "Ryu, Hyun Jin",
+            "Hyun-Jin Ryu"
+          ],
+          [
+            572070,
+            "Richards, Garrett",
+            "Garrett Richards"
+          ],
+          [
+            592346,
+            "Gonz\u00e1lez, Chi Chi",
+            "Chi Chi Gonzalez"
+          ],
+          [
+            592351,
+            "Gray, Jon",
+            "Jon Gray"
+          ],
+          [
+            592866,
+            "Williams, Trevor",
+            "Trevor Williams"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            605347,
+            "L\u00f3pez, Jorge",
+            "Jorge Lopez"
+          ],
+          [
+            605507,
+            "Thompson, Zach",
+            "Zach Thompson"
+          ],
+          [
+            621219,
+            "Mills, Alec",
+            "Alec Mills"
+          ],
+          [
+            622491,
+            "Castillo, Luis",
+            "Luis Castillo"
+          ],
+          [
+            622694,
+            "Hern\u00e1ndez, Elieser",
+            "Elieser Hernandez"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            641302,
+            "Alexander, Tyler",
+            "Tyler Alexander"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2022,
         "n_panel": 186,
         "n_matched": 170,
+        "n_consistent": 144,
+        "n_ambiguous": 26,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            448179,
+            "Hill, Rich",
+            "Rich Hill"
+          ],
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            543243,
+            "Gray, Sonny",
+            "Sonny Gray"
+          ],
+          [
+            592351,
+            "Gray, Jon",
+            "Jon Gray"
+          ],
+          [
+            592717,
+            "Sanchez, Aaron",
+            "Aaron Sanchez"
+          ],
+          [
+            592866,
+            "Williams, Trevor",
+            "Trevor Williams"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            605507,
+            "Thompson, Zach",
+            "Zach Thompson"
+          ],
+          [
+            607259,
+            "Martinez, Nick",
+            "Nick Martinez"
+          ],
+          [
+            622491,
+            "Castillo, Luis",
+            "Luis Castillo"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            624522,
+            "Thompson, Keegan",
+            "Keegan Thompson"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            641302,
+            "Alexander, Tyler",
+            "Tyler Alexander"
+          ],
+          [
+            641712,
+            "Hudson, Dakota",
+            "Dakota Hudson"
+          ],
+          [
+            641745,
+            "Keller, Brad",
+            "Brad Keller"
+          ],
+          [
+            642547,
+            "Peralta, Freddy",
+            "Freddy Peralta"
+          ],
+          [
+            656605,
+            "Keller, Mitch",
+            "Mitch Keller"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2023,
         "n_panel": 188,
         "n_matched": 169,
+        "n_consistent": 141,
+        "n_ambiguous": 28,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            502624,
+            "Anderson, Chase",
+            "Chase Anderson"
+          ],
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            543243,
+            "Gray, Sonny",
+            "Sonny Gray"
+          ],
+          [
+            547943,
+            "Ryu, Hyun Jin",
+            "Hyun-Jin Ryu"
+          ],
+          [
+            592351,
+            "Gray, Jon",
+            "Jon Gray"
+          ],
+          [
+            592836,
+            "Walker, Taijuan",
+            "Taijuan Walker"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            608344,
+            "Irvin, Cole",
+            "Cole Irvin"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            642547,
+            "Peralta, Freddy",
+            "Freddy Peralta"
+          ],
+          [
+            656731,
+            "Megill, Tylor",
+            "Tylor Megill"
+          ],
+          [
+            657277,
+            "Webb, Logan",
+            "Logan Webb"
+          ],
+          [
+            663623,
+            "Irvin, Jake",
+            "Jake Irvin"
+          ],
+          [
+            665795,
+            "Cabrera, Edward",
+            "Edward Cabrera"
+          ],
+          [
+            666129,
+            "Garrett, Braxton",
+            "Braxton Garrett"
+          ],
+          [
+            668909,
+            "Williams, Gavin",
+            "Gavin Williams"
+          ],
+          [
+            669194,
+            "Nelson, Ryne",
+            "Ryne Nelson"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2024,
         "n_panel": 180,
         "n_matched": 166,
+        "n_consistent": 133,
+        "n_ambiguous": 33,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            543243,
+            "Gray, Sonny",
+            "Sonny Gray"
+          ],
+          [
+            544150,
+            "Su\u00e1rez, Albert",
+            "Albert Suarez"
+          ],
+          [
+            592351,
+            "Gray, Jon",
+            "Jon Gray"
+          ],
+          [
+            592866,
+            "Williams, Trevor",
+            "Trevor Williams"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            607259,
+            "Martinez, Nick",
+            "Nick Martinez"
+          ],
+          [
+            608344,
+            "Irvin, Cole",
+            "Cole Irvin"
+          ],
+          [
+            622491,
+            "Castillo, Luis",
+            "Luis Castillo"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            625643,
+            "L\u00f3pez, Reynaldo",
+            "Reynaldo Lopez"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            641712,
+            "Hudson, Dakota",
+            "Dakota Hudson"
+          ],
+          [
+            642547,
+            "Peralta, Freddy",
+            "Freddy Peralta"
+          ],
+          [
+            650633,
+            "King, Michael",
+            "Michael King"
+          ],
+          [
+            650911,
+            "S\u00e1nchez, Cristopher",
+            "Cristopher Sanchez"
+          ],
+          [
+            656731,
+            "Megill, Tylor",
+            "Tylor Megill"
+          ],
+          [
+            657277,
+            "Webb, Logan",
+            "Logan Webb"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2025,
         "n_panel": 185,
         "n_matched": 171,
+        "n_consistent": 136,
+        "n_ambiguous": 35,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            542881,
+            "Anderson, Tyler",
+            "Tyler Anderson"
+          ],
+          [
+            592836,
+            "Walker, Taijuan",
+            "Taijuan Walker"
+          ],
+          [
+            592866,
+            "Williams, Trevor",
+            "Trevor Williams"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            605280,
+            "Holmes, Clay",
+            "Clay Holmes"
+          ],
+          [
+            607259,
+            "Martinez, Nick",
+            "Nick Martinez"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            641154,
+            "L\u00f3pez, Pablo",
+            "Pablo Lopez"
+          ],
+          [
+            642547,
+            "Peralta, Freddy",
+            "Freddy Peralta"
+          ],
+          [
+            650633,
+            "King, Michael",
+            "Michael King"
+          ],
+          [
+            656550,
+            "Holmes, Grant",
+            "Grant Holmes"
+          ],
+          [
+            656605,
+            "Keller, Mitch",
+            "Mitch Keller"
+          ],
+          [
+            656731,
+            "Megill, Tylor",
+            "Tylor Megill"
+          ],
+          [
+            657277,
+            "Webb, Logan",
+            "Logan Webb"
+          ],
+          [
+            663436,
+            "Martin, Davis",
+            "Davis Martin"
+          ],
+          [
+            668909,
+            "Williams, Gavin",
+            "Gavin Williams"
+          ],
+          [
+            669302,
+            "Gilbert, Logan",
+            "Logan Gilbert"
+          ],
+          [
+            669432,
+            "Rogers, Trevor",
+            "Trevor Rogers"
+          ]
+        ]
       },
       {
         "ok": true,
         "year": 2026,
         "n_panel": 161,
         "n_matched": 159,
+        "n_consistent": 137,
+        "n_ambiguous": 22,
         "n_name_mismatch": 0,
-        "mismatches": []
+        "identity_verified_by_name": false,
+        "mismatches": [],
+        "ambiguous": [
+          [
+            518876,
+            "Kelly, Merrill",
+            "Merrill Kelly"
+          ],
+          [
+            527048,
+            "P\u00e9rez, Mart\u00edn",
+            "Martin Perez"
+          ],
+          [
+            592836,
+            "Walker, Taijuan",
+            "Taijuan Walker"
+          ],
+          [
+            593958,
+            "Rodriguez, Eduardo",
+            "Eduardo Rodriguez"
+          ],
+          [
+            605280,
+            "Holmes, Clay",
+            "Clay Holmes"
+          ],
+          [
+            624133,
+            "Suarez, Ranger",
+            "Ranger Suarez"
+          ],
+          [
+            625643,
+            "L\u00f3pez, Reynaldo",
+            "Reynaldo Lopez"
+          ],
+          [
+            642547,
+            "Peralta, Freddy",
+            "Freddy Peralta"
+          ],
+          [
+            650633,
+            "King, Michael",
+            "Michael King"
+          ],
+          [
+            656550,
+            "Holmes, Grant",
+            "Grant Holmes"
+          ],
+          [
+            656605,
+            "Keller, Mitch",
+            "Mitch Keller"
+          ],
+          [
+            657277,
+            "Webb, Logan",
+            "Logan Webb"
+          ],
+          [
+            667755,
+            "Soriano, Jos\u00e9",
+            "Jose Soriano"
+          ],
+          [
+            668909,
+            "Williams, Gavin",
+            "Gavin Williams"
+          ],
+          [
+            669432,
+            "Rogers, Trevor",
+            "Trevor Rogers"
+          ],
+          [
+            677952,
+            "Ashcraft, Braxton",
+            "Braxton Ashcraft"
+          ],
+          [
+            680732,
+            "Burke, Sean",
+            "Sean Burke"
+          ],
+          [
+            682052,
+            "Lopez, Jacob",
+            "Jacob Lopez"
+          ],
+          [
+            683004,
+            "Leiter, Jack",
+            "Jack Leiter"
+          ],
+          [
+            691587,
+            "P\u00e9rez, Eury",
+            "Eury Perez"
+          ]
+        ]
       }
     ]
   },
@@ -268,8 +1004,8 @@
     "mean_weight_2026_if_pitch_weighted": 0.212
   },
   "provenance": {
-    "generated_utc": "2026-09-19T01:07:26Z",
-    "git_head": "6600842",
+    "generated_utc": "2026-09-19T21:21:20Z",
+    "git_head": "c06908c",
     "model": {
       "version": "v11",
       "bundle_path": "data/models/xfp_v11_pipeline.pkl",
@@ -520,22 +1256,35 @@
       "ytd_mae_2026": 3.393,
       "n_train": 768.0
     },
+    "metrics_provenance": {
+      "cross_year_r": {
+        "value": 0.61381,
+        "ip_resid_mode": "loo (archived, inferred: bundle predates audit)",
+        "point_in_time": false,
+        "status": "archived_legacy_loo (ip_resid built with future seasons; not point-in-time)",
+        "trained_date": "2026-05-05"
+      }
+    },
     "evaluation_labels": {
       "cross_year_r": {
-        "point_in_time": true,
+        "point_in_time": false,
+        "status": "archived_legacy_loo (ip_resid built with future seasons; not point-in-time)",
+        "ip_resid_mode": "loo (archived, inferred: bundle predates audit)",
         "definition": "features from season T (pitchers present in T and T+1) -> FP/start in T+1; scaler+RidgeCV fit on rows with year < T+1 only",
         "transitions": "2021->2022, 2022->2023, 2023->2024, 2024->2025 (4; NOT 9)",
-        "caveat": "ip_resid_lag1 in archived numbers was built in leave-one-year-out mode (future seasons incl. partial 2026 in the IP model). Point-in-time rebuild changes r by <0.001 (see audit). k_bias cohorts use TEST-year k_pct (post-hoc diagnostic)."
+        "caveat": "The evaluation SPLIT is expanding-window, but the archived bundle metric used ip_resid_lag1 built in leave-one-year-out mode (future seasons incl. partial 2026 in the IP model), so the stored number is retrospective/legacy. Point-in-time recomputation (scripts/xfp_audit.py) moves r by <0.001 for V8.5 and V11-minus-fp_strike; the full V11 point-in-time value cannot be computed (fp_strike source missing). k_bias cohorts use TEST-year k_pct (post-hoc diagnostic)."
       },
       "ooy_r": {
         "point_in_time": false,
+        "status": "not_point_in_time",
         "definition": "same-season holdout: model for season Y trained on all OTHER seasons, including seasons after Y",
         "caveat": "secondary diagnostic; never a deployment metric"
       },
       "ytd_r_2026": {
         "point_in_time": false,
+        "status": "contemporaneous",
         "definition": "corr(projection, 2026 FP/start through data cutoff) for gs_2026 >= 5",
-        "caveat": "CONTEMPORANEOUS, not forward: the projection inputs are the V8.1 blend, which folds the SAME 2026 starts (swstr, xwoba, Pitching+ ...) into the features. Frozen-V8 check: pre-season inputs r=0.31 vs blended inputs r=0.49 on the same 112 pitchers."
+        "caveat": "CONTEMPORANEOUS, not forward: the projection inputs are the V8.1 blend, which folds the SAME 2026 starts (swstr, xwoba, Pitching+ ...) into the features. Frozen-V8 check: pre-season inputs r=0.31 vs blended inputs r=0.49 on the same 112 pitchers. No forward V11 number exists in the repo."
       }
     },
     "ytd_overlap": {
@@ -543,6 +1292,7 @@
       "n_inputs_include_2026_starts": 112,
       "share_contemporaneous": 1.0,
       "label": "contemporaneous",
+      "forward_status": "not_forward",
       "mean_weight_2026": 0.2139
     }
   },

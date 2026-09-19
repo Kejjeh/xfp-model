@@ -5,7 +5,7 @@ Statcast metrics + FanGraphs Pitching+ features. Built for fantasy baseball
 roster management.
 
 **Current model:** V11 (V8.5 + pitching_plus + fp_strike_pct)
-Cross-year r = 0.614 (4 transitions, point-in-time) | 2026 YTD r = 0.511 / MAE = 3.393 FP/start
+Cross-year r = 0.614 (archived, 4 transitions, legacy ip_resid — not point-in-time; see audit) | 2026 YTD r = 0.511 / MAE = 3.393 FP/start
 (YTD figures are *contemporaneous*: the scored 2026 starts are also in the model inputs — see
 `data/research/EVAL_PROVENANCE_AUDIT.md`)
 

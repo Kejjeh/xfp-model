@@ -161,6 +161,8 @@ def render_md(res: dict) -> str:
         lbl, mode = k.split(' | ip_resid=')
         L.append(f'| {lbl} | {mode} | {v["r"]} | {v["k_bias_hi"]} | {v["k_bias_lo"]} | {v["rmse"]} | {v["n"]} |')
     rc = res['reproduction_check']
+    mp = res['provenance']['metrics_provenance']['cross_year_r']
+    L += ['', f'Stored bundle cross_year_r={mp["value"]}: status **{mp["status"]}** (ip_resid_mode={mp["ip_resid_mode"]}). Only the point_in_time rows above are point-in-time.']
     L += ['', f'Reproduction check: stored V8.5 bundle r={rc["stored_v85"]["r"]}, k_bias_hi={rc["stored_v85"]["k_bias_hi"]}, n={rc["stored_v85"]["n"]} '
               f'vs recomputed (loo) r={rc["recomputed_v85_loo"]["r"]} → match={rc["match"]}.',
           f'ip_resid_lag1 corr(loo, point-in-time) = {res["ip_resid_lag1"]["corr_loo_vs_pit"]} over {res["ip_resid_lag1"]["rows_compared"]} rows.', '',
@@ -171,9 +173,13 @@ def render_md(res: dict) -> str:
           f'V11 stored YTD sample: {res["ytd_v11_overlap"]}', '',
           '## IDs / availability', '',
           f'unique pitcher-year: {res["ids"]["unique_pitcher_year"]["ok"]}; integer ids: {res["ids"]["integer_ids"]["ok"]}', '',
-          '| FG season | panel rows | matched | name mismatches | ok |', '|---|---|---|---|---|']
+          'Name status is evidence of consistency, never verified identity (identity_verified_by_name=False). ambiguous = given-name / suffix conflict or same-surname pool; resolve by id.', '',
+          '| FG season | panel rows | matched | consistent | ambiguous | mismatch | ok |', '|---|---|---|---|---|---|---|']
     for a in res['ids']['fangraphs_alignment']:
-        L.append(f'| {a["year"]} | {a.get("n_panel")} | {a.get("n_matched")} | {a.get("n_name_mismatch")} | {a["ok"]} |')
+        L.append(f'| {a["year"]} | {a.get("n_panel")} | {a.get("n_matched")} | {a.get("n_consistent")} | {a.get("n_ambiguous")} | {a.get("n_name_mismatch")} | {a["ok"]} |')
+    amb = [(a['year'], x) for a in res['ids']['fangraphs_alignment'] for x in a.get('ambiguous', [])]
+    if amb:
+        L += ['', 'Ambiguous rows (id, panel name, FG name):'] + [f'- {y}: {x}' for y, x in amb]
     L += ['', '| feature | declared first season | observed first season | violation |', '|---|---|---|---|']
     for f in res['feature_availability']:
         L.append(f'| {f["feature"]} | {f["declared_first_year"]} | {f["observed_first_year"]} | {f["violation"]} |')

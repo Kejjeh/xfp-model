@@ -20,7 +20,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling modules
 from xfp_checks import (ROOT, FEATURE_AVAILABILITY, BLEND_SEMANTICS, evaluation_labels,
-                        missing_sources, ytd_overlap_report)
+                        metric_provenance, missing_sources, ytd_overlap_report)
 
 CACHE   = ROOT / 'data' / 'research' / 'xfp_cache'
 OUTPUTS = ROOT / 'data' / 'outputs'
@@ -112,7 +112,8 @@ def build_provenance(root: Path = ROOT, bundle: dict | None = None,
                         'n_v85_fallback': int((~proj['v11_has_pitching_plus'].astype(bool)).sum()) if 'v11_has_pitching_plus' in proj else None,
                         'ytd_columns_source': 'data/outputs/xfp_v8_5_projections.csv (gs_2026, fp_per_start_actual_2026, k_pct_2026)'},
         'metrics': metrics,
-        'evaluation_labels': evaluation_labels(),
+        'metrics_provenance': metric_provenance(bundle),
+        'evaluation_labels': evaluation_labels(bundle),
         'ytd_overlap': ytd,
     }
 
@@ -120,6 +121,9 @@ def build_provenance(root: Path = ROOT, bundle: dict | None = None,
 def render_provenance_html(prov: dict) -> str:
     """Compact HTML fragment (self-contained styles) to embed in a dashboard."""
     m, i, mt, yo = prov['model'], prov['inputs'], prov['metrics'], prov['ytd_overlap']
+    cyp = prov.get('metrics_provenance', {}).get('cross_year_r', {})
+    cy_label = ('point-in-time' if cyp.get('point_in_time') is True else
+                'ARCHIVED, legacy ip_resid — NOT point-in-time' if cyp.get('point_in_time') is False else 'UNVERIFIED provenance')
     def kv(k, v): return f'<div class="pv-kv"><span class="pv-k">{k}</span><span class="pv-v">{v}</span></div>'
     def fmt(v, p=3):
         try: return f'{float(v):.{p}f}'
@@ -150,12 +154,14 @@ def render_provenance_html(prov: dict) -> str:
 {kv('training panel', i['training_panel']['path'])}{kv('panel seasons', f"{i['training_panel']['years'][0]}–{i['training_panel']['years'][-1]}")}
 {kv('FanGraphs seasons', f"{i['fangraphs_years'][0]}–{i['fangraphs_years'][-1]}" if i['fangraphs_years'] else '-')}
 {kv('blend cohorts', ', '.join(f'{k}={v}' for k, v in i['blend']['cohorts'].items()) or '-')}</div>
-<div>{kv('cross-year r (point-in-time, 4 transitions)', fmt(mt.get('cross_year_r')))}{kv('k_bias_hi', fmt(mt.get('k_bias_hi')))}
+<div>{kv(f'cross-year r, 4 transitions ({cy_label})', fmt(mt.get('cross_year_r')))}{kv('k_bias_hi (same provenance)', fmt(mt.get('k_bias_hi')))}
+{kv('ip_resid mode of stored metric', cyp.get('ip_resid_mode') or 'unknown')}
 {kv('2026 YTD r (CONTEMPORANEOUS)', fmt(mt.get('ytd_r_2026'), 3))}{kv('2026 YTD MAE (CONTEMPORANEOUS)', fmt(mt.get('ytd_mae_2026'), 3))}
-{kv('YTD sample with own 2026 starts in inputs', f"{yo.get('n_inputs_include_2026_starts','-')}/{yo.get('n_ytd_eval','-')}")}</div>
+{kv('YTD sample with own 2026 starts in inputs', f"{yo.get('n_inputs_include_2026_starts','-')}/{yo.get('n_ytd_eval','-')}")}
+{kv('YTD forward status', yo.get('forward_status','unverified'))}</div>
 </div>
 <div class="pv-warn"><b>Read the YTD numbers as a fit check, not a forecast score.</b> {labels['ytd_r_2026']['caveat']}
-<br><b>Cross-year r:</b> {labels['cross_year_r']['transitions']}. {labels['cross_year_r']['caveat']}</div>
+<br><b>Cross-year r ({labels['cross_year_r']['status']}):</b> {labels['cross_year_r']['transitions']}. {labels['cross_year_r']['caveat']}</div>
 <table><thead><tr><th>feature</th><th>source</th><th>first usable season</th><th>2026 input semantics (V8.1 blend)</th></tr></thead>
 <tbody>{sem_rows}</tbody></table>
 {('<div class="pv-warn"><b>Not reproducible from this repository (missing inputs):</b><ul>' + missing + '</ul></div>') if missing else ''}

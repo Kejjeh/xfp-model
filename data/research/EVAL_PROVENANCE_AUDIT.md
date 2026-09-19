@@ -23,7 +23,7 @@ artifacts; the generated companion report is `data/research/audit/xfp_eval_audit
 | D7 | Data availability | `fp_strike_2015_2026.csv` (14th V11 feature) and every Statcast parquet are absent; V11 cannot be retrained or re-projected from the repo. `xfp_v8_projections.csv`, `plv_rolling_2026.parquet`, `xfp_v11_dashboard.html` are also referenced but absent. | High (limits) | Listed explicitly in `missing_sources()`, provenance panel, and below. |
 | D8 | Evaluation label | OOY r trains on seasons after the holdout (same-season diagnostic). Documented in code as not point-in-time. | Low | Docstring + test. |
 | D9 | Stale dependency | YTD columns in `xfp_v11_projections.csv` (`gs_2026`, `fp_per_start_actual_2026`, `k_pct_2026`) are copied from `xfp_v8_5_projections.csv`, not recomputed. Verified identical to the panel's 2026 slice (124/124 GS, 168 FP values). | Low | Noted in provenance (`ytd_columns_source`). |
-| D10 | ID alignment | FanGraphs (`mlb_id`) ↔ Statcast (`pitcher`) joins are integer, unique per season, and surname-consistent for every matched row 2020-2026 (146-171 of 146-190 SP rows per season). | None found | Regression checks added. |
+| D10 | ID alignment | FanGraphs (`mlb_id`) ↔ Statcast (`pitcher`) joins are strictly integral (fractional ids are refused, never truncated), unique per season, and no matched row 2020-2026 has a surname mismatch. Name agreement is evidence of consistency only: a swapped id between two same-surname players (e.g. Rogers, Taylor / Tyler Rogers) is undetectable by name, so such rows are graded `ambiguous`, never `consistent`, and `identity_verified_by_name` is always False. Ambiguous rows per season are listed in the generated audit. | No mismatch found; identity not verifiable by name | Strict join + per-row status with synthetic swapped-sibling / first-name-conflict / suffix-conflict / fractional-id controls. |
 | D11 | Bundle portability | The V11 bundle unpickles under the sandbox's scikit-learn with a version warning (recorded in the audit JSON). Predictions were not re-verified against a same-version environment. | Low | Recorded. |
 
 ## Reproduction (frozen evaluations, committed panel)
@@ -57,9 +57,10 @@ The V11 "YTD r 0.511" is of the second kind. A forward V11 number does not exist
 
 | metric | point-in-time | notes |
 |---|---|---|
-| cross-year r | yes (after D2) | features from season T for pitchers in T and T+1; scaler + RidgeCV fit on rows with year < T+1; k-bias cohorts use test-year K% (post-hoc diagnostic) |
+| cross-year r, stored bundle value (0.614) | **no** — archived, legacy `loo` ip_resid | the split is expanding-window, but the feature was built with future seasons; labelled `archived_legacy_loo` by `metric_provenance()`; a bundle without `ip_resid_mode` is never labelled point-in-time |
+| cross-year r, audit recomputation (`ip_resid=point_in_time` rows) | yes | features from season T for pitchers in T and T+1; scaler + RidgeCV fit on rows with year < T+1; k-bias cohorts use test-year K% (post-hoc diagnostic); V11 full value not computable (fp_strike missing) |
 | OOY r | no | trains on seasons after the holdout |
-| 2026 YTD r / MAE | no | contemporaneous inputs (D3) |
+| 2026 YTD r / MAE | no | contemporaneous inputs (D3). Absence of overlap would NOT make a metric forward: that needs frozen input/cutoff provenance, which no artifact in the repo carries (`forward_status: unverified`) |
 | 2026 projections | as-of 2026-05-04 | rate features pitch-weighted 2025+2026; non-rate features latest-available (D4) |
 
 ## Feature availability (first usable season as an input)
@@ -97,6 +98,18 @@ Training slice for V11 is 2020-2025 (limited by Pitching+), n=768 per the bundle
   JSON/HTML fragment.
 - The production bundle and projection csv are untouched. Adopting the point-in-time `ip_resid`
   in production requires a retrain, which is blocked by the missing `fp_strike` source.
+
+## Reviewer follow-ups applied (Astra review of c06908c)
+
+- `evaluation_labels()` no longer hardcodes `point_in_time=True`; the cross-year label is derived from the
+  evaluated artifact via `metric_provenance(bundle)`: `ip_resid_mode='point_in_time'` → point-in-time,
+  absent (archived bundles) → `archived_legacy_loo`, anything else → `unverified`. The dashboard headline and
+  the provenance panel print that status next to the number. Future bundles written by `xfp_v11_lock.py`
+  record `ip_resid_mode`.
+- `ytd_overlap_report` reports `no_overlap_detected` + `forward_status: unverified` instead of `forward`.
+- `check_fg_id_alignment` uses `strict_int_ids` (no silent truncation) and grades rows
+  `consistent` / `ambiguous` / `mismatch` (given name, suffix conflict, same-surname pool); accents and
+  suffixes are preserved in reports and only normalised for comparison.
 
 ## Verification commands
 

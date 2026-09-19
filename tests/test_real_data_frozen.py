@@ -61,8 +61,10 @@ def test_real_panel_ids_and_availability():
     for y in range(2020, 2027):
         fg = pd.read_csv(OUT / f'fangraphs_pitchers_{y}.csv')
         res = xc.check_fg_id_alignment(raw, fg, y)
-        assert res['ok'], res
+        assert res['ok'], res                                   # no surname mismatch under a strict integer join
         assert res['n_matched'] >= 0.85 * res['n_panel'], res
+        assert res['identity_verified_by_name'] is False
+        assert res['n_consistent'] + res['n_ambiguous'] == res['n_matched']
     d = _load('point_in_time')
     fg_all = pd.concat([pd.read_csv(OUT / f'fangraphs_pitchers_{y}.csv').rename(columns={'mlb_id': 'pitcher'})
                         .assign(year=y)[['pitcher', 'year', 'pitching_plus']] for y in range(2020, 2027)])
