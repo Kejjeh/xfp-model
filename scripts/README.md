@@ -4,7 +4,7 @@
 
 - **xfp_v11_lock.py** — Train V11, save bundle, build 2026 projections, build dashboard.
   Run when retraining is needed (rare: only on new feature additions or major data refresh).
-  Usage: `python scripts/xfp/xfp_v11_lock.py`
+  Usage: `python scripts/xfp_v11_lock.py`
 - **xfp_v8_midseason.py** — V8.1 mid-season blend (sample-weighted 2025+2026 inputs). Re-run every
   2-3 weeks during the season as 2026 stats accumulate.
 - **xfp_v8_5_pipeline.py** — V8.5 training pipeline (reference / superseded baseline). Imports
@@ -13,12 +13,28 @@
   into the per-pitcher per-season training panel. Run if Statcast pulls are added/refreshed.
 - **pull_fg_undetected.py** — FanGraphs Stuff+/Pitching+/PitchingBot pull via Chrome 147 visible mode.
   ~30 seconds per year. Required for V11 retraining and projection input updates.
-  Usage: `python scripts/xfp/pull_fg_undetected.py` (requires Chrome 147, visible browser).
+  Usage: `python scripts/pull_fg_undetected.py` (requires Chrome 147, visible browser).
+
+## Audit / provenance / regression (added 2026-09)
+
+- **xfp_audit.py** — Reproducible evaluation + provenance audit. Re-runs the frozen cross-year evaluation in
+  legacy (`loo`) and point-in-time `ip_resid` modes, quantifies the contemporaneous-YTD gap with the frozen V8
+  bundle, checks IDs / feature availability, cross-checks docs/index.html read-only.
+  Writes `data/research/audit/xfp_eval_audit.{json,md}`.
+- **xfp_provenance.py** — Builds the source/model/as-of provenance record and HTML panel
+  (`data/outputs/xfp_v11_provenance.{json,html}`); `xfp_v11_lock.build_dashboard` embeds it.
+- **xfp_checks.py** — Pure helpers: `FEATURE_AVAILABILITY`, `BLEND_SEMANTICS`, ID-alignment and
+  pitcher-year uniqueness checks, YTD-overlap report, missing-source list.
+- `tests/` — pytest suite on synthetic point-in-time fixtures (+ `-m slow` real-data guards).
+
+All scripts now resolve the repo root by locating `data/research` (they previously assumed a
+`scripts/xfp/` layout and could not run from this repository).
 
 ## Modules / Helpers
 
 - **xfp_v7_pipeline.py** — Core eval functions (cross_year_evaluate, ooy_evaluate, derive_features,
-  add_ip_resid_lag). Used as a module by all later scripts.
+  add_ip_resid_lag). Used as a module by all later scripts. `add_ip_resid_lag` now defaults to
+  `mode='point_in_time'`; `mode='loo'` reproduces the archived (leaky) numbers.
 - **xfp_v8_pipeline.py** — V8 pipeline + helper builds (derive_v8_features, build_pitch_type_panel,
   score_fn). Used as a module.
 - **v11_spotcheck.py** — `build_blended_inputs()` helper used by V11 lock and full spot-check.
@@ -31,7 +47,7 @@
 - **compare_score_formulas.py** — What-if score-formula comparison (linear coef, tolerance threshold,
   quadratic). Reads hard-coded V11/V12 results.
 
-## Archive (`scripts/xfp/archive/`)
+## Archive (`scripts/archive/`)
 Negative results and superseded experiments. See `data/research/xfp_model_research.md` for context.
 - `xfp_v9_pipeline.py` — V9 IP decomposition (failed)
 - `xfp_v10_pipeline.py` — V10 three-branch search (Marcel / archetype / BaseRuns; all failed)
@@ -45,13 +61,13 @@ Negative results and superseded experiments. See `data/research/xfp_model_resear
 
 ```bash
 # 1. Refresh Statcast 2026 (pulls latest week's data)
-python scripts/xfp/build_sp_multiyr.py
+python scripts/build_sp_multiyr.py
 
 # 2. Refresh FanGraphs 2026 (Pitching+ updates as new starts pile up)
-python scripts/xfp/pull_fg_undetected.py
+python scripts/pull_fg_undetected.py
 
 # 3. Re-blend 2025+2026 inputs and re-project (fast — does not retrain)
-python scripts/xfp/xfp_v11_lock.py
+python scripts/xfp_v11_lock.py
 ```
 
 V11 retraining is NOT needed in-season — only the V8.1 blend changes per pitcher's accumulating 2026 stats.

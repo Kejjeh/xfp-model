@@ -24,7 +24,9 @@ import pandas as pd
 warnings.filterwarnings('ignore')
 np.random.seed(42)
 
-ROOT     = Path(__file__).resolve().parents[2]
+# Repo root = nearest ancestor holding data/research (works for scripts/ and scripts/xfp/ layouts).
+ROOT     = next((p for p in Path(__file__).resolve().parents if (p / 'data' / 'research').is_dir()),
+            Path(__file__).resolve().parents[1])
 RESEARCH = ROOT / 'data' / 'research'
 OUTPUTS  = ROOT / 'data' / 'outputs'
 MODELS   = ROOT / 'data' / 'models'
@@ -88,27 +90,44 @@ def derive_features(df: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
-def add_ip_resid_lag(df: pd.DataFrame) -> pd.DataFrame:
-    """Fit V5 IP model on prior years, lag residuals as ip_resid_lag1."""
+def add_ip_resid_lag(df: pd.DataFrame, mode: str = 'point_in_time') -> pd.DataFrame:
+    """Fit the V5 IP model per year, lag residuals as ip_resid_lag1.
+
+    mode='point_in_time' (default, audited 2026-09): the IP model used to score year Y
+        is fit ONLY on years < Y. The residual for year Y therefore depends on nothing
+        observed after year Y, and ip_resid_lag1 for year Y+1 is a genuine
+        point-in-time feature. Years with < 50 prior training rows (2015) get NaN.
+    mode='loo' (legacy, pre-audit behaviour): leave-one-year-out -- the IP model for
+        year Y is fit on every OTHER year, including FUTURE years and partial 2026
+        rows. Because ip_per_start is a component of the FP target, this leaks future
+        information into the feature. Kept only to reproduce archived research
+        numbers (V8/V8.5/V11 lock metrics were computed under this mode).
+    """
     from sklearn.linear_model import RidgeCV
     from sklearn.preprocessing import StandardScaler
     from sklearn.pipeline import Pipeline
 
+    if mode not in ('point_in_time', 'loo'):
+        raise ValueError(f"mode must be 'point_in_time' or 'loo', got {mode!r}")
     V5 = ['avg_velo','abs_pfxz','avg_ext','zone_pct','o_swing_pct',
           'swstr_pct','c_plus_swstr','xwoba_contact']
     d = df.copy()
     d['ip_resid'] = np.nan
-    # Per-year leave-one-out: train on other years to predict this year's ip
+    d['ip_pred'] = np.nan
     for yr in sorted(d['year'].unique()):
-        train = d[(d['year'] != yr)].dropna(subset=V5 + ['ip_per_start'])
+        if mode == 'point_in_time':
+            train = d[(d['year'] < yr)].dropna(subset=V5 + ['ip_per_start'])
+        else:
+            train = d[(d['year'] != yr)].dropna(subset=V5 + ['ip_per_start'])
         if len(train) < 50: continue
         pipe = Pipeline([('sc', StandardScaler()), ('r', RidgeCV(alphas=np.logspace(-1,5,80), cv=5))])
         pipe.fit(train[V5], train['ip_per_start'])
         idx = d['year'] == yr
         sub = d[idx].dropna(subset=V5)
         if len(sub) == 0: continue
-        d.loc[sub.index, 'ip_pred'] = pipe.predict(sub[V5])
-        d.loc[sub.index, 'ip_resid'] = sub['ip_per_start'] - pipe.predict(sub[V5])
+        pred = pipe.predict(sub[V5])
+        d.loc[sub.index, 'ip_pred'] = pred
+        d.loc[sub.index, 'ip_resid'] = sub['ip_per_start'] - pred
     # ip_resid_lag1: prior year residual per pitcher
     d = d.sort_values(['pitcher','year'])
     d['ip_resid_lag1'] = d.groupby('pitcher')['ip_resid'].shift(1)
@@ -124,6 +143,9 @@ def add_ip_resid_lag(df: pd.DataFrame) -> pd.DataFrame:
 
 # ---------- Validation ----------
 def ooy_evaluate(df: pd.DataFrame, feats: list[str], label: str = '') -> dict:
+    """Same-year out-of-year (OOY) evaluation. NOT point-in-time: the model scoring holdout year Y
+    is trained on every other year INCLUDING years after Y. Secondary diagnostic only; the
+    deployment-realistic metric is cross_year_evaluate()."""
     from sklearn.linear_model import RidgeCV
     from sklearn.preprocessing import StandardScaler
     from sklearn.pipeline import Pipeline
@@ -150,12 +172,24 @@ def ooy_evaluate(df: pd.DataFrame, feats: list[str], label: str = '') -> dict:
             'rmse':round(rmse,3),'n':len(res),'feats':label or str(feats)}
 
 
-def cross_year_evaluate(df: pd.DataFrame, feats: list[str], label: str = '') -> dict:
+CROSS_YEAR_TRANSITIONS = [(2021,2022),(2022,2023),(2023,2024),(2024,2025)]
+
+
+def cross_year_evaluate(df: pd.DataFrame, feats: list[str], label: str = '',
+                        return_rows: bool = False, transitions=None) -> dict:
+    """Cross-year evaluation: features from year T (shared pitchers) -> FP of year T+1.
+
+    For each (T, T+1) transition the Ridge pipeline (scaler + RidgeCV) is fit ONLY on rows
+    with year < T+1 (expanding window). Test-year targets never enter the fit, and rows from
+    years > T+1 are never used. `return_rows=True` also returns the per-row predictions so
+    point-in-time invariants can be tested. NOTE: k_bias_hi/lo cohorts are defined on the
+    TEST year's own k_pct (a post-hoc diagnostic, not a feature).
+    """
     from sklearn.linear_model import RidgeCV
     from sklearn.preprocessing import StandardScaler
     from sklearn.pipeline import Pipeline
     preds, acts, rows = [], [], []
-    transitions = [(2021,2022),(2022,2023),(2023,2024),(2024,2025)]
+    transitions = list(transitions) if transitions is not None else list(CROSS_YEAR_TRANSITIONS)
     for yr_train, yr_test in transitions:
         pitchers_train = set(df[df['year']==yr_train]['pitcher'])
         pitchers_test  = set(df[df['year']==yr_test ]['pitcher'])
@@ -173,19 +207,24 @@ def cross_year_evaluate(df: pd.DataFrame, feats: list[str], label: str = '') -> 
         pipe = Pipeline([('sc', StandardScaler()), ('r', RidgeCV(alphas=np.logspace(-1,5,80), cv=5))])
         pipe.fit(prior[feats], prior['fp_per_start_actual'])
         merged['pred'] = pipe.predict(merged[feats])
+        merged['yr_train'] = yr_train; merged['yr_test'] = yr_test; merged['n_prior'] = len(prior)
         preds.extend(merged['pred']); acts.extend(merged['fp_per_start_actual']); rows.append(merged)
     if not rows:
-        return {'type':'cross_year','r':None,'k_bias_hi':None,'k_bias_lo':None,'rmse':None,'n':0,'n_transitions':0,'feats':label or str(feats)}
+        out = {'type':'cross_year','r':None,'k_bias_hi':None,'k_bias_lo':None,'rmse':None,'n':0,'n_transitions':0,'feats':label or str(feats)}
+        if return_rows: out['rows'] = pd.DataFrame()
+        return out
     res = pd.concat(rows)
     res['resid'] = res['fp_per_start_actual'] - res['pred']
     r = float(np.corrcoef(preds, acts)[0,1])
     k_hi = float(res[res['k_pct']>0.30]['resid'].mean()) if (res['k_pct']>0.30).any() else float('nan')
     k_lo = float(res[res['k_pct']<0.18]['resid'].mean()) if (res['k_pct']<0.18).any() else float('nan')
     rmse = float(np.sqrt(np.mean(res['resid']**2)))
-    return {'type':'cross_year','r':round(r,5),
+    out = {'type':'cross_year','r':round(r,5),
             'k_bias_hi':round(k_hi,3) if not math.isnan(k_hi) else None,
             'k_bias_lo':round(k_lo,3) if not math.isnan(k_lo) else None,
             'rmse':round(rmse,3),'n':len(res),'n_transitions':len(transitions),'feats':label or str(feats)}
+    if return_rows: out['rows'] = res.reset_index(drop=True)
+    return out
 
 
 def cv_evaluate(df: pd.DataFrame, feats: list[str], label: str = '', cv: int = 10) -> dict:
