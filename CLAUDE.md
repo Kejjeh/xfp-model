@@ -9,7 +9,7 @@ This repo sits inside the `plv_clone` checkout, which ignores it. The parent's C
 ## Commands (all verified from repo root)
 
 ```bash
-pip install pandas numpy scikit-learn joblib pytest   # existing deps; no requirements file
+pip install -r requirements.txt           # scikit-learn pinned to 1.8.0, the pickling version
 python -m pytest tests -q                  # ~45s. Expect: 43 passed
 python -m pytest tests -q -m "not slow"    # ~30s. Expect: 38 passed, 5 deselected (synthetic point-in-time suite)
 python -m pytest tests -q -m slow          # ~17s. Expect: 5 passed, 38 deselected (frozen real-data guards)
