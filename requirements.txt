@@ -1,0 +1,10 @@
+# Install: pip install -r requirements.txt
+pandas
+numpy
+# data/models/*.pkl were pickled with scikit-learn 1.8.0. Any other version
+# warns on unpickle ("might lead to breaking code or invalid results"), and
+# scikit-learn does not promise identical predictions across versions.
+# Change this only together with re-pickling the bundles.
+scikit-learn==1.8.0
+joblib
+pytest

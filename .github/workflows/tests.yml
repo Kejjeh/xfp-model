@@ -21,8 +21,9 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      # No requirements file; this is the install line from CLAUDE.md.
-      - run: python -m pip install pandas numpy scikit-learn joblib pytest
+      # requirements.txt pins scikit-learn to 1.8.0, the version the
+      # data/models/*.pkl bundles were pickled with.
+      - run: python -m pip install -r requirements.txt
       # Skips nothing: the `slow` real-data guards read only tracked files
       # (data/research/xfp_cache, data/outputs, data/models) and no test uses
       # the network.
